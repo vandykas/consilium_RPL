@@ -39,5 +39,3 @@ Consilium adalah aplikasi web yang dirancang untuk mempermudah proses bimbingan 
 - **Admin** — mengelola akun pengguna & impor data.
 - **Dosen** — melihat jadwal, membuat/menyetujui bimbingan, memberi catatan.
 - **Mahasiswa** — melihat jadwal, mengajukan bimbingan, mengakses catatan bimbingan.
-
----
