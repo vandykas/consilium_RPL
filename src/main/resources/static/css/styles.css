@@ -7,6 +7,8 @@
     --text-content-color: #393E46;
     --danger-color: #FF6969;
     --success-color: #46E646;
+    --outline-color: #D9D9D9;
+    --yellow-hover-color: #efc260;
 
     --font-header: 'Manrope', 'Inter', sans-serif;
     --font-main: 'Work Sans', 'Inter', sans-serif;
@@ -26,7 +28,38 @@ body {
     color: var(--text-content-color);
 }
 
+hr {
+    border: 1px solid var(--outline-color);
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-header);
     font-weight: bold;
+}
+
+input, button {
+    font-family: var(--font-main);
+}
+
+a {
+    color: var(--secondary-color);
+}
+
+.input_text_outline {
+    border: 1px solid var(--outline-color);
+    border-radius: 15px;
+    padding: 1em 1em;
+}
+
+.button_yellow {
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 15px;
+    padding: 1em 0;
+}
+
+.button_yellow:hover {
+    background-color: var(--yellow-hover-color);
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
 }
