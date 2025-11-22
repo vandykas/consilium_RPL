@@ -9,6 +9,7 @@
     --success-color: #46E646;
     --outline-color: #D9D9D9;
     --yellow-hover-color: #efc260;
+    --bg-current-color: #F8F8F8;
 
     --font-header: 'Manrope', 'Inter', sans-serif;
     --font-main: 'Work Sans', 'Inter', sans-serif;
@@ -42,7 +43,7 @@ input, button {
 }
 
 a {
-    color: var(--secondary-color);
+    text-decoration: none;
 }
 
 .input_text_outline {
