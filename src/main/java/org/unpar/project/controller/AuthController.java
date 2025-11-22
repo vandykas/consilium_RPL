@@ -33,4 +33,5 @@ public class AuthController {
     public String checkLogin(HttpServletRequest request) {
         return "redirect:/login";
     }
+
 }
