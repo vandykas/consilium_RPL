@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html th:replace="~{Login/layout :: layout (~{::title}, ~{::header}, ~{::form})}">
+<head>
+    <title>Consilium - Login</title>
+</head>
+<body>
+    <header>
+        <h1>Selamat Datang Kembali</h1>
+        <hr>
+    </header>
+    <form method="post" action="/login">
+        <label>
+            Email
+            <input type="text" name="username" placeholder="Masukkan email anda" class="input_text_outline">
+        </label>
+        <label>
+            Password
+            <input type="password" name="username" placeholder="Masukkan password anda" class="input_text_outline">
+            <span><a href="/ubah_password" class="forgot_password">Lupa password?</a></span>
+        </label>
+        <input type="submit" value="Masuk sekarang" class="button_yellow">
+    </form>
+</body>
+</html>
