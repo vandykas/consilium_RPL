@@ -5,14 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.unpar.project.service.PenggunaService;
 
 @Controller
+@RequestMapping("login")
 public class AuthController {
     @Autowired
     private PenggunaService penggunaService;
 
-    @GetMapping("/login")
+    @GetMapping("/")
     public String login() {
         return "Login/login";
     }
@@ -27,7 +29,7 @@ public class AuthController {
         return "Login/forgot_password";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/")
     public String checkLogin(HttpServletRequest request) {
         return "redirect:/login";
     }
