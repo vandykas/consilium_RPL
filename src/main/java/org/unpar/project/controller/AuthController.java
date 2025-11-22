@@ -17,6 +17,16 @@ public class AuthController {
         return "Login/login";
     }
 
+    @GetMapping("/change_password")
+    public String changePassword() {
+        return "Login/change_password";
+    }
+
+    @GetMapping("/forgot_password")
+    public String forgotPassword() {
+        return "Login/forgot_password";
+    }
+
     @PostMapping("/login")
     public String checkLogin(HttpServletRequest request) {
         return "redirect:/login";
