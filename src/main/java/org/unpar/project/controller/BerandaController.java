@@ -8,9 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("beranda")
 public class BerandaController {
-    @GetMapping("/")
-    public String beranda(Model model) {
+    @GetMapping("/mahasiswa")
+    public String berandaMahasiswa(Model model) {
         model.addAttribute("currentPage", "beranda");
-        return "beranda/index";
+        model.addAttribute("currentRole", "mahasiswa");
+        return "beranda/mahasiswa";
+    }
+
+    @GetMapping("/dosen")
+    public String berandaDosen(Model model) {
+        model.addAttribute("currentPage", "beranda");
+        return "beranda/dosen";
     }
 }

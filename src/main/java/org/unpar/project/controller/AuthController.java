@@ -16,7 +16,7 @@ public class AuthController {
 
     @GetMapping("/")
     public String login() {
-        return "login/index";
+        return "login/login";
     }
 
     @GetMapping("/change_password")

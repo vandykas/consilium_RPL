@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" th:fragment="beranda (title, card_profile, card_reminder, card_history, card_progress)">
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="${title}">Beranda</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/beranda.css}"/>
+</head>
+<body>
+    <th:block th:replace="~{layout/navigation :: navBar}"></th:block>
+    <main th:class="${currentRole == 'beranda-mahasiswa'} ? 'grid-mahasiswa' : 'grid-dosen'">
+        <header th:replace="${card_profile}"></header>
+        <section th:replace="${card_reminder}"></section>
+        <section th:replace="${card_history}"></section>
+        <section th:replace="${card_progress}"></section>
+    </main>
+</body>
+</html>
