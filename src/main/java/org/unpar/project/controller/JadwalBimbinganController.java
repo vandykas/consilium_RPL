@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("beranda")
-public class BerandaController {
+@RequestMapping("jadwal")
+public class JadwalBimbinganController {
     @GetMapping("/mahasiswa")
-    public String berandaMahasiswa(Model model) {
-        model.addAttribute("currentPage", "beranda");
+    public String jadwalMahasiswa(Model model) {
+        model.addAttribute("currentPage", "jadwal");
         model.addAttribute("currentRole", "mahasiswa");
-        return "beranda/mahasiswa";
+        return "jadwal/mahasiswa";
     }
 
     @GetMapping("/dosen")
-    public String berandaDosen(Model model) {
-        model.addAttribute("currentPage", "beranda");
+    public String jadwalDosen(Model model) {
+        model.addAttribute("currentPage", "jadwal");
         model.addAttribute("currentRole", "dosen");
-        return "beranda/dosen";
+        return "jadwal/dosen";
     }
 }

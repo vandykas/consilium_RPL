@@ -38,6 +38,10 @@ h1 {
     font-weight: 500;
 }
 
+p {
+    position: relative;
+}
+
 a {
     color: var(--secondary-color);
 }

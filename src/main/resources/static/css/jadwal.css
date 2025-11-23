@@ -1,0 +1,45 @@
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+main {
+    display: grid;
+    grid-template-columns: .3fr 1fr;
+    grid-template-areas:
+    "left right";
+    padding: 2rem;
+    height: 100%;
+}
+
+#left-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+}
+
+header > h1 {
+    font-size: 3rem;
+}
+
+#button-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+.button_blue {
+    color: var(--text-content-color-light);
+}
+
+.button_black {
+    color: var(--primary-color);
+}
