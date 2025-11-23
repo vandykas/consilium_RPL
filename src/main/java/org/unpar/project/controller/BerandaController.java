@@ -18,6 +18,7 @@ public class BerandaController {
     @GetMapping("/dosen")
     public String berandaDosen(Model model) {
         model.addAttribute("currentPage", "beranda");
+        model.addAttribute("currentRole", "dosen");
         return "beranda/dosen";
     }
 }

@@ -1,6 +1,6 @@
 <nav th:fragment="navBar">
     <div>
-        <a th:href="~{beranda/mahasiswa.html}"><h1>Consilium</h1></a>
+        <a th:href="@{/beranda/{role}(role=${currentRole})}"><h1>Consilium</h1></a>
     </div>
     <ul>
         <li th:class="${currentPage == 'beranda'} ? 'nav-bg-active' : null">
