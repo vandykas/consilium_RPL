@@ -14,4 +14,11 @@ public class JadwalBimbinganController {
         model.addAttribute("currentRole", "mahasiswa");
         return "jadwal/mahasiswa";
     }
+
+    @GetMapping("/dosen")
+    public String jadwalDosen(Model model) {
+        model.addAttribute("currentPage", "jadwal");
+        model.addAttribute("currentRole", "dosen");
+        return "jadwal/dosen";
+    }
 }
