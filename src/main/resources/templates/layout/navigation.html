@@ -1,0 +1,20 @@
+<nav th:fragment="navBar">
+    <div>
+        <a th:href="~{beranda/mahasiswa.html}"><h1>Consilium</h1></a>
+    </div>
+    <ul>
+        <li th:class="${currentPage == 'beranda'} ? 'nav-bg-active' : null">
+            <span><a href="#" th:class="${currentPage == 'beranda'} ? 'nav-text-active' : null">Beranda</a></span>
+            <div th:if="${currentPage == 'beranda'}" class="nav-bar"></div>
+        </li>
+        <li th:class="${currentPage == 'jadwal'} ? 'nav-bg-active' : null">
+            <span><a href="#" th:class="${currentPage == 'jadwal'} ? 'nav-text-active' : null">Jadwal Bimbingan</a></span>
+        </li>
+        <li th:class="${currentPage == 'notifikasi'} ? 'nav-bg-active' : null">
+            <span><a href="#" th:class="${currentPage == 'notifikasi'} ? 'nav-text-active' : null">Notifikasi</a></span>
+        </li>
+        <li th:class="${currentPage == 'pengumuman'} ? 'active-nav' : null">
+            <span><a href="#" th:class="${currentPage == 'pengumuman'} ? 'nav-text-active' : null">Pengumuman Bimbingan</a></span>
+        </li>
+    </ul>
+</nav>
