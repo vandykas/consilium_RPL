@@ -15,7 +15,7 @@ public class PenggunaService {
     private PenggunaRepository penggunaRepo;
 
     public boolean login(String email, String password) {
-        List<Pengguna> ps = penggunaRepo.cariDenganEmail(email, password);
+        List<Pengguna> ps = penggunaRepo.autentikasi(email, password);
 
         return ps.size() == 1;
     }

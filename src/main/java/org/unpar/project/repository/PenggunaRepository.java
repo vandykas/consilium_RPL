@@ -8,6 +8,6 @@ import org.unpar.project.model.Pengguna;
 
 @Repository
 public interface PenggunaRepository {
-    public List<Pengguna> cariDenganEmail(String email, String password);
+    public List<Pengguna> autentikasi(String email, String password);
     public List<Pengguna> cariDenganEmail(String email);
 }
