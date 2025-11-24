@@ -1,0 +1,79 @@
+main {
+    display: grid;
+    grid-template-columns: .3fr 1fr;
+    grid-template-areas:
+    "left right";
+}
+
+header {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-left: 2em;
+}
+
+#notification-container {
+    padding: 2em 0;
+}
+
+section {
+    height: 40vh;
+}
+
+.notification-header-container {
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    height: 15%;
+    width: 30%;
+    padding: .5em 1em;
+}
+
+h4 {
+    margin: 0;
+}
+
+.notification-body-container {
+    height: 80%;
+    padding-right: 2em;
+    overflow-y: auto;
+}
+
+.notification-item {
+    display: flex;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border-radius: 10px;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+.notification-item-right {
+    flex: 1;
+    text-align: right;
+}
+
+button {
+    border: none;
+    border-radius: 5px;
+    color: var(--text-content-color-light);
+    font-weight: bold;
+    padding: .5em 2em;
+}
+
+.pending-button {
+    background-color: var(--primary-color);
+}
+
+.accept-button {
+    background-color: var(--success-color);
+}
+
+.accept-button:hover {
+    opacity: 0.9;
+}
+
+.deny-button {
+    background-color: var(--danger-color);
+}
+.deny-button:hover {
+    opacity: 0.9;
+}

@@ -16,22 +16,29 @@ public class AuthController {
 
     @GetMapping("/")
     public String login() {
-        return "Login/login";
+        return "login/login";
     }
 
     @GetMapping("/change_password")
     public String changePassword() {
-        return "Login/change_password";
+        return "login/change_password";
     }
 
     @GetMapping("/forgot_password")
     public String forgotPassword() {
-        return "Login/forgot_password";
+        return "login/forgot_password";
     }
 
     @PostMapping("/")
     public String checkLogin(HttpServletRequest request) {
-        return "redirect:/login";
+         boolean succeed = penggunaService.login(request.getParameter("email"), request.getParameter("password"));
+        //boolean succeed = true;
+
+        if (succeed) {
+            String role = penggunaService.getRole(request.getParameter("email"));
+            return "redirect:/beranda/" + role;
+        }
+        return "redirect:/login/";
     }
 
 }

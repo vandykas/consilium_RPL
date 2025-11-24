@@ -5,10 +5,14 @@
     --secondary-color: #3184FF;
     --text-header-color: #222831;
     --text-content-color: #393E46;
+    --text-content-color-light: #FFFFFF;
     --danger-color: #FF6969;
     --success-color: #46E646;
     --outline-color: #D9D9D9;
     --yellow-hover-color: #efc260;
+    --blue-hover-color: #468efa;
+    --black-hover-color: #2d353e;
+    --bg-current-color: #F8F8F8;
 
     --font-header: 'Manrope', 'Inter', sans-serif;
     --font-main: 'Work Sans', 'Inter', sans-serif;
@@ -42,13 +46,14 @@ input, button {
 }
 
 a {
-    color: var(--secondary-color);
+    text-decoration: none;
 }
 
 .input_text_outline {
     border: 1px solid var(--outline-color);
     border-radius: 15px;
     padding: 1em 1em;
+    font-size: inherit;
 }
 
 .button_yellow {
@@ -56,10 +61,37 @@ a {
     border: none;
     border-radius: 15px;
     padding: 1em 0;
+    font-size: inherit;
 }
 
 .button_yellow:hover {
     background-color: var(--yellow-hover-color);
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.button_blue {
+    background-color: var(--secondary-color);
+    border: none;
+    border-radius: 15px;
+    padding: 1em 0;
+}
+
+.button_blue:hover {
+    background-color: var(--blue-hover-color);
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.button_black {
+    background-color: var(--text-header-color);
+    border: none;
+    border-radius: 15px;
+    padding: 1em 0;
+}
+
+.button_black:hover {
+    background-color: var(--black-hover-color);
     transition: 0.3s ease-in-out;
     cursor: pointer;
 }
