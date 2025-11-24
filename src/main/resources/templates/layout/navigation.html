@@ -12,7 +12,7 @@
             <div th:if="${currentPage == 'jadwal'}" class="nav-bar"></div>
         </li>
         <li th:class="${currentPage == 'notifikasi'} ? 'nav-bg-active' : null">
-            <span><a href="#" th:class="${currentPage == 'notifikasi'} ? 'nav-text-active' : null">Notifikasi</a></span>
+            <span><a th:href="@{/notifikasi/{role}(role=${currentRole})}" th:class="${currentPage == 'notifikasi'} ? 'nav-text-active' : null">Notifikasi</a></span>
             <div th:if="${currentPage == 'notifikasi'}" class="nav-bar"></div>
         </li>
         <li th:class="${currentPage == 'pengumuman'} ? 'active-nav' : null">
