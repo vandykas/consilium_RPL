@@ -1,4 +1,4 @@
-package main.java.org.unpar.project.model;
+package org.unpar.project.model;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;

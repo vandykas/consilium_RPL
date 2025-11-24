@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import main.java.org.unpar.project.model.Pengguna;
-import main.java.org.unpar.project.repository.PenggunaRepository;
+import org.unpar.project.model.Pengguna;
+import org.unpar.project.repository.PenggunaRepository;
 
 @Service
 public class PenggunaService {
@@ -20,13 +20,11 @@ public class PenggunaService {
         return ps.size() == 1;
     }
 
-    public String getRole(String email, String password) {
-        List<Pengguna> ps = penggunaRepo.cariDenganEmail(email, password);
+    public String getRole(String email) {
+        List<Pengguna> ps = penggunaRepo.cariDenganEmail(email);
         String id = ps.get(0).getIdPengguna();
         if(id.charAt(0) == 'A') return "admin";
         else if(id.charAt(0) == 'D') return "dosen";
         else return "mahasiswa";
-
-
     }
 }

@@ -1,10 +1,10 @@
-package com.example.demo.User;
+package org.unpar.project.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import main.java.org.unpar.project.model.Pengguna;
-import main.java.org.unpar.project.repository.PenggunaRepository;
+import org.unpar.project.model.Pengguna;
+import org.unpar.project.repository.PenggunaRepository;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,12 @@ public class JdbcPenggunaRepository implements PenggunaRepository {
     public List<Pengguna> cariDenganEmail(String email, String password) {
         String sql = "SELECT * FROM Pengguna WHERE email = ? AND password = ?";
         return jdbcTemplate.query(sql, this::mapRowToUser, email, password);
+    }
+
+    @Override
+    public List<Pengguna> cariDenganEmail(String email) {
+        String sql = "SELECT * FROM Pengguna WHERE email = ? AND password = ?";
+        return jdbcTemplate.query(sql, this::mapRowToUser, email);
     }
 
     private Pengguna mapRowToUser(ResultSet rs, int rowNum) throws SQLException {

@@ -35,10 +35,10 @@ public class AuthController {
         boolean succeed = true;
 
         if (succeed) {
-            String role = penggunaService.getRole(request.getParameter("email"), request.getParameter("password"));
+            String role = penggunaService.getRole(request.getParameter("email"));
             return "redirect:/beranda/" + role;
         }
-        return "redirect:/login";
+        return "redirect:/login/";
     }
 
 }
