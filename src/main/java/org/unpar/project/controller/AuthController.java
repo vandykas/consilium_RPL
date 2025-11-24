@@ -31,6 +31,13 @@ public class AuthController {
 
     @PostMapping("/")
     public String checkLogin(HttpServletRequest request) {
+        // boolean succeed = penggunaService.login(request.getParameter("email"), request.getParameter("password"));
+        boolean succeed = true;
+
+        if (succeed) {
+            String role = penggunaService.getRole(request.getParameter("email"), request.getParameter("password"));
+            return "redirect:/beranda/" + role;
+        }
         return "redirect:/login";
     }
 
