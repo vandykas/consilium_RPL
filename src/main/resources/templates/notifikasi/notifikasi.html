@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Consilium - Notifikasi</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/navigation.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/notifikasi.css}">
+</head>
+<body>
+    <th:block th:replace="~{layout/navigation :: navBar}"></th:block>
+    <main>
+        <header>
+            <h1>Notifikasi</h1>
+        </header>
+        <div id="notification-container">
+            <section>
+                <div class="notification-header-container">
+                    <h4>Pengajuan Bimbingan</h4>
+                </div>
+                <div class="notification-body-container">
+                    <div class="notification-item" th:each="notif : ${notifications}">
+                        <div class="notification-item-left">
+                            <p>
+                                Penjadwalan Bimbingan pada <span th:text="${notif.tanggal}"></span>
+                                di <span th:text="${notif.ruangan}"></span>
+                            </p>
+                            <p>
+                                Jam : <span th:text="${notif.waktuMulai}"></span> - <span th:text="${notif.waktuSelesai}"></span>
+                            </p>
+                            <p>
+                                Dosen : <span th:text="${notif.dosen}"></span>
+                            </p>
+                        </div>
+                        <div class="notification-item-right">
+                            <p><span th:text="${notif.tanggalKirim}"></span></p>
+                            <p><span th:text="${notif.waktuKirim}"></span></p>
+                            <button class="accept-button">Setuju</button>
+                            <button class="deny-button">Tolak</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="notification-header-container">
+                    <h4>Catatan Bimbingan</h4>
+                </div>
+                <div class="notification-body-container">
+                    <div class="notification-item"
+                         th:each="notif : ${notifications}"
+                         th:if="${notif.catatanDosen != null}">
+                        <div class="notification-item-left">
+                            <p>
+                                Catatan mengenai bimbingan pada <span th:text="${notif.tanggal}"></span>
+                                di <span th:text="${notif.ruangan}"></span> sudah dimasukkan
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="notification-header-container">
+                    <h4>Sistem</h4>
+                </div>
+                <div class="notification-body-container">
+                    <div class="notification-item" th:each="notif : ${notifications}">
+                        <div class="notification-item-left">
+                            <p>
+                                Penjadwalan Bimbingan pada <span th:text="${notif.tanggal}"></span>
+                                di <span th:text="${notif.ruangan}"></span>
+                            </p>
+                            <p>
+                                Jam : <span th:text="${notif.waktuMulai}"></span> - <span th:text="${notif.waktuSelesai}"></span>
+                            </p>
+                            <p>
+                                Dosen : <span th:text="${notif.dosen}"></span>
+                            </p>
+                        </div>
+                        <div class="notification-item-right">
+                            <p><span th:text="${notif.tanggalKirim}"></span></p>
+                            <p><span th:text="${notif.waktuKirim}"></span></p>
+                            <button th:if="${isDisetujui == null}" class="pending-button">Pending</button>
+                            <button th:if="${isDisetujui}" class="accept-button">Disetujui</button>
+                            <button th:if="${!isDisetujui}" class="deny-button">Ditolak</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

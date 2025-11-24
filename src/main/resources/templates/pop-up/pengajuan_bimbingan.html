@@ -1,0 +1,48 @@
+<div class="overlay" th:fragment="pop-up-pengajuan">
+    <div class="pop-up-container">
+        <div class="pop-up-header">
+            <h1>
+                Permintaan Bimbingan
+            </h1>
+        </div>
+        <form>
+            <label>
+                Pilih tanggal
+                <input type="date" name="tanggal" required class="input_text_outline">
+            </label>
+            <label>
+                Pilih jam mulai
+                <select name="jam-mulai" class="input_text_outline">
+
+                </select>
+            </label>
+            <label>
+                Pilih jam selesai
+                <select name="jam-mulai" class="input_text_outline">
+
+                </select>
+            </label>
+            <label>
+                Pilih ruangan
+                <select name="ruangan" class="input_text_outline">
+
+                </select>
+            </label>
+            <div th:if="${currentRole == 'dosen'}">
+                <label>
+                    Pilih mahasiswa (bisa lebih dari 1)
+                    <div class="mahasiswa-list-checkbox">
+
+                    </div>
+                </label>
+                <label>
+                    Penjadwalan rutin
+                    <select name="jadwal-rutin" class="input_text_outline">
+
+                    </select>
+                </label>
+            </div>
+            <input type="submit" class="button_yellow" value="Ajukan bimbingan">
+        </form>
+    </div>
+</div>
