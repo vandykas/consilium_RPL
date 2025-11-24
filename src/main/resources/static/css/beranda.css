@@ -7,10 +7,10 @@ body {
 #grid-mahasiswa {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: .8fr 1fr;
+    grid-template-rows: .7fr 1fr;
     grid-template-areas:
-    "header header header"
-    "reminder history progress";
+        "header header header"
+        "reminder history progress";
     gap: 30px;
     padding: 2rem;
     height: 100%;
@@ -22,9 +22,9 @@ body {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: .8fr .9fr 1fr;
     grid-template-areas:
-    "header header"
-    "reminder history"
-    "progress progress";
+        "header header"
+        "reminder history"
+        "progress progress";
     gap: 30px;
     padding: 2rem;
     min-height: calc(100vh - 60px);
@@ -32,17 +32,122 @@ body {
 }
 
 header {
+    display: flex;
     grid-area: header;
+    border-bottom: 1px solid #dcdcdc;
+    border-right: 1px solid #dcdcdc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    background-color: white;
 }
 
 #reminder {
     grid-area: reminder;
+    border-bottom: 1px solid #dcdcdc;
+    border-right: 1px solid #dcdcdc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 #history {
     grid-area: history;
+    /* border-bottom: 1px solid #dcdcdc;
+    border-right: 1px solid #dcdcdc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); */
 }
 
 #progress {
     grid-area: progress;
+}
+
+#TA_container {
+    display: flex;
+    width: 20%;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    background-color: var(--primary-color);
+}
+
+#text_container {
+    padding: 20px 30px;
+    font-family: "Inter", sans-serif;
+    color: #333;
+}
+
+#text_container h2 {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+#text_container p {
+    margin: 8px 0;
+    line-height: 1.5;
+    font-size: 1em;
+}
+
+#text_container strong {
+    font-weight: 600;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    margin: 10px 0;
+    align-items: start;
+}
+
+.label {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.value {
+    line-height: 1.5;
+}
+
+.info_banner {
+    display: flex;
+    background-color: var(--primary-color);
+    justify-content: center;
+}
+
+#info_text {
+    margin-left: 20px;
+    line-height: 1.5;
+}
+
+#info_text strong {
+    font-weight: 600;
+}
+
+#bimbingan_grid_container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.bimbingan_card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    background: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border-bottom: 1px solid #dcdcdc;
+    border-right: 1px solid #dcdcdc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.riwayat {
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+.detail {
+    justify-self: end;
+    color: var(--text-content-color);
+    cursor: pointer;
 }
