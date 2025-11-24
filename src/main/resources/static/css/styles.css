@@ -53,6 +53,7 @@ a {
     border: 1px solid var(--outline-color);
     border-radius: 15px;
     padding: 1em 1em;
+    font-size: inherit;
 }
 
 .button_yellow {
@@ -60,6 +61,7 @@ a {
     border: none;
     border-radius: 15px;
     padding: 1em 0;
+    font-size: inherit;
 }
 
 .button_yellow:hover {

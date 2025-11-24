@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/navigation.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/calendar.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/jadwal.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/popup.css}"/>
 </head>
 <body>
     <th:block th:replace="~{layout/navigation :: navBar}"></th:block>
@@ -50,5 +51,6 @@
             </div>
         </div>
     </main>
+    <th:block th:replace="~{pop-up/pengajuan_bimbingan :: pop-up-pengajuan}"></th:block>
 </body>
 </html>
