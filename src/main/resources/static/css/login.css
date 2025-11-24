@@ -38,6 +38,14 @@ h1 {
     font-weight: 500;
 }
 
+p {
+    position: relative;
+}
+
+a {
+    color: var(--secondary-color);
+}
+
 #login_logo {
     background-color: var(--primary-color);
     display: flex;

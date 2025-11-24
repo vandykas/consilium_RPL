@@ -1,0 +1,48 @@
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+#grid-mahasiswa {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: .8fr 1fr;
+    grid-template-areas:
+    "header header header"
+    "reminder history progress";
+    gap: 30px;
+    padding: 2rem;
+    height: 100%;
+    width: 100%;
+}
+
+#grid-dosen {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: .8fr .9fr 1fr;
+    grid-template-areas:
+    "header header"
+    "reminder history"
+    "progress progress";
+    gap: 30px;
+    padding: 2rem;
+    min-height: calc(100vh - 60px);
+    width: 100%;
+}
+
+header {
+    grid-area: header;
+}
+
+#reminder {
+    grid-area: reminder;
+}
+
+#history {
+    grid-area: history;
+}
+
+#progress {
+    grid-area: progress;
+}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:replace="~{Login/layout :: layout (~{::title}, ~{::header}, ~{::form})}">
+<html th:replace="~{layout/login :: login (~{::title}, ~{::header}, ~{::form})}">
 <head>
     <title>Consilium - Login</title>
 </head>
@@ -16,6 +16,7 @@
         <label>
             Password
             <input type="password" name="password" placeholder="Masukkan password anda" class="input_text_outline">
+            <p>tes</p>
             <span><a href="/ubah_password" class="forgot_password">Lupa password?</a></span>
         </label>
         <input type="submit" value="Masuk sekarang" class="button_yellow">

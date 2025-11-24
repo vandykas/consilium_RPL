@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" th:fragment="layout (title, header, form)">
+<html lang="en" th:fragment="login (title, header, form)">
 <head>
     <meta charset="UTF-8">
     <title th:replace="${title}">Consilium</title>
@@ -14,7 +14,7 @@
                 <form th:replace="${form}"></form>
             </div>
         </div>
-        <th:block th:insert="~{Login/logo :: logo}"></th:block>
+        <th:block th:insert="~{login/logo :: logo}"></th:block>
     </main>
 </body>
 </html>
