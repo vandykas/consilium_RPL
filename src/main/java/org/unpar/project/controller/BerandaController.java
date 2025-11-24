@@ -21,4 +21,10 @@ public class BerandaController {
         model.addAttribute("currentRole", "dosen");
         return "beranda/dosen";
     }
+    @GetMapping("/admin")
+    public String berandaAdmin(Model model) {
+        model.addAttribute("currentPage", "beranda");
+        model.addAttribute("currentRole", "admin");
+        return "beranda/admin";
+    }
 }
