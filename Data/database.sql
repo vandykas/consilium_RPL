@@ -262,9 +262,6 @@ INSERT INTO KirimDanTerima VALUES
 (4,'D09005','M23079'),--8
 (5,'M23084','D09005');--10
 
-select *
-from DosToStud
-
 insert into DosToStud values
 ('D12135','M23023'),
 ('D12135','M23031'),
