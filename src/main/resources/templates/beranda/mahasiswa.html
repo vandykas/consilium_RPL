@@ -1,12 +1,74 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/beranda :: beranda(~{::title}, ~{::header}, ~{::card_reminder}, ~{::card_history}, ~{::card_progress})}">
+<html
+    th:replace="~{layout/beranda :: beranda(~{::title}, ~{::header}, ~{::card_reminder}, ~{::card_history}, ~{::card_progress})}">
+
 <head>
     <title>Beranda - Mahasiswa</title>
 </head>
+
 <body>
-    <header>Tes</header>
-    <section th:fragment="card_reminder" id="reminder">Tes</section>
-    <section th:fragment="card_history" id="history">Tes</section>
-    <section th:fragment="card_progress" id="progress">Tes</section>
+    <header>
+        <div id="TA_container">
+            <h1>TA 1</h1>
+        </div>
+
+        <div id="text_container">
+            <h2>Alexander Constantijn</h2>
+
+            <p><strong>Topik TA :</strong> Penerapan Hashing untuk Hashing sebuah Hash</p>
+
+            <div class="row">
+                <div class="label"><strong>Dosen Pembimbing :</strong></div>
+                <div class="value">
+                    Vania Natali, S.Kom., M.T.<br>
+                    Raymond Chandra Putra, S.T., M.T.
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section th:fragment="card_reminder" id="reminder">
+        <div class="info_banner">
+            <h2>Bimbingan Mendatang</h2>
+        </div>
+
+        <div id="info_text">
+            <h3>Bimbingan 3</h3>
+            <strong>Tanggal</strong>: 15 Oktober<br>
+            <strong>Ruang</strong> : R. Kuliah 09.01.0015<br>
+            <strong>Dosen Pembimbing</strong> : Vania Natali, S.Kom., M.T.<br>
+            <strong>Tugas</strong> : Membuat cover 10 halaman
+        </div>
+    </section>
+
+    <section th:fragment="card_history" id="history">
+        <div class="info_banner">
+            <h2>Riwayat Bimbingan</h2>
+        </div>
+
+        <div id="bimbingan_grid_container">
+
+            <div class="bimbingan_card">
+                <div class="riwayat">Bimbingan 2<br>12, Oktober 2025</div>
+                <p class="detail">Cek Detail</p>
+            </div>
+
+            <div class="bimbingan_card">
+                <div class="riwayat">Bimbingan 1<br>7, Oktober 2025</div>
+                <p class="detail">Cek Detail</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section th:fragment="card_progress" id="progress">
+
+        <div class="info_banner">
+            <h2>Hasil Bimbingan</h2>
+        </div>
+
+    </section>
 </body>
+
 </html>
