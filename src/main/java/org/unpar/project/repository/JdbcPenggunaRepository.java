@@ -20,7 +20,7 @@ public class JdbcPenggunaRepository implements PenggunaRepository {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<Pengguna> cariDenganEmail(String email, String password) {
+    public List<Pengguna> autentikasi(String email, String password) {
         String sql = "SELECT * FROM Pengguna WHERE email = ? AND password = ?";
         return jdbcTemplate.query(sql, this::mapRowToUser, email, password);
     }
