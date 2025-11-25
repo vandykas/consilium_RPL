@@ -3,6 +3,7 @@ package org.unpar.project.service;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,17 +15,14 @@ public class PenggunaService {
     @Autowired
     private PenggunaRepository penggunaRepo;
 
-    public boolean login(String email, String password) {
-        List<Pengguna> ps = penggunaRepo.autentikasi(email, password);
-
-        return ps.size() == 1;
-    }
-
-    public String getRole(String email) {
-        List<Pengguna> ps = penggunaRepo.cariDenganEmail(email);
-        String id = ps.get(0).getIdPengguna();
-        if(id.charAt(0) == 'A') return "admin";
-        else if(id.charAt(0) == 'D') return "dosen";
-        else return "mahasiswa";
+    public Optional<Pengguna> login(String email, String password) {
+        Optional<Pengguna> penggunaDitemukan = penggunaRepo.cariDenganEmail(email);
+        if (penggunaDitemukan.isEmpty()) {
+            return Optional.empty();
+        }
+        else if (!penggunaDitemukan.get().getPassword().equals(password)) {
+            return Optional.empty();
+        }
+        return penggunaDitemukan;
     }
 }

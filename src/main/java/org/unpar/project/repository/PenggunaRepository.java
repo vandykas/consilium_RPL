@@ -1,13 +1,8 @@
 package org.unpar.project.repository;
 
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
-
+import java.util.Optional;
 import org.unpar.project.model.Pengguna;
 
-@Repository
 public interface PenggunaRepository {
-    public List<Pengguna> autentikasi(String email, String password);
-    public List<Pengguna> cariDenganEmail(String email);
+    Optional<Pengguna> cariDenganEmail(String email);
 }

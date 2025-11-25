@@ -32,7 +32,7 @@ nav li {
     height: 100%;
 }
 
-span {
+li > span {
     flex: 1;
     display: flex;
     align-items: center;
