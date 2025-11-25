@@ -4,9 +4,36 @@
     <title>Beranda - Dosen</title>
 </head>
 <body>
-    <header>Tes</header>
-    <section th:fragment="card_reminder" id="reminder">Tes</section>
-    <section th:fragment="card_history" id="history">Tes</section>
-    <section th:fragment="card_progress" id="progress">Tes</section>
+    <header>
+        <div class="TA_container">
+            <h1>TA 1</h1>
+        </div>
+        <div class="profile_container">
+            <h2><span th:text="${name}"></span></h2>
+            <div class="row">
+                <p class="label">Topik TA: </p>
+                <div>
+                    <p>Topik 1</p>
+                    <p>Topik 2</p>
+                    <p>Topik 3</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section th:fragment="card_reminder" id="reminder">
+        <div class="info_banner">
+            <h2>Bimbingan Mendatang</h2>
+        </div>
+    </section>
+    <section th:fragment="card_history" id="history">
+        <div class="info_banner">
+            <h2>Riwayat Bimbingan</h2>
+        </div>
+    </section>
+    <section th:fragment="card_progress" id="progress">
+        <div class="info_banner">
+            <h2>Mahasiswa Bimbingan</h2>
+        </div>
+    </section>
 </body>
 </html>

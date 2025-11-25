@@ -25,9 +25,11 @@ public class BerandaController {
     }
 
     @GetMapping("/dosen")
-    public String berandaDosen(Model model) {
+    public String berandaDosen(Model model,
+                               HttpSession session) {
         model.addAttribute("currentPage", "beranda");
         model.addAttribute("currentRole", "dosen");
+        model.addAttribute("name", session.getAttribute("name"));
         return "beranda/dosen";
     }
     @GetMapping("/admin")
