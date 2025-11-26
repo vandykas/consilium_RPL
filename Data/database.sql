@@ -117,7 +117,7 @@ CREATE TABLE DosToStud (
     FOREIGN KEY (idDosen) REFERENCES DosenPembimbing(idDosen),
     FOREIGN KEY (idMahasiswa) REFERENCES Mahasiswa(idMahasiswa)
 	
-)
+);
 --1:m
 
 --menambahkan foreign key kode topik untuk mahasiswa

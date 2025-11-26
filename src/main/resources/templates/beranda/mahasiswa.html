@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/beranda :: beranda(~{::title}, ~{::header}, ~{::card-reminder}, ~{::card-history}, ~{::card-progress})}">
+<html
+    th:replace="~{layout/beranda :: beranda(~{::title}, ~{::header}, ~{::card-reminder}, ~{::card-history}, ~{::card-progress})}">
+
 <head>
     <title>Beranda - Mahasiswa</title>
 </head>
+
 <body>
     <header>
         <div class="TA-container">
@@ -53,9 +56,21 @@
     </section>
 
     <section th:fragment="card-progress" id="progress">
+
         <div class="info-banner">
             <h2>Hasil Bimbingan</h2>
         </div>
+
+        <div class="circle-wrapper">
+            <div class="progress-circle" data-progress="50">
+                <span>1 dari 2</span>
+            </div>
+
+            <div class="progress-circle" data-progress="0">
+                <span>0 dari 2</span>
+            </div>
+        </div>
+
     </section>
 </body>
 
