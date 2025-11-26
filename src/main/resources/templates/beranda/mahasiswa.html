@@ -15,8 +15,7 @@
             <div class="row">
                 <span class="label">Dosen Pembimbing :</span>
                 <div class="value">
-                    <p>Vania Natali, S.Kom., M.T.</p>
-                    <p>Raymond Chandra Putra, S.T., M.T.</p>
+                    <p th:each="dosen : ${dosenPembimbing}" th:text="${dosen}"></p>
                 </div>
             </div>
         </div>
