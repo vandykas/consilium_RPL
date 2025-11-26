@@ -35,15 +35,11 @@ public class MahasiswaRepositoryImpl implements MahasiswaRepository {
     @Override
     public String getKodeTopikMahasiswa(String idMahasiswa) {
 
-        String sql = "SELECT kodeTopik FROM AmbilTopik WHERE idMahasiswa = ?";
+        String sql = "SELECT kodeTopik FROM Mahasiswa WHERE idMahasiswa = ?";
 
-        List<String> topik = jdbcTemplate.query(
-                sql,
-                (rs, rowNum) -> rs.getString("kodeTopik"),
-                idMahasiswa
-        );
+        List<String> kodeTopik =  jdbcTemplate.query(sql, (rs, rowNum) -> rs.getString("kodeTopik"), idMahasiswa);
 
-        return topik.isEmpty() ? null : topik.getFirst();
+        return kodeTopik.isEmpty() ? null : kodeTopik.getFirst();
     }
 
     @Override
