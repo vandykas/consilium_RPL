@@ -52,7 +52,7 @@ a {
 .input_text_outline {
     border: 1px solid var(--outline-color);
     border-radius: 15px;
-    padding: 1em 1em;
+    padding: 1rem 1rem;
     font-size: inherit;
 }
 
@@ -60,7 +60,7 @@ a {
     background-color: var(--primary-color);
     border: none;
     border-radius: 15px;
-    padding: 1em 0;
+    padding: 1rem 0;
     font-size: inherit;
 }
 
@@ -74,7 +74,7 @@ a {
     background-color: var(--secondary-color);
     border: none;
     border-radius: 15px;
-    padding: 1em 0;
+    padding: 1rem 0;
 }
 
 .button_blue:hover {
@@ -87,7 +87,7 @@ a {
     background-color: var(--text-header-color);
     border: none;
     border-radius: 15px;
-    padding: 1em 0;
+    padding: 1rem 0;
 }
 
 .button_black:hover {
