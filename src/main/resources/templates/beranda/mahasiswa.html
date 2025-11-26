@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/beranda :: beranda(~{::title}, ~{::header}, ~{::card_reminder}, ~{::card_history}, ~{::card_progress})}">
+<html th:replace="~{layout/beranda :: beranda(~{::title}, ~{::header}, ~{::card-reminder}, ~{::card-history}, ~{::card-progress})}">
 <head>
     <title>Beranda - Mahasiswa</title>
 </head>
 <body>
     <header>
-        <div class="TA_container">
+        <div class="TA-container">
             <h1>TA 1</h1>
         </div>
 
-        <div class="profile_container">
+        <div class="profile-container">
             <h1><span th:text="${name}"></span></h1>
             <p><span class="label">Topik TA : </span><span th:text="${topikTA}"></span></p>
             <div class="row">
@@ -22,12 +22,12 @@
         </div>
     </header>
 
-    <section th:fragment="card_reminder" id="reminder">
-        <div class="info_banner">
+    <section th:fragment="card-reminder" id="reminder">
+        <div class="info-banner">
             <h2>Bimbingan Mendatang</h2>
         </div>
 
-        <div id="info_text">
+        <div id="info-text">
             <h3>Bimbingan 3</h3>
             <p><span class="label">Tanggal: </span> 15 Oktober</p>
             <p><span class="label">Ruang: </span>R. Kuliah 09.01.0015</p>
@@ -36,57 +36,26 @@
         </div>
     </section>
 
-    <section th:fragment="card_history" id="history">
-        <div class="info_banner">
+    <section th:fragment="card-history" id="history">
+        <div class="info-banner">
             <h2>Riwayat Bimbingan</h2>
         </div>
 
-        <div id="history_container">
-            <div class="bimbingan_card">
+        <div id="history-container">
+            <div class="bimbingan-card" th:each="bimbingan : ${riwayat}">
                 <div class="riwayat">
-                    <span class="label">Bimbingan 2</span><br>
-                    12, Oktober 2025
-                </div>
-                <p class="detail">Cek Detail</p>
-            </div>
-            <div class="bimbingan_card">
-                <div class="riwayat">
-                    <span class="label">Bimbingan 2</span><br>
-                    12, Oktober 2025
-                </div>
-                <p class="detail">Cek Detail</p>
-            </div>
-            <div class="bimbingan_card">
-                <div class="riwayat">
-                    <span class="label">Bimbingan 2</span><br>
-                    12, Oktober 2025
-                </div>
-                <p class="detail">Cek Detail</p>
-            </div>
-            <div class="bimbingan_card">
-                <div class="riwayat">
-                    <span class="label">Bimbingan 2</span><br>
-                    12, Oktober 2025
-                </div>
-                <p class="detail">Cek Detail</p>
-            </div>
-            <div class="bimbingan_card">
-                <div class="riwayat">
-                    <span class="label">Bimbingan 2</span><br>
-                    12, Oktober 2025
+                    <span class="label">Bimbingan [[${b.nomor]]</span><br>
+                    [[${#temporals.format(b.tanggal, 'dd MMMM yyyy')}]]
                 </div>
                 <p class="detail">Cek Detail</p>
             </div>
         </div>
-
     </section>
 
-    <section th:fragment="card_progress" id="progress">
-
-        <div class="info_banner">
+    <section th:fragment="card-progress" id="progress">
+        <div class="info-banner">
             <h2>Hasil Bimbingan</h2>
         </div>
-
     </section>
 </body>
 

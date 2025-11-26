@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/beranda :: beranda(~{::title}, ~{::header}, ~{::card_reminder}, ~{::card_history}, ~{::card_progress})}">
+<html th:replace="~{layout/beranda :: beranda(~{::title}, ~{::header}, ~{::card-reminder}, ~{::card-history}, ~{::card-progress})}">
 <head>
     <title>Beranda - Dosen</title>
 </head>
 <body>
     <header>
-        <div class="TA_container">
+        <div class="TA-container">
             <h1>TA 1</h1>
         </div>
-        <div class="profile_container">
+        <div class="profile-container">
             <h2><span th:text="${name}"></span></h2>
             <div class="row">
                 <p class="label">Topik TA: </p>
@@ -20,19 +20,24 @@
             </div>
         </div>
     </header>
-    <section th:fragment="card_reminder" id="reminder">
-        <div class="info_banner">
+    <section th:fragment="card-reminder" id="reminder">
+        <div class="info-banner">
             <h2>Bimbingan Mendatang</h2>
         </div>
+        <div>
+
+        </div>
     </section>
-    <section th:fragment="card_history" id="history">
-        <div class="info_banner">
+    <section th:fragment="card-history" id="history">
+        <div class="info-banner">
             <h2>Riwayat Bimbingan</h2>
         </div>
     </section>
-    <section th:fragment="card_progress" id="progress">
-        <div class="info_banner">
+    <section th:fragment="card-progress" id="progress">
+        <div class="info-banner">
             <h2>Mahasiswa Bimbingan</h2>
+        </div>
+        <div>
         </div>
     </section>
 </body>

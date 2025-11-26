@@ -21,13 +21,14 @@ body {
 #grid-dosen {
     display: grid;
     grid-template-columns: .7fr 1fr;
-    grid-template-rows: .8fr 1fr 1fr;
+    grid-template-rows: 300px 400px 1fr;
     grid-template-areas:
         "header header"
         "reminder history"
         "progress progress";
     gap: 30px;
     padding: 2rem;
+    height: 100%;
     width: 100%;
 }
 
@@ -35,7 +36,7 @@ body {
     font-weight: 600;
 }
 
-.info_banner {
+.info-banner {
     display: flex;
     background-color: var(--primary-color);
     justify-content: center;
@@ -48,11 +49,11 @@ header {
     grid-area: header;
 }
 
-header, #reminder, #progress, .info_banner {
+header, #reminder, #progress, .info-banner {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-.TA_container {
+.TA-container {
     background-color: var(--primary-color);
     font-size: 1.5rem;
     display: flex;
@@ -61,19 +62,19 @@ header, #reminder, #progress, .info_banner {
     width: 20%;
 }
 
-.profile_container {
+.profile-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 1em;
 }
 
-#text_container h2 {
+#text-container h2 {
     font-size: 1.8rem;
     font-weight: bold;
 }
 
-#info_text {
+#info-text {
     margin: 1em;
 }
 
@@ -97,13 +98,13 @@ header, #reminder, #progress, .info_banner {
     flex-direction: column;
 }
 
-#history_container {
+#history-container {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
 }
 
-.bimbingan_card {
+.bimbingan-card {
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     cursor: pointer;
@@ -120,10 +121,4 @@ header, #reminder, #progress, .info_banner {
 
 #progress {
     grid-area: progress;
-}
-
-@media screen and (min-width: 1700px) {
-    html {
-        font-size: 18px;
-    }
 }
