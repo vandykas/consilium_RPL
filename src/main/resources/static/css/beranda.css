@@ -67,6 +67,7 @@ header, #reminder, #progress, .info-banner {
     flex-direction: column;
     justify-content: center;
     padding: 1em;
+    width: 50%;
 }
 
 #text-container h2 {
@@ -80,7 +81,8 @@ header, #reminder, #progress, .info-banner {
 
 .row {
     display: grid;
-    grid-template-columns: .7fr 1fr;
+    grid-template-columns: fit-content(200px) fit-content(200px);
+    column-gap: .5em;
 }
 
 .row p {

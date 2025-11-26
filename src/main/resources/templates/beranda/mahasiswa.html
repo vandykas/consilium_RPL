@@ -27,11 +27,16 @@
         </div>
 
         <div id="info-text">
-            <h3>Bimbingan 3</h3>
-            <p><span class="label">Tanggal: </span> 15 Oktober</p>
-            <p><span class="label">Ruang: </span>R. Kuliah 09.01.0015</p>
-            <p><span class="label">Dosen Pembimbing: </span>Vania Natali, S.Kom., M.T.</p>
-            <p><span class="label">Tugas: </span>Membuat cover 10 halaman</p>
+            <h3>Bimbingan <span th:text="${bimbingan.nomor}"></span></h3>
+            <p><span class="label">Tanggal: </span> <span th:text="${bimbingan.tanggal}"></span></p>
+            <p><span class="label">Ruang: </span> <span th:text="${bimbingan.ruang}"></span></p>
+            <div class="row">
+                <span class="label">Dosen Pembimbing :</span>
+                <div class="value">
+                    <p th:each="dosen : ${dosenNextBimbingan}" th:text="${dosen}"></p>
+                </div>
+            </div>
+            <p><span class="label">Tugas: </span><span th:text="${bimbingan.tugas}"></span></p>
         </div>
     </section>
 
@@ -41,10 +46,10 @@
         </div>
 
         <div id="history-container">
-            <div class="bimbingan-card" th:each="bimbingan : ${riwayat}">
+            <div class="bimbingan-card" th:each="b : ${riwayat}">
                 <div class="riwayat">
-                    <span class="label">Bimbingan [[${b.nomor]]</span><br>
-                    [[${#temporals.format(b.tanggal, 'dd MMMM yyyy')}]]
+                    <span class="label">Bimbingan </span><span th:text="${b.nomor}"></span><br>
+                    <span th:text="${#temporals.format(b.tanggal, 'dd MMMM yyyy')}"></span>
                 </div>
                 <p class="detail">Cek Detail</p>
             </div>
