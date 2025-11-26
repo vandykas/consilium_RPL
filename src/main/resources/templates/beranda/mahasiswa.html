@@ -31,7 +31,7 @@
 
         <div id="info-text">
             <h3>Bimbingan <span th:text="${bimbingan.nomor}"></span></h3>
-            <p><span class="label">Tanggal: </span> <span th:text="${bimbingan.tanggal}"></span></p>
+            <p><span class="label">Tanggal: </span> <span th:text="${#temporals.format(bimbingan.tanggal, 'dd MMMM yyyy')}"></span></p>
             <p><span class="label">Ruang: </span> <span th:text="${bimbingan.ruang}"></span></p>
             <div class="row">
                 <span class="label">Dosen Pembimbing :</span>
