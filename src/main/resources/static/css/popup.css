@@ -19,7 +19,7 @@
     padding: 1em 3em;
 }
 
-form {
+.form-pengajuan {
     display: flex;
     flex-direction: column;
     row-gap: 1em;
