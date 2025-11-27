@@ -15,12 +15,11 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("login")
 public class AuthController {
     @Autowired
     private PenggunaService penggunaService;
 
-    @GetMapping("/")
+    @GetMapping("/login")
     public String login() {
         return "login/login";
     }
@@ -35,8 +34,8 @@ public class AuthController {
         return "login/forgot_password";
     }
 
-    @PostMapping("/")
-    public String checkLogin(HttpServletRequest request,
+    @PostMapping("/login")
+    public String login(HttpServletRequest request,
                              HttpSession session) {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -58,7 +57,12 @@ public class AuthController {
 
             return "redirect:/beranda/" + role;
         }
-        return "redirect:/login/";
+        return "redirect:/login";
     }
 
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
+    }
 }
