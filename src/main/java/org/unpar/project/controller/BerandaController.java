@@ -60,8 +60,7 @@ public class BerandaController {
     }
     @GetMapping("/admin")
     public String viewBerandaAdmin(Model model) {
-        addCommonAttributes(model, "admin");
-        return "beranda/admin";
+        return "redirect:/admin/mahasiswa";
     }
 
     private void addCommonAttributes(Model model, String role) {
