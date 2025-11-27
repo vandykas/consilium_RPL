@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/jadwal :: jadwal(~{::title}, ~{::p})}">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/jadwal :: jadwal(~{::title}, ~{::p})}">
 <head>
     <title>Jadwal Bimbingan - Dosen</title>
 </head>
 <body>
     <p>
-        Selamat Datang <span th:text="${name}">mahasiswa</span>.
+        Selamat Datang <span th:text="${name}">Nama Dosen</span>.
     </p>
 </body>
 </html>

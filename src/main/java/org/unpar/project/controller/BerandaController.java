@@ -27,7 +27,7 @@ public class BerandaController {
     private TopikService topikService;
 
     @GetMapping("/mahasiswa")
-    public String berandaMahasiswa(Model model,
+    public String viewBerandaMahasiswa(Model model,
                                    HttpSession session) {
         String idPengguna = (String) session.getAttribute("id");
 
@@ -42,32 +42,30 @@ public class BerandaController {
         for (Pengguna p : dosenList) {
             dosen.add(p.getNama());
         }
-
-
+        
+        addCommonAttributes(model, "mahasiswa");
+        model.addAttribute("name", session.getAttribute("name"));
         model.addAttribute("topikTA", topik);
         model.addAttribute("dosenPembimbing", dosen);
-
-        //model.addAttribute("bimbingan", nextBimbingan);
         model.addAttribute("dosenNextBimbingan", dosen);
-
-        //model.addAttribute("riwayat", riwayat);
-
-        model.addAttribute("name", session.getAttribute("name"));
         return "beranda/mahasiswa";
     }
 
     @GetMapping("/dosen")
-    public String berandaDosen(Model model,
+    public String viewBerandaDosen(Model model,
                                HttpSession session) {
-        model.addAttribute("currentPage", "beranda");
-        model.addAttribute("currentRole", "dosen");
+        addCommonAttributes(model, "dosen");
         model.addAttribute("name", session.getAttribute("name"));
         return "beranda/dosen";
     }
     @GetMapping("/admin")
-    public String berandaAdmin(Model model) {
-        model.addAttribute("currentPage", "beranda");
-        model.addAttribute("currentRole", "admin");
+    public String viewBerandaAdmin(Model model) {
+        addCommonAttributes(model, "admin");
         return "beranda/admin";
+    }
+
+    private void addCommonAttributes(Model model, String role) {
+        model.addAttribute("currentPage", "beranda");
+        model.addAttribute("currentRole", role);
     }
 }

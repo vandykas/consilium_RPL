@@ -1,9 +1,8 @@
 main {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-    "form logo";
-    height: 100vh;
+    grid-template-areas: "form logo";
+    min-height: 100vh;
 }
 
 #login_form {
@@ -11,6 +10,7 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: var(--spacing-lg);
 }
 
 #container {
@@ -18,10 +18,12 @@ main {
     flex-direction: column;
     min-height: 500px;
     width: 80%;
+    max-width: 500px;
 }
 
-h1 {
-    font-size: 3rem;
+#container h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: var(--spacing-sm);
 }
 
 #container > form {
@@ -34,16 +36,19 @@ h1 {
 #container > form > label {
     display: flex;
     flex-direction: column;
-    row-gap: 10px;
+    gap: var(--spacing-xs);
     font-weight: 500;
 }
 
-p {
-    position: relative;
+.forgot_password {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-top: var(--spacing-xs);
 }
 
-a {
-    color: var(--secondary-color);
+.forgot_password:hover {
+    text-decoration: underline;
 }
 
 #login_logo {
@@ -52,8 +57,31 @@ a {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: var(--spacing-lg);
 }
 
 #login_logo > h1 {
-    margin: 0;
+    margin: var(--spacing-sm) 0 0 0;
+    font-size: 3rem;
+}
+
+#login_logo > h3 {
+    margin-top: var(--spacing-xs);
+    font-weight: 400;
+}
+
+#login_logo img {
+    max-width: 200px;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    main {
+        grid-template-columns: 1fr;
+        grid-template-areas: "form";
+    }
+    
+    #login_logo {
+        display: none;
+    }
 }

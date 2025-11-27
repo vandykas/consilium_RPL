@@ -1,48 +1,90 @@
-<div class="overlay" th:fragment="pop-up-pengajuan">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="overlay" th:fragment="pop-up-pengajuan" id="overlay-pengajuan">
     <div class="pop-up-container">
         <div class="pop-up-header">
-            <h1>
-                Permintaan Bimbingan
-            </h1>
+            <h1>Permintaan Bimbingan</h1>
         </div>
-        <form class="form-pengajuan">
-            <label>
+        
+        <form class="form-pengajuan" 
+              method="post" 
+              th:action="@{/bimbingan/ajukan}"
+              id="form-pengajuan-bimbingan">
+            
+            <label for="tanggal-bimbingan">
                 Pilih tanggal
-                <input type="date" name="tanggal" required class="input_text_outline">
+                <input type="date" 
+                       id="tanggal-bimbingan"
+                       name="tanggal" 
+                       required 
+                       class="input_text_outline">
             </label>
-            <label>
+            
+            <label for="jam-mulai">
                 Pilih jam mulai
-                <select name="jam-mulai" class="input_text_outline">
-
+                <select id="jam-mulai"
+                        name="jamMulai" 
+                        class="input_text_outline"
+                        required>
+                    <option value="">Pilih jam mulai</option>
                 </select>
             </label>
-            <label>
+            
+            <label for="jam-selesai">
                 Pilih jam selesai
-                <select name="jam-mulai" class="input_text_outline">
-
+                <select id="jam-selesai"
+                        name="jamSelesai" 
+                        class="input_text_outline"
+                        required>
+                    <option value="">Pilih jam selesai</option>
                 </select>
             </label>
-            <label>
+            
+            <label for="ruangan">
                 Pilih ruangan
-                <select name="ruangan" class="input_text_outline">
-
+                <select id="ruangan"
+                        name="ruangan" 
+                        class="input_text_outline"
+                        required>
+                    <option value="">Pilih ruangan</option>
                 </select>
             </label>
+            
+            <!-- Hanya untuk dosen -->
             <div th:if="${currentRole == 'dosen'}">
-                <label>
+                <label for="mahasiswa-list">
                     Pilih mahasiswa (bisa lebih dari 1)
-                    <div class="mahasiswa-list-checkbox">
-
+                    <div id="mahasiswa-list" 
+                         class="mahasiswa-list-checkbox"
+                         role="group"
+                         aria-labelledby="mahasiswa-list">
                     </div>
                 </label>
-                <label>
+                
+                <label for="jadwal-rutin">
                     Penjadwalan rutin
-                    <select name="jadwal-rutin" class="input_text_outline">
-
+                    <select id="jadwal-rutin"
+                            name="jadwalRutin" 
+                            class="input_text_outline">
+                        <option value="">Tidak ada</option>
+                        <option value="mingguan">Mingguan</option>
+                        <option value="dua-mingguan">Dua Minggu Sekali</option>
+                        <option value="bulanan">Bulanan</option>
                     </select>
                 </label>
             </div>
-            <input type="submit" class="button_yellow" value="Ajukan bimbingan">
+            
+            <div class="button-group">
+                <button type="submit" class="button_yellow">
+                    Ajukan Bimbingan
+                </button>
+                <button type="button" 
+                        class="button_black" 
+                        onclick="closePopup()">
+                    Batal
+                </button>
+            </div>
         </form>
     </div>
 </div>
+</html>

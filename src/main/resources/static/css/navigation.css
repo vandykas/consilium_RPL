@@ -1,23 +1,37 @@
 nav {
     display: grid;
-    grid-template-columns: .5fr 1fr .5fr;
-    grid-template-areas:
-    "logo navigation button";
+    grid-template-columns: 0.5fr 1fr 0.5fr;
+    grid-template-areas: "logo navigation button";
     min-height: 60px;
     align-items: center;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav > div:first-child {
+    grid-area: logo;
 }
 
 nav h1 {
     color: var(--primary-color);
-    padding-left: 2rem;
+    padding-left: var(--spacing-lg);
     margin: 0;
+    font-size: 1.5rem;
+    transition: opacity var(--transition-speed) ease;
+}
+
+nav h1:hover {
+    opacity: 0.8;
 }
 
 nav > ul {
+    grid-area: navigation;
     display: flex;
     justify-content: center;
     align-items: center;
+    list-style: none;
     margin: 0;
+    padding: 0;
     height: 100%;
 }
 
@@ -27,19 +41,27 @@ nav li {
     align-items: center;
     justify-content: flex-end;
     font-weight: 500;
-    list-style: none;
     width: 25%;
     height: 100%;
+    transition: background-color var(--transition-speed) ease;
 }
 
-li > span {
+nav li > span {
     flex: 1;
     display: flex;
     align-items: center;
+    padding: 0 var(--spacing-sm);
 }
 
-a {
+nav li a {
     color: var(--text-header-color);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    text-align: center;
+    transition: color var(--transition-speed) ease;
+}
+
+nav li a:hover {
+    color: var(--primary-color);
 }
 
 .nav-bg-active {
@@ -48,6 +70,7 @@ a {
 
 a.nav-text-active {
     color: var(--primary-color);
+    font-weight: 600;
 }
 
 .nav-bar {
@@ -56,20 +79,68 @@ a.nav-text-active {
     height: 5px;
 }
 
-ul + form {
+nav > form {
+    grid-area: button;
     display: flex;
-    justify-content: right;
-    margin-right: 2rem;
+    justify-content: flex-end;
+    padding-right: var(--spacing-lg);
+    margin: 0;
 }
 
 #danger_button {
     background-color: var(--danger-color);
     border: none;
-    border-radius: 15px;
+    border-radius: var(--radius-md);
     color: var(--text-content-color-light);
-    padding: .7rem 1.4rem;
+    padding: 0.7rem 1.4rem;
+    font-weight: 500;
+    transition: opacity var(--transition-speed) ease;
 }
 
 #danger_button:hover {
     opacity: 0.8;
+}
+
+@media (max-width: 1024px) {
+    nav {
+        grid-template-columns: auto 1fr auto;
+    }
+    
+    nav h1 {
+        font-size: 1.25rem;
+        padding-left: var(--spacing-sm);
+    }
+    
+    nav li a {
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        grid-template-areas: "logo" "navigation" "button";
+        min-height: auto;
+    }
+    
+    nav h1 {
+        padding: var(--spacing-sm);
+        text-align: center;
+    }
+    
+    nav > ul {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    nav li {
+        width: 100%;
+        height: auto;
+    }
+    
+    nav > form {
+        justify-content: center;
+        padding: var(--spacing-sm);
+    }
 }

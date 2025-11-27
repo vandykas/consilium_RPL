@@ -19,8 +19,8 @@ public class PenggunaRepositoryImpl implements PenggunaRepository {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public Optional<Pengguna> cariDenganEmail(String email) {
-        String sql = "SELECT * FROM Pengguna WHERE email = ? ";
+    public Optional<Pengguna> findByEmail(String email) {
+        String sql = "SELECT idpengguna, nama, password, email FROM Pengguna WHERE email = ? ";
         List<Pengguna> results = jdbcTemplate.query(sql, this::mapRowToUser, email);
 
         return results.isEmpty() ? Optional.empty() : Optional.of(results.getFirst());
