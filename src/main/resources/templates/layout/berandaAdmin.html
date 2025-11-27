@@ -12,5 +12,10 @@
 </head>
 <body>
     <th:block th:replace="~{layout/navigation :: navBar}"></th:block>
+    <main th:attr="id=${currentPage=='adminDosen'} ? 'grid-mahasiswa' : 'grid-dosen'">
+        <header th:replace="${card_profile}"></header>
+        <section th:replace="${card_reminder}"></section>
+        <section th:replace="${card_history}"></section>
+        <section th:replace="${card_progress}"></section>
 </body>
 </html>
