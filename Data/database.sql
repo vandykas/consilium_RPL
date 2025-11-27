@@ -117,7 +117,7 @@ CREATE TABLE DosToStud (
     FOREIGN KEY (idDosen) REFERENCES DosenPembimbing(idDosen),
     FOREIGN KEY (idMahasiswa) REFERENCES Mahasiswa(idMahasiswa)
 	
-);
+)
 --1:m
 
 --menambahkan foreign key kode topik untuk mahasiswa
@@ -221,6 +221,19 @@ INSERT INTO Jadwal (hari, tanggal, jamMulai, jamSelesai, nomorRuangan) VALUES
 ('Kamis','2025-01-13','10:00','12:00',9121),--8
 ('Jumat','2025-01-14','08:00','10:00',9121),--9
 ('Jumat','2025-01-14','10:00','12:00',9018);--10
+
+
+INSERT INTO MembukaTopik VALUES
+('D12135','RCP6001ACS'),
+('D12135','RCP6002ACS'),
+('D12135','RCP6003BCS'),
+('D12135','RCP6004BCS'),
+('D12135','RCP6005CCS'),
+('D09005','VAN6001CCS'),
+('D09005','VAN6002BCS'),
+('D09005','VAN6003ACS'),
+('D09005','VAN6004CDS'),
+('D09005','VAN6005BDS');
 
 INSERT INTO Kuliah VALUES
 (1),(3),(4),(7),(9);

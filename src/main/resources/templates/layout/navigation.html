@@ -7,7 +7,7 @@
         </a>
     </div>
     
-    <ul>
+    <ul th:if="${currentRole!='admin'}">
         <li th:classappend="${currentPage == 'beranda'} ? 'nav-bg-active'">
             <span>
                 <a th:href="@{/beranda/{role}(role=${currentRole})}"
@@ -56,6 +56,32 @@
                 </a>
             </span>
             <div th:if="${currentPage == 'pengumuman'}" 
+                 class="nav-bar" 
+                 aria-hidden="true"></div>
+        </li>
+    </ul>
+    <ul th:if="${currentRole=='admin'}">
+        <li th:classappend="${currentPage == 'adminMahasiswa'} ? 'nav-bg-active'">
+            <span>
+                <a th:href="@{/admin/mahasiswa}" 
+                   th:classappend="${currentPage == 'adminMahasiswa'} ? 'nav-text-active'"
+                   aria-current="${currentPage == 'adminMahasiswa'} ? 'page' : null">
+                    Daftar mahasiswa
+                </a>
+            </span>
+            <div th:if="${currentPage == 'adminMahasiswa'}" 
+                 class="nav-bar" 
+                 aria-hidden="true"></div>
+        </li>
+        <li th:classappend="${currentPage == 'adminDosen'} ? 'nav-bg-active'">
+            <span>
+                <a th:href="@{/admin/dosen}" 
+                   th:classappend="${currentPage == 'adminDosen'} ? 'nav-text-active'"
+                   aria-current="${currentPage == 'adminDosen'} ? 'page' : null">
+                    Daftar Dosen
+                </a>
+            </span>
+            <div th:if="${currentPage == 'adminDosen'}" 
                  class="nav-bar" 
                  aria-hidden="true"></div>
         </li>

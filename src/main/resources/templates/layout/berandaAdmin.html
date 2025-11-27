@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="id" 
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="beranda (title)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title}">BerandaAdmin</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/beranda.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/navigation.css}"/>
+</head>
+<body>
+    <th:block th:replace="~{layout/navigation :: navBar}"></th:block>
+</body>
+</html>
