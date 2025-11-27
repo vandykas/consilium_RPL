@@ -9,16 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("notifikasi")
 public class NotifikasiController {
     @GetMapping("/mahasiswa")
-    public String notifikasiMahasiswa(Model model) {
-        model.addAttribute("currentPage","notifikasi");
-        model.addAttribute("currentRole","mahasiswa");
+    public String viewNotifikasiMahasiswa(Model model) {
+        addCommonAttributes(model, "mahasiswa");
         return "notifikasi/notifikasi";
     }
 
     @GetMapping("/dosen")
-    public String notifikasiDosen(Model model) {
-        model.addAttribute("currentPage","notifikasi");
-        model.addAttribute("currentRole","dosen");
+    public String viewNotifikasiDosen(Model model) {
+        addCommonAttributes(model, "dosen");
         return "notifikasi/notifikasi";
+    }
+
+    private void addCommonAttributes(Model model, String role) {
+        model.addAttribute("currentPage", "notifikasi");
+        model.addAttribute("currentRole", role);
     }
 }

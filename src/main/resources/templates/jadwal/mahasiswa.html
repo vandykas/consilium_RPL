@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/jadwal :: jadwal(~{::title}, ~{::p})}">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/jadwal :: jadwal(~{::title}, ~{::p})}">
 <head>
     <title>Jadwal Bimbingan - Mahasiswa</title>
 </head>
 <body>
     <p>
-        Selamat datang <span th:text="${name}">mahasiswa</span>,
+        Selamat datang <span th:text="${name}">Nama Mahasiswa</span>,
         <span th:text="${uts}">sebelum</span> masa UTS anda harus menyelesaikan
-        <span th:text="${countBimbingan}">1 bimbingan</span>
+        <span th:text="${countBimbingan}">1</span> bimbingan
     </p>
 </body>
 </html>

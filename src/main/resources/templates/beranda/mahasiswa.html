@@ -1,24 +1,21 @@
 <!DOCTYPE html>
-<html
-    th:replace="~{layout/beranda :: beranda(~{::title}, ~{::header}, ~{::card-reminder}, ~{::card-history}, ~{::card-progress})}">
-
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/beranda :: beranda(~{::title}, ~{::header}, ~{::card-reminder}, ~{::card-history}, ~{::card-progress})}">
 <head>
     <title>Beranda - Mahasiswa</title>
 </head>
-
 <body>
     <header>
         <div class="TA-container">
             <h1>TA 1</h1>
         </div>
-
         <div class="profile-container">
-            <h1><span th:text="${name}"></span></h1>
-            <p><span class="label">Topik TA : </span><span th:text="${topikTA}"></span></p>
+            <h1><span th:text="${name}">Nama Mahasiswa</span></h1>
+            <p><span class="label">Topik TA: </span><span th:text="${topikTA}">Topik TA</span></p>
             <div class="row">
-                <span class="label">Dosen Pembimbing :</span>
+                <span class="label">Dosen Pembimbing:</span>
                 <div class="value">
-                    <p th:each="dosen : ${dosenPembimbing}" th:text="${dosen}"></p>
+                    <p th:each="dosen : ${dosenPembimbing}" th:text="${dosen}">Nama Dosen</p>
                 </div>
             </div>
         </div>
@@ -28,18 +25,17 @@
         <div class="info-banner">
             <h2>Bimbingan Mendatang</h2>
         </div>
-
         <div id="info-text">
-            <h3>Bimbingan <span th:text="${bimbingan.nomor}"></span></h3>
-            <p><span class="label">Tanggal: </span> <span th:text="${bimbingan.tanggal}"></span></p>
-            <p><span class="label">Ruang: </span> <span th:text="${bimbingan.ruang}"></span></p>
+            <h3>Bimbingan <span th:text="${bimbingan.nomor}">1</span></h3>
+            <p><span class="label">Tanggal: </span><span th:text="${#temporals.format(bimbingan.tanggal, 'dd MMMM yyyy')}">Tanggal</span></p>
+            <p><span class="label">Ruang: </span><span th:text="${bimbingan.ruang}">Ruangan</span></p>
             <div class="row">
-                <span class="label">Dosen Pembimbing :</span>
+                <span class="label">Dosen Pembimbing:</span>
                 <div class="value">
-                    <p th:each="dosen : ${dosenNextBimbingan}" th:text="${dosen}"></p>
+                    <p th:each="dosen : ${dosenNextBimbingan}" th:text="${dosen}">Nama Dosen</p>
                 </div>
             </div>
-            <p><span class="label">Tugas: </span><span th:text="${bimbingan.tugas}"></span></p>
+            <p><span class="label">Tugas: </span><span th:text="${bimbingan.tugas}">Deskripsi tugas</span></p>
         </div>
     </section>
 
@@ -47,12 +43,11 @@
         <div class="info-banner">
             <h2>Riwayat Bimbingan</h2>
         </div>
-
         <div id="history-container">
             <div class="bimbingan-card" th:each="b : ${riwayat}">
                 <div class="riwayat">
-                    <span class="label">Bimbingan </span><span th:text="${b.nomor}"></span><br>
-                    <span th:text="${#temporals.format(b.tanggal, 'dd MMMM yyyy')}"></span>
+                    <span class="label">Bimbingan </span><span th:text="${b.nomor}">1</span><br>
+                    <span th:text="${#temporals.format(b.tanggal, 'dd MMMM yyyy')}">Tanggal</span>
                 </div>
                 <p class="detail">Cek Detail</p>
             </div>
@@ -60,22 +55,17 @@
     </section>
 
     <section th:fragment="card-progress" id="progress">
-
         <div class="info-banner">
             <h2>Hasil Bimbingan</h2>
         </div>
-
         <div class="circle-wrapper">
             <div class="progress-circle" data-progress="50">
                 <span>1 dari 2</span>
             </div>
-
             <div class="progress-circle" data-progress="0">
                 <span>0 dari 2</span>
             </div>
         </div>
-
     </section>
 </body>
-
 </html>
