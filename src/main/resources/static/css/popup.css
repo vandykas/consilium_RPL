@@ -1,34 +1,71 @@
 .overlay {
     background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
     display: none;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
+}
+
+.overlay.active {
+    display: flex;
 }
 
 .pop-up-container {
-    background-color: var(--bg-current-color);
+    background-color: white;
     display: flex;
     flex-direction: column;
+    border-radius: var(--radius-md);
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
 .pop-up-header {
     background-color: var(--primary-color);
-    padding: 1em 3em;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.pop-up-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
 }
 
 .form-pengajuan {
     display: flex;
     flex-direction: column;
-    row-gap: 1em;
-    padding: 2em;
-    font-size: .7em;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
 }
 
-label {
+.form-pengajuan label {
     display: flex;
     flex-direction: column;
-    row-gap: .5em;
+    gap: var(--spacing-xs);
+    font-weight: 500;
+}
+
+.mahasiswa-list-checkbox {
+    border: 1px solid var(--outline-color);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-sm);
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.button-group {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+}
+
+.button-group button {
+    flex: 1;
 }

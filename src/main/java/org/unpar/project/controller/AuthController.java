@@ -20,17 +20,17 @@ public class AuthController {
     private PenggunaService penggunaService;
 
     @GetMapping("/login")
-    public String login() {
+    public String viewLogin() {
         return "login/login";
     }
 
     @GetMapping("/change_password")
-    public String changePassword() {
+    public String viewChangePassword() {
         return "login/change_password";
     }
 
     @GetMapping("/forgot_password")
-    public String forgotPassword() {
+    public String viewForgotPassword() {
         return "login/forgot_password";
     }
 
@@ -40,29 +40,24 @@ public class AuthController {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        Optional<Pengguna> pengguna = penggunaService.login(email, password);
-
-        if (pengguna.isPresent()) {
-            Map<Character, String> toRole = new HashMap<>();
-            toRole.put('D', "dosen");
-            toRole.put('M', "mahasiswa");
-            toRole.put('A', "admin");
-
-            Pengguna p = pengguna.get();
-            String role = toRole.get(p.getIdPengguna().charAt(0));
-
-            session.setAttribute("name", p.getNama());
-            session.setAttribute("id", p.getIdPengguna());
-            session.setAttribute("role", role);
-
-            return "redirect:/beranda/" + role;
-        }
-        return "redirect:/login";
+        return penggunaService.login(email, password)
+                .map(pengguna -> handleSuccessfulLogin(pengguna, session))
+                .orElse("redirect:/login");
     }
 
     @PostMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/login";
+    }
+
+    private String handleSuccessfulLogin(Pengguna pengguna, HttpSession session) {
+        String role = penggunaService.getRoleFromId(pengguna.getIdPengguna());
+
+        session.setAttribute("name", pengguna.getNama());
+        session.setAttribute("id", pengguna.getIdPengguna());
+        session.setAttribute("role", role);
+
+        return "redirect:/beranda/" + role;
     }
 }

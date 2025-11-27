@@ -2,7 +2,9 @@ package org.unpar.project.service;
 
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +14,38 @@ import org.unpar.project.repository.PenggunaRepository;
 
 @Service
 public class PenggunaService {
+
+    Map<Character, String> idToRole = Map.of(
+            'D', "dosen",
+            'M', "mahasiswa",
+            'A', "admin"
+    );
+
     @Autowired
-    private PenggunaRepository penggunaRepo;
+    private PenggunaRepository penggunaRepository;
 
     public Optional<Pengguna> login(String email, String password) {
-        Optional<Pengguna> penggunaDitemukan = penggunaRepo.cariDenganEmail(email);
-        if (penggunaDitemukan.isEmpty()) {
-            return Optional.empty();
+        return penggunaRepository.findByEmail(email)
+                .filter(pengguna -> isPasswordValid(pengguna, password));
+    }
+
+    private boolean isPasswordValid(Pengguna pengguna, String password) {
+        return pengguna.getPassword() != null &&
+                pengguna.getPassword().equals(password);
+    }
+
+    public String getRoleFromId(String idPengguna) {
+        if (idPengguna == null || idPengguna.isEmpty()) {
+            throw new IllegalArgumentException("ID Pengguna tidak boleh kosong");
         }
-        else if (!penggunaDitemukan.get().getPassword().equals(password)) {
-            return Optional.empty();
+
+        char roleChar = idPengguna.charAt(0);
+        String role = idToRole.get(roleChar);
+
+        if (role == null) {
+            throw new IllegalArgumentException("Role tidak valid: " + roleChar);
         }
-        return penggunaDitemukan;
+
+        return role;
     }
 }

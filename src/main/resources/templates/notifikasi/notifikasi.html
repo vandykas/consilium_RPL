@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consilium - Notifikasi</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/navigation.css}">
@@ -9,79 +10,136 @@
 </head>
 <body>
     <th:block th:replace="~{layout/navigation :: navBar}"></th:block>
+    
     <main>
         <header>
             <h1>Notifikasi</h1>
         </header>
+        
         <div id="notification-container">
-            <section>
+            <!-- Pengajuan Bimbingan -->
+            <section aria-labelledby="pengajuan-heading">
                 <div class="notification-header-container">
-                    <h4>Pengajuan Bimbingan</h4>
+                    <h4 id="pengajuan-heading">Pengajuan Bimbingan</h4>
                 </div>
                 <div class="notification-body-container">
-                    <div class="notification-item" th:each="notif : ${notifications}">
+                    <div class="notification-item" 
+                         th:each="notif : ${notifications}"
+                         th:if="${notif.status == 'pending'}">
                         <div class="notification-item-left">
                             <p>
-                                Penjadwalan Bimbingan pada <span th:text="${notif.tanggal}"></span>
-                                di <span th:text="${notif.ruangan}"></span>
+                                Penjadwalan Bimbingan pada 
+                                <span th:text="${notif.tanggal}">tanggal</span>
+                                di <span th:text="${notif.ruangan}">ruangan</span>
                             </p>
                             <p>
-                                Jam : <span th:text="${notif.waktuMulai}"></span> - <span th:text="${notif.waktuSelesai}"></span>
+                                Jam: 
+                                <span th:text="${notif.waktuMulai}">mulai</span> - 
+                                <span th:text="${notif.waktuSelesai}">selesai</span>
                             </p>
                             <p>
-                                Dosen : <span th:text="${notif.dosen}"></span>
+                                Dosen: <span th:text="${notif.dosen}">nama dosen</span>
                             </p>
                         </div>
                         <div class="notification-item-right">
-                            <p><span th:text="${notif.tanggalKirim}"></span></p>
-                            <p><span th:text="${notif.waktuKirim}"></span></p>
-                            <button class="accept-button">Setuju</button>
-                            <button class="deny-button">Tolak</button>
+                            <p>
+                                <time th:datetime="${notif.tanggalKirim}">
+                                    <span th:text="${notif.tanggalKirim}">tanggal</span>
+                                </time>
+                            </p>
+                            <p><span th:text="${notif.waktuKirim}">waktu</span></p>
+                            <button type="button" 
+                                    class="accept-button"
+                                    th:data-notif-id="${notif.id}">
+                                Setuju
+                            </button>
+                            <button type="button" 
+                                    class="deny-button"
+                                    th:data-notif-id="${notif.id}">
+                                Tolak
+                            </button>
                         </div>
                     </div>
                 </div>
             </section>
-            <section>
+
+            <!-- Catatan Bimbingan -->
+            <section aria-labelledby="catatan-heading">
                 <div class="notification-header-container">
-                    <h4>Catatan Bimbingan</h4>
+                    <h4 id="catatan-heading">Catatan Bimbingan</h4>
                 </div>
                 <div class="notification-body-container">
                     <div class="notification-item"
                          th:each="notif : ${notifications}"
-                         th:if="${notif.catatanDosen != null}">
+                         th:if="${notif.catatanDosen != null and notif.catatanDosen != ''}">
                         <div class="notification-item-left">
                             <p>
-                                Catatan mengenai bimbingan pada <span th:text="${notif.tanggal}"></span>
-                                di <span th:text="${notif.ruangan}"></span> sudah dimasukkan
+                                Catatan mengenai bimbingan pada 
+                                <span th:text="${notif.tanggal}">tanggal</span>
+                                di <span th:text="${notif.ruangan}">ruangan</span> 
+                                sudah dimasukkan
+                            </p>
+                        </div>
+                        <div class="notification-item-right">
+                            <p>
+                                <time th:datetime="${notif.tanggalKirim}">
+                                    <span th:text="${notif.tanggalKirim}">tanggal</span>
+                                </time>
                             </p>
                         </div>
                     </div>
                 </div>
             </section>
-            <section>
+
+            <!-- Sistem -->
+            <section aria-labelledby="sistem-heading">
                 <div class="notification-header-container">
-                    <h4>Sistem</h4>
+                    <h4 id="sistem-heading">Sistem</h4>
                 </div>
                 <div class="notification-body-container">
-                    <div class="notification-item" th:each="notif : ${notifications}">
+                    <div class="notification-item" 
+                         th:each="notif : ${notifications}"
+                         th:if="${notif.status != 'pending'}">
                         <div class="notification-item-left">
                             <p>
-                                Penjadwalan Bimbingan pada <span th:text="${notif.tanggal}"></span>
-                                di <span th:text="${notif.ruangan}"></span>
+                                Penjadwalan Bimbingan pada 
+                                <span th:text="${notif.tanggal}">tanggal</span>
+                                di <span th:text="${notif.ruangan}">ruangan</span>
                             </p>
                             <p>
-                                Jam : <span th:text="${notif.waktuMulai}"></span> - <span th:text="${notif.waktuSelesai}"></span>
+                                Jam: 
+                                <span th:text="${notif.waktuMulai}">mulai</span> - 
+                                <span th:text="${notif.waktuSelesai}">selesai</span>
                             </p>
                             <p>
-                                Dosen : <span th:text="${notif.dosen}"></span>
+                                Dosen: <span th:text="${notif.dosen}">nama dosen</span>
                             </p>
                         </div>
                         <div class="notification-item-right">
-                            <p><span th:text="${notif.tanggalKirim}"></span></p>
-                            <p><span th:text="${notif.waktuKirim}"></span></p>
-                            <button th:if="${isDisetujui == null}" class="pending-button">Pending</button>
-                            <button th:if="${isDisetujui}" class="accept-button">Disetujui</button>
-                            <button th:if="${!isDisetujui}" class="deny-button">Ditolak</button>
+                            <p>
+                                <time th:datetime="${notif.tanggalKirim}">
+                                    <span th:text="${notif.tanggalKirim}">tanggal</span>
+                                </time>
+                            </p>
+                            <p><span th:text="${notif.waktuKirim}">waktu</span></p>
+                            <button type="button"
+                                    th:if="${notif.isDisetujui == null}" 
+                                    class="pending-button"
+                                    disabled>
+                                Pending
+                            </button>
+                            <button type="button"
+                                    th:if="${notif.isDisetujui}" 
+                                    class="accept-button"
+                                    disabled>
+                                Disetujui
+                            </button>
+                            <button type="button"
+                                    th:if="${notif.isDisetujui == false}" 
+                                    class="deny-button"
+                                    disabled>
+                                Ditolak
+                            </button>
                         </div>
                     </div>
                 </div>

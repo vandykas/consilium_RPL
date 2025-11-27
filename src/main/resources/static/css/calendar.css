@@ -3,36 +3,52 @@
     grid-template-columns: repeat(7, 1fr);
     grid-auto-rows: 1fr;
     position: relative;
+    background-color: white;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
 }
 
 .day-header {
     text-align: center;
     font-weight: bold;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--outline-color);
+    padding: var(--spacing-sm) 0;
+    border-bottom: 2px solid var(--outline-color);
+    background-color: var(--bg-current-color);
 }
 
 .time-slot {
     border-bottom: 1px solid var(--outline-color);
-    height: 50px; /* 1 jam */
+    min-height: 50px;
 }
 
 .event {
     position: absolute;
-    border-radius: 8px;
-    padding: 10px;
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-sm);
 }
 
 .event.bimbingan {
     background: var(--primary-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.event.bimbingan h4 {
+    margin: 0 0 var(--spacing-xs) 0;
+    font-size: 0.9rem;
+}
+
+.event.bimbingan p {
+    margin: 0;
+    font-size: 0.8rem;
 }
 
 .event.blocked {
     background-image: repeating-linear-gradient(
-            45deg,
-            var(--danger-color) 0,
-            var(--danger-color) 10px,
-            transparent 10px,
-            transparent 20px
+        45deg,
+        var(--danger-color) 0,
+        var(--danger-color) 10px,
+        transparent 10px,
+        transparent 20px
     );
 }
