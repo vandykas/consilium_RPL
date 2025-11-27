@@ -1,28 +1,27 @@
 package org.unpar.project.controller;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.unpar.project.model.Mahasiswa;
 import org.unpar.project.model.Pengguna;
 import org.unpar.project.service.MahasiswaService;
 import org.unpar.project.service.PenggunaService;
 import org.unpar.project.service.TopikService;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("beranda")
 public class BerandaController {
 
     @Autowired
-    private PenggunaService penggunaService;
-    @Autowired
     private MahasiswaService mahasiswaService;
+
     @Autowired
     private TopikService topikService;
 
@@ -31,23 +30,10 @@ public class BerandaController {
                                    HttpSession session) {
         String idPengguna = (String) session.getAttribute("id");
 
-
-        // --- Ambil topik TA ---
-        String kodeTopik = mahasiswaService.getKodeTopikMahasiswa(idPengguna);
-        String topik = topikService.getJudul(kodeTopik);
-
-        // buat List nama dosen dari mahasiswa terkait
-        List<Pengguna> dosenList = mahasiswaService.getListDosenPembimbing(idPengguna);
-        List<String> dosen = new ArrayList<>();
-        for (Pengguna p : dosenList) {
-            dosen.add(p.getNama());
-        }
-        
         addCommonAttributes(model, "mahasiswa");
         model.addAttribute("name", session.getAttribute("name"));
-        model.addAttribute("topikTA", topik);
-        model.addAttribute("dosenPembimbing", dosen);
-        model.addAttribute("dosenNextBimbingan", dosen);
+        addMahasiswaSpecificAttributes(model, session, idPengguna);
+
         return "beranda/mahasiswa";
     }
 
@@ -62,6 +48,26 @@ public class BerandaController {
     public String viewBerandaAdmin(Model model) {
         addCommonAttributes(model, "admin");
         return "beranda/admin";
+    }
+
+    private void addMahasiswaSpecificAttributes(Model model, HttpSession session, String idPengguna) {
+        model.addAttribute("topikTA", getTopikTA(idPengguna));
+
+        List<String> dosenNames = getDosenNames(idPengguna);
+        model.addAttribute("dosenPembimbing", dosenNames);
+        model.addAttribute("dosenNextBimbingan", dosenNames);
+    }
+
+    private String getTopikTA(String idMahasiswa) {
+        String kodeTopik = mahasiswaService.getKodeTopikMahasiswa(idMahasiswa);
+        return topikService.getJudul(kodeTopik);
+    }
+
+    private List<String> getDosenNames(String idMahasiswa) {
+        return mahasiswaService.getListDosenPembimbing(idMahasiswa)
+                .stream()
+                .map(Pengguna::getNama)
+                .collect(Collectors.toList());
     }
 
     private void addCommonAttributes(Model model, String role) {

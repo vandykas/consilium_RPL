@@ -14,13 +14,13 @@ public class DosToStudRepositoryImpl implements DosToStudRepository {
 
     @Override
     public List<String> findMahasiswaByDosen(String idDosen) {
-        String sql = "SELECT idMhs FROM DosToStud WHERE idDosen = ?";
+        String sql = "SELECT idmahasiswa FROM DosToStud WHERE idDosen = ?";
         return jdbc.queryForList(sql, String.class, idDosen);
     }
 
     @Override
     public List<String> findDosenByMahasiswa(String idMhs) {
-        String sql = "SELECT idDosen FROM DosToStud WHERE idMhs = ?";
+        String sql = "SELECT idDosen FROM DosToStud WHERE idmahasiswa = ?";
         return jdbc.queryForList(sql, String.class, idMhs);
     }
 

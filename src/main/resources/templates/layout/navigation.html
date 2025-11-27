@@ -10,7 +10,7 @@
     <ul>
         <li th:classappend="${currentPage == 'beranda'} ? 'nav-bg-active'">
             <span>
-                <a th:href="@{/beranda/{role}(role=${currentRole})}" 
+                <a th:href="@{/beranda/{role}(role=${currentRole})}"
                    th:classappend="${currentPage == 'beranda'} ? 'nav-text-active'"
                    aria-current="${currentPage == 'beranda'} ? 'page' : null">
                     Beranda
