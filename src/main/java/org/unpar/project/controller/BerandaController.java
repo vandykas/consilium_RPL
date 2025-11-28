@@ -1,7 +1,6 @@
 package org.unpar.project.controller;
 
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.unpar.project.model.Pengguna;
 import org.unpar.project.service.MahasiswaService;
-import org.unpar.project.service.PenggunaService;
 import org.unpar.project.service.TopikService;
 
 import java.util.List;
@@ -44,6 +42,7 @@ public class BerandaController {
         model.addAttribute("name", session.getAttribute("name"));
         return "beranda/dosen";
     }
+
     @GetMapping("/admin")
     public String viewBerandaAdmin(Model model) {
         return "redirect:/admin/mahasiswa";
