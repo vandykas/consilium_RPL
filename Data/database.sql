@@ -41,7 +41,7 @@ CREATE TABLE Bimbingan (
     idJadwal INT PRIMARY KEY,
     tugas VARCHAR(250) NOT NULL,
     inti VARCHAR(250) NOT NULL,
-    kelompokPerulangan VARCHAR(50),
+    kelompokPerulangan int,
 
     FOREIGN KEY (idJadwal) REFERENCES Jadwal(idJadwal)
         ON DELETE CASCADE
@@ -50,7 +50,7 @@ CREATE TABLE Bimbingan (
 CREATE TABLE Ruangan (
 	nomorRuangan int primary key not null,
 	namaRuangan varchar(50) not null,
-	statusRuangan varchar(50) not null,
+	statusRuangan boolean not null,
 	jenisRuangan boolean not null
 );
 
@@ -117,7 +117,7 @@ CREATE TABLE DosToStud (
     FOREIGN KEY (idDosen) REFERENCES DosenPembimbing(idDosen),
     FOREIGN KEY (idMahasiswa) REFERENCES Mahasiswa(idMahasiswa)
 	
-)
+);
 --1:m
 
 --menambahkan foreign key kode topik untuk mahasiswa
@@ -199,16 +199,16 @@ INSERT INTO Mahasiswa VALUES
 ('M23084', 2, 0, 'RCP6003BCS');
 
 INSERT INTO Ruangan VALUES
-(9001,'Ruang Skripsi','Terpakai',false),
-(9013,'Lab OwnGames','Kosong',false),
-(9014,'Lab Fisika','Kosong',false),
-(9015,'Lab 4','Kosong',true),
-(9016,'Lab 3','Kosong',true),
-(9017,'Lab 2','Terpakai',true),
-(9018,'Lab 1','Kosong',false),
-(9120,'Kelas 9120','Terpakai',false),
-(9121,'Kelas 9121','Kosong',false),
-(10111,'Kelas 10111','Kosong',false);
+(9001,'Ruang Skripsi',true,false),
+(9013,'Lab OwnGames',false,false),
+(9014,'Lab Fisika',false,false),
+(9015,'Lab 4',False,true),
+(9016,'Lab 3',False,true),
+(9017,'Lab 2',True,true),
+(9018,'Lab 1',False,false),
+(9120,'Kelas 9120',True,false),
+(9121,'Kelas 9121',False,false),
+(10111,'Kelas 10111',False,false);
 
 INSERT INTO Jadwal (hari, tanggal, jamMulai, jamSelesai, nomorRuangan) VALUES
 ('Senin','2025-01-10','08:00','10:00',9015),--1
@@ -239,10 +239,10 @@ INSERT INTO Kuliah VALUES
 (1),(3),(4),(7),(9);
 
 INSERT INTO Bimbingan VALUES
-(2,'Membuat database dengan data dummy','Pembuatan database','Senin'),--senin
-(5,'Memperbaiki algoritma pencarian','Perbaikan algoritma A*','Rabu'),--rabu
+(2,'Membuat database dengan data dummy','Pembuatan database',1),--senin
+(5,'Memperbaiki algoritma pencarian','Perbaikan algoritma A*',3),--rabu
 (6,'Memperbaiki fitur-fitur','Perbaikan fitur filter berdasarkan nama',null),--rabu
-(8,'Menghilangkan redundant dalam kode','Menghapus looping dalam kode','Kamis'),--kamis
+(8,'Menghilangkan redundant dalam kode','Menghapus looping dalam kode',4),--kamis
 (10,'Membuat algoritma pencarian baru','Membuat algoritma BFS',null);--jumat
 
 INSERT INTO Notifikasi (statusPersetujuan, alasanPenolakan, waktuKirim, tanggalKirim, idJadwal) VALUES
