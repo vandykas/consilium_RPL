@@ -157,10 +157,6 @@ header {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
-.riwayat {
-    font-weight: 500;
-}
-
 .detail {
     opacity: 0.7;
     font-size: 0.9rem;
@@ -180,43 +176,15 @@ header {
     padding: var(--spacing-lg);
 }
 
-.progress-circle {
-    --size: 120px;
-    --stroke: 8px;
-    --p: 0;
-    width: var(--size);
-    height: var(--size);
-    border-radius: 50%;
-    position: relative;
-    background: conic-gradient(
-        var(--primary-color) calc(var(--p) * 1%), 
-        #f2e3b5 0
-    );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.125rem;
-    font-weight: 600;
+.progress-circle-yellow {
+    background-color: var(--primary-color);
+    border-radius: 100%;
 }
 
-.progress-circle::before {
-    content: "";
-    position: absolute;
-    inset: var(--stroke);
-    background: white;
-    border-radius: 50%;
+.progress-circle-red {
+    background-color: var(--danger-color);
+    border-radius: 100%;
 }
-
-.progress-circle span {
-    position: relative;
-    z-index: 2;
-}
-
-.progress-circle[data-progress="100"] { --p: 100; }
-.progress-circle[data-progress="75"] { --p: 75; }
-.progress-circle[data-progress="50"] { --p: 50; }
-.progress-circle[data-progress="25"] { --p: 25; }
-.progress-circle[data-progress="0"] { --p: 0; }
 
 .student-item {
     display: flex;

@@ -36,6 +36,9 @@ public class BerandaController {
 
         addCommonAttributes(model, "mahasiswa");
         addUpcomingBimbingan(model, idPengguna);
+        addCompletedBimbingan(model, idPengguna);
+        addProgressBimbingan(model, idPengguna);
+
         model.addAttribute("name", session.getAttribute("name"));
         addMahasiswaSpecificAttributes(model, session, idPengguna);
 
@@ -86,6 +89,15 @@ public class BerandaController {
         else {
             model.addAttribute("bimbingan", createEmptyBimbingan());
         }
+    }
+
+    private void addCompletedBimbingan(Model model, String id) {
+        model.addAttribute("riwayat", bimbinganService.findCompletedBimbinganByMahasiswa(id));
+    }
+
+    private void addProgressBimbingan(Model model, String id) {
+        model.addAttribute("sebelumUTS", mahasiswaService.getCounterBimbinganBeforeUTS(id));
+        model.addAttribute("setelahUTS", mahasiswaService.getCounterBimbinganAfterUTS(id));
     }
 
     private Bimbingan createEmptyBimbingan() {

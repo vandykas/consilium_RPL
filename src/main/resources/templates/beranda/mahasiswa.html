@@ -26,7 +26,7 @@
             <h2>Bimbingan Mendatang</h2>
         </div>
         <div id="info-text">
-            <h3>Bimbingan <span th:text="${bimbingan.nomor}">1</span></h3>
+            <h3>Bimbingan <span th:text="${bimbingan.nomor}">1</span></h3><br>
             <p><span class="label">Tanggal: </span><span th:text="${#temporals.format(bimbingan.tanggal, 'EEEE, dd MMMM yyyy')}">Tanggal</span></p>
             <p><span class="label">Ruang: </span><span th:text="${bimbingan.ruang}">Ruangan</span></p>
             <div class="row">
@@ -43,15 +43,15 @@
         <div class="info-banner">
             <h2>Riwayat Bimbingan</h2>
         </div>
-<!--        <div id="history-container">-->
-<!--            <div class="bimbingan-card" th:each="b : ${riwayat}">-->
-<!--                <div class="riwayat">-->
-<!--                    <span class="label">Bimbingan </span><span th:text="${b.nomor}">1</span><br>-->
-<!--                    <span th:text="${#temporals.format(b.tanggal, 'dd MMMM yyyy')}">Tanggal</span>-->
-<!--                </div>-->
-<!--                <p class="detail">Cek Detail</p>-->
-<!--            </div>-->
-<!--        </div>-->
+        <div id="history-container">
+            <div class="bimbingan-card" th:each="b : ${riwayat}">
+                <div class="riwayat">
+                    <span class="label">Bimbingan <span th:text="${b.nomor}">1</span></span><br>
+                    <span th:text="${#temporals.format(b.tanggal, 'EEEE, dd MMMM yyyy')}">Tanggal</span>
+                </div>
+                <p class="detail">Cek Detail</p>
+            </div>
+        </div>
     </section>
 
     <section th:fragment="card-progress" id="progress">
@@ -59,11 +59,11 @@
             <h2>Hasil Bimbingan</h2>
         </div>
         <div class="circle-wrapper">
-            <div class="progress-circle" data-progress="50">
-                <span>1 dari 2</span>
+            <div th:class="${sebelumUTS >= 2} ? 'progress-circle-yellow' : 'progress-circle-red'">
+                <span><span th:text="${sebelumUTS}"></span> dari 2</span>
             </div>
-            <div class="progress-circle" data-progress="0">
-                <span>0 dari 2</span>
+            <div th:class="${setelahUTS >= 2} ? 'progress-circle-yellow' : 'progress-circle-red'">
+                <span><span th:text="${setelahUTS}"></span> dari 2</span>
             </div>
         </div>
     </section>

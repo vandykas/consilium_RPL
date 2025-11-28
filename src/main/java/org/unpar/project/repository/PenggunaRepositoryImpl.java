@@ -34,4 +34,5 @@ public class PenggunaRepositoryImpl implements PenggunaRepository {
         p.setEmail(rs.getString("email"));
         return p;
     }
+
 }

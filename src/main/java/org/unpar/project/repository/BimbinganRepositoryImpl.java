@@ -20,7 +20,23 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
 
     @Override
     public List<Bimbingan> findCompletedBimbinganByMahasiswa(String id) {
-        return null;
+        String sql = """
+                SELECT
+                    b.nomorBimbingan,
+                    b.tanggal,
+                    b.jammulai,
+                    b.jamselesai,
+                    b.namaruangan,
+                    b.tugas,
+                    b.inti
+                FROM
+                    viewBimbinganLengkap b
+                WHERE b.idmahasiswa = ?
+                AND b.statuspersetujuan = true
+                AND b.tanggal < ?
+                ORDER BY b.tanggal
+                """;
+        return jdbcTemplate.query(sql, this::mapRowToBimbingan, id, LocalDate.now());
     }
 
     @Override

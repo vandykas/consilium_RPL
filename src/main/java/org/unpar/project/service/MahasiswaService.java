@@ -27,4 +27,12 @@ public class MahasiswaService {
     public List<Pengguna> getListDosenPembimbing(String idMahasiswa) {
         return mahasiswaRepository.getListDosenPembimbing(idMahasiswa);
     }
+
+    public int getCounterBimbinganBeforeUTS(String idPengguna) {
+        return mahasiswaRepository.findCounterBimbinganBeforeUTS(idPengguna);
+    }
+
+    public int getCounterBimbinganAfterUTS(String idPengguna) {
+        return mahasiswaRepository.findCounterBimbinganAfterUTS(idPengguna);
+    }
 }

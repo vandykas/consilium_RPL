@@ -16,4 +16,8 @@ public class BimbinganService {
     public Optional<Bimbingan> findUpcomingBimbinganByMahasiswa(String id) {
         return bimbinganRepository.findUpcomingBimbinganByMahasiswa(id);
     }
+
+    public List<Bimbingan> findCompletedBimbinganByMahasiswa(String id) {
+        return bimbinganRepository.findCompletedBimbinganByMahasiswa(id);
+    }
 }
