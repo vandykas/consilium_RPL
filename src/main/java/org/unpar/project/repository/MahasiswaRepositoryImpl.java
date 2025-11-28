@@ -17,6 +17,18 @@ public class MahasiswaRepositoryImpl implements MahasiswaRepository {
     private JdbcTemplate jdbcTemplate;
 
     @Override
+    public int findCounterBimbinganBeforeUTS(String idPengguna) {
+        String sql = "SELECT m.sebelumUTS FROM Mahasiswa m WHERE idMahasiswa = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, idPengguna);
+    }
+
+    @Override
+    public int findCounterBimbinganAfterUTS(String idPengguna) {
+        String sql = "SELECT m.setelahuts FROM Mahasiswa m WHERE idMahasiswa = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, idPengguna);
+    }
+
+    @Override
     public Mahasiswa getMahasiswa(String idMahasiswa) {
 
         String sql = "SELECT * FROM Mahasiswa WHERE idMahasiswa = ?";
