@@ -1,23 +1,19 @@
 /* --- GLOBAL RESET & BASE --- */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f8f8;
-    margin: 0;
-    padding: 0;
+    height: 100vh;
+    width: 100vw;
 }
 
 .content-container {
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: 20px;
+    max-width: 100%;
+    padding: 2rem;
 }
-
 
 /* --- HEADER & TITLE --- */
 .page-title {
     font-size: 36px;
     font-weight: bold;
-    color: #333;
+    color: var(--text-header-color);
     margin-bottom: 25px;
 }
 
@@ -33,17 +29,11 @@ body {
 .search-bar {
     display: flex;
     align-items: center;
-    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 25px;
     padding: 8px 15px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     width: 350px;
-}
-
-.search-bar i {
-    color: #aaa;
-    margin-right: 10px;
 }
 
 .search-input {
@@ -53,7 +43,7 @@ body {
     padding: 0;
     width: 100%;
     /* Perbaikan untuk placeholder agar tidak terlalu kiri */
-    padding-left: 5px; 
+    padding-left: 5px;
 }
 
 /* Menghilangkan outline saat focus pada input */
@@ -83,16 +73,15 @@ body {
 }
 
 .add-btn {
-    background-color: #007bff; /* Biru */
+    background-color: var(--secondary-color); /* Biru */
 }
 
 .delete-btn {
-    background-color: #dc3545; /* Merah */
+    background-color: var(--danger-color); /* Merah */
 }
 
 /* --- TABLE STYLING --- */
 .table-wrapper {
-    background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     overflow: hidden;
@@ -105,8 +94,8 @@ table {
 }
 
 thead th {
-    background-color: #FFD369; /* Warna header tabel kuning */
-    color: #000;
+    background-color: var(--primary-color); /* Warna header tabel kuning */
+    color: var(--text-header-color);
     padding: 12px 15px;
     font-size: 14px;
     font-weight: bold;
@@ -132,7 +121,7 @@ tbody tr:last-child td {
 }
 
 #edit{
-    background-color: #FFD369;
+    background-color: var(--primary-color);
 }
 
 /* Styling untuk list data di kolom Topik dan Mahasiswa */
