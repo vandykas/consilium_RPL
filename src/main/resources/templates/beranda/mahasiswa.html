@@ -59,11 +59,19 @@
             <h2>Hasil Bimbingan</h2>
         </div>
         <div class="circle-wrapper">
-            <div th:class="${sebelumUTS >= 2} ? 'progress-circle-yellow' : 'progress-circle-red'">
-                <span><span th:text="${sebelumUTS}"></span> dari 2</span>
+            <div>
+                <div th:class="${sebelumUTS >= 2} ? 'progress-circle-yellow' : 'progress-circle-red'">
+                    <span><span th:text="${sebelumUTS}"></span> dari 2</span>
+                </div>
+                <br>
+                <p>Sebelum UTS</p>
             </div>
-            <div th:class="${setelahUTS >= 2} ? 'progress-circle-yellow' : 'progress-circle-red'">
-                <span><span th:text="${setelahUTS}"></span> dari 2</span>
+            <div>
+                <div th:class="${setelahUTS >= 2} ? 'progress-circle-yellow' : 'progress-circle-red'">
+                    <span><span th:text="${setelahUTS}"></span> dari 2</span>
+                </div>
+                <br>
+                <p>Sebelum UTS</p>
             </div>
         </div>
     </section>

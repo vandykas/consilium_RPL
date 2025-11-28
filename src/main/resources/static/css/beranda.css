@@ -164,6 +164,8 @@ header {
 
 #progress {
     grid-area: progress;
+    display: flex;
+    flex-direction: column;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     border-radius: var(--radius-sm);
     overflow: hidden;
@@ -173,17 +175,37 @@ header {
     display: flex;
     gap: 3.125rem;
     justify-content: center;
+    align-items: center;
+    flex: 1;
     padding: var(--spacing-lg);
+}
+
+.circle-wrapper p {
+    text-align: center;
+}
+
+.circle-wrapper > div > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .progress-circle-yellow {
     background-color: var(--primary-color);
-    border-radius: 100%;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 1.3em;
+    width: 140px;
+    height: 140px;
 }
 
 .progress-circle-red {
-    background-color: var(--danger-color);
-    border-radius: 100%;
+    border: 5px solid var(--danger-color);
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 1.3em;
+    width: 140px;
+    height: 140px;
 }
 
 .student-item {
