@@ -25,18 +25,18 @@
         <div class="info-banner">
             <h2>Bimbingan Mendatang</h2>
         </div>
-<!--        <div id="info-text">-->
-<!--            <h3>Bimbingan <span th:text="${bimbingan.nomor}">1</span></h3>-->
-<!--            <p><span class="label">Tanggal: </span><span th:text="${#temporals.format(bimbingan.tanggal, 'dd MMMM yyyy')}">Tanggal</span></p>-->
-<!--            <p><span class="label">Ruang: </span><span th:text="${bimbingan.ruang}">Ruangan</span></p>-->
-<!--            <div class="row">-->
-<!--                <span class="label">Dosen Pembimbing:</span>-->
-<!--                <div class="value">-->
-<!--                    <p th:each="dosen : ${dosenNextBimbingan}" th:text="${dosen}">Nama Dosen</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <p><span class="label">Tugas: </span><span th:text="${bimbingan.tugas}">Deskripsi tugas</span></p>-->
-<!--        </div>-->
+        <div id="info-text">
+            <h3>Bimbingan <span th:text="${bimbingan.nomor}">1</span></h3>
+            <p><span class="label">Tanggal: </span><span th:text="${#temporals.format(bimbingan.tanggal, 'EEEE, dd MMMM yyyy')}">Tanggal</span></p>
+            <p><span class="label">Ruang: </span><span th:text="${bimbingan.ruang}">Ruangan</span></p>
+            <div class="row">
+                <span class="label">Dosen Pembimbing:</span>
+                <div class="value">
+                    <p th:each="dosen : ${dosenNextBimbingan}" th:text="${dosen}">Nama Dosen</p>
+                </div>
+            </div>
+            <p><span class="label">Tugas: </span><span th:text="${bimbingan.tugas}">Deskripsi tugas</span></p>
+        </div>
     </section>
 
     <section th:fragment="card-history" id="history">
