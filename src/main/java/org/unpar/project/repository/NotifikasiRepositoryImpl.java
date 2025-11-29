@@ -47,7 +47,7 @@ public class NotifikasiRepositoryImpl implements NotifikasiRepository {
     private Notifikasi mapRowToNotifikasi(ResultSet rs, int rowNum) throws SQLException {
         Notifikasi notifikasi = new Notifikasi();
         notifikasi.setId(rs.getInt("idnotifikasi"));
-        notifikasi.setStatus(rs.getBoolean("statuspersetujuan"));
+        notifikasi.setStatus(rs.getObject("statuspersetujuan", Boolean.class));
         notifikasi.setRuangan(rs.getString("namaruangan"));
         notifikasi.setPengirim(rs.getString("pengirim"));
         notifikasi.setCatatanDosen(rs.getString("inti"));

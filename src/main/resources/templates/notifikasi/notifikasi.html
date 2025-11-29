@@ -29,7 +29,7 @@
                         <div class="notification-item-left">
                             <p>
                                 Penjadwalan Bimbingan pada 
-                                <span th:text="${notif.tanggal}">tanggal</span>
+                                <span th:text="${#temporals.format(notif.tanggal, 'EEEE, dd MMMM yyyy')}">tanggal</span>
                                 di <span th:text="${notif.ruangan}">ruangan</span>
                             </p>
                             <p>
@@ -38,13 +38,13 @@
                                 <span th:text="${notif.waktuSelesai}">selesai</span>
                             </p>
                             <p>
-                                Dosen: <span th:text="${notif.dosen}">nama dosen</span>
+                                <span th:text="${currentRole == 'mahasiswa'} ? 'Dosen' : 'Mahasiswa'"></span>: <span th:text="${notif.pengirim}"></span>
                             </p>
                         </div>
                         <div class="notification-item-right">
                             <p>
                                 <time th:datetime="${notif.tanggalKirim}">
-                                    <span th:text="${notif.tanggalKirim}">tanggal</span>
+                                    <span th:text="${#temporals.format(notif.tanggal, 'dd MMMM yyyy')}">tanggal</span>
                                 </time>
                             </p>
                             <p><span th:text="${notif.waktuKirim}">waktu</span></p>
@@ -75,7 +75,7 @@
                         <div class="notification-item-left">
                             <p>
                                 Catatan mengenai bimbingan pada
-                                <span th:text="${notif.tanggal}">tanggal</span>
+                                <span th:text="${#temporals.format(notif.tanggal, 'EEEE, dd MMMM yyyy')}">tanggal</span>
                                 di <span th:text="${notif.ruangan}">ruangan</span>
                                 sudah dimasukkan
                             </p>
@@ -83,7 +83,7 @@
                         <div class="notification-item-right">
                             <p>
                                 <time th:datetime="${notif.tanggalKirim}">
-                                    <span th:text="${notif.tanggalKirim}">tanggal</span>
+                                    <span th:text="${#temporals.format(notif.tanggal, 'dd MMMM yyyy')}">tanggal</span>
                                 </time>
                             </p>
                         </div>
@@ -99,11 +99,11 @@
                 <div class="notification-body-container">
                     <div class="notification-item" 
                          th:each="notif : ${notifications}"
-                         th:if="${notif.status == true}">
+                         th:if="${notif.status != null}">
                         <div class="notification-item-left">
                             <p>
                                 Penjadwalan Bimbingan pada 
-                                <span th:text="${notif.tanggal}">tanggal</span>
+                                <span th:text="${#temporals.format(notif.tanggal, 'EEEE, dd MMMM yyyy')}">tanggal</span>
                                 di <span th:text="${notif.ruangan}">ruangan</span>
                             </p>
                             <p>
@@ -118,16 +118,10 @@
                         <div class="notification-item-right">
                             <p>
                                 <time th:datetime="${notif.tanggalKirim}">
-                                    <span th:text="${notif.tanggalKirim}">tanggal</span>
+                                    <span th:text="${#temporals.format(notif.tanggal, 'dd MMMM yyyy')}">tanggal</span>
                                 </time>
                             </p>
                             <p><span th:text="${notif.waktuKirim}">waktu</span></p>
-                            <button type="button"
-                                    th:if="${notif.status == null}"
-                                    class="pending-button"
-                                    disabled>
-                                Pending
-                            </button>
                             <button type="button"
                                     th:if="${notif.status}"
                                     class="accept-button"
