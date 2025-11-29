@@ -1,3 +1,6 @@
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
 --basic database
 CREATE TABLE Pengguna (
 	idPengguna char(6) primary key not null,
@@ -155,7 +158,46 @@ CREATE TABLE KirimDanTerima (
     FOREIGN KEY (idPenerima) REFERENCES Pengguna(idPengguna)
 );
 
+---Tabel View---
+CREATE OR REPLACE VIEW ViewBimbinganLengkap AS
+SELECT 
+	ROW_NUMBER() OVER (
+        PARTITION BY m.idMahasiswa
+        ORDER BY j.tanggal
+    ) AS nomorBimbingan,
+    m.idDosen,
+    m.idMahasiswa,
+    m.idJadwal,
 
+    -- dari Bimbingan
+    b.tugas,
+    b.inti,
+    b.kelompokPerulangan,
+
+    -- dari Jadwal
+    j.hari,
+    j.tanggal,
+    j.jamMulai,
+    j.jamSelesai,
+
+    -- dari Ruangan
+    r.namaRuangan,
+    -- dari Notifikasi
+    n.statusPersetujuan
+
+FROM Melakukan m
+JOIN Bimbingan b
+    ON m.idJadwal = b.idJadwal
+JOIN Jadwal j
+    ON b.idJadwal = j.idJadwal
+JOIN Ruangan r
+    ON j.nomorRuangan = r.nomorRuangan
+LEFT JOIN Notifikasi n      -- gunakan LEFT JOIN karena notifikasi tidak selalu ada
+    ON b.idJadwal = n.idJadwal;
+
+
+SELECT *
+FROM ViewBimbinganLengkap;
 
 ----------------------------Insert data dummy----------------------------------------
 INSERT INTO Pengguna VALUES
