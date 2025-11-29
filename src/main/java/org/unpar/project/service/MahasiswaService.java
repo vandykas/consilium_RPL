@@ -21,7 +21,11 @@ public class MahasiswaService {
     }
 
     public List<Mahasiswa> getAllMahasiswa() {
-        return mahasiswaRepository.findAllMahasiswa();
+        List<Mahasiswa> mahasiswaList = mahasiswaRepository.findAllMahasiswa();
+        for (Mahasiswa m : mahasiswaList) {
+            m.setDosenPembimbing(getListDosenPembimbing(m.getId()));
+        }
+        return mahasiswaList;
     }
 
     public List<Dosen> getListDosenPembimbing(String idMahasiswa) {

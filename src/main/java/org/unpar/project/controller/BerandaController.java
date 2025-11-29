@@ -103,13 +103,6 @@ public class BerandaController {
                 .collect(Collectors.toList());
     }
 
-    private List<String> getMahasiswaNames(String idDosen) {
-        return dosenService.getListMahasiswaBimbingan(idDosen)
-                .stream()
-                .map(Pengguna::getNama)
-                .collect(Collectors.toList());
-    }
-
     private void addUpcomingBimbingan(Model model, String id) {
         Optional<Bimbingan> upcomingBimbingan = bimbinganService.findUpcomingBimbinganByMahasiswa(id);
 

@@ -297,8 +297,6 @@ INSERT INTO Bimbingan VALUES
 (16,NULL,NULL,NULL),-- kamis 16-18
 (18,NULL,NULL,5);-- jumat 10-12
 
-
-
 INSERT INTO Notifikasi (statusPersetujuan, alasanPenolakan, waktuKirim, tanggalKirim, idJadwal) VALUES
 (false,'Belum lengkap', '09:00','2025-09-10',2), --1
 (true,NULL,'12:00','2025-10-11',5), --2
@@ -355,7 +353,7 @@ insert into DosToStud values
 ('D09005','M23075'),
 ('D09005','M23079');
 
-
+SELECT * FROM notifikasi;
 
 
 

@@ -4,6 +4,7 @@ import org.unpar.project.model.Dosen;
 import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.unpar.project.model.Mahasiswa;
 import org.unpar.project.model.Pengguna;
 
 import java.sql.ResultSet;
@@ -15,20 +16,6 @@ public class DosenRepositoryImpl implements DosenRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
-    @Override
-    public Dosen getDosen(String idDosen) {
-        String sql = "SELECT * FROM DosenPembimbing WHERE idDosen = ?";
-
-        List<Dosen> hasil = jdbcTemplate.query(sql, this::mapRowToDosen, idDosen);
-
-        if (hasil.isEmpty()) return null;
-
-        Dosen d = hasil.getFirst();
-
-        return d;
-    }
-
     @Override
     public List<String> getKodeTopikDosen(String idDosen) {
         String sql = "SELECT kodeTopik FROM MembukaTopik WHERE idDosen = ?";
@@ -39,7 +26,20 @@ public class DosenRepositoryImpl implements DosenRepository {
     }
 
     @Override
-    public List<Pengguna> getListMahasiswaBimbingan(String idDosen) {
+    public List<Dosen> findAllDosen() {
+        String sql = """
+            SELECT
+                d.idDosen,
+                p.nama
+            FROM
+                dosenpembimbing d
+            JOIN Pengguna p ON p.idPengguna = d.idDosen
+        """;
+        return jdbcTemplate.query(sql, this::mapRowToDosen);
+    }
+
+    @Override
+    public List<Mahasiswa> getListMahasiswaBimbingan(String idDosen) {
         String sql = """
             SELECT p.idPengguna, p.nama, p.email
             FROM DosToStud dts
@@ -47,21 +47,19 @@ public class DosenRepositoryImpl implements DosenRepository {
             WHERE dts.idDosen = ?
         """;
 
-        return jdbcTemplate.query(sql, this::mapRowToPengguna, idDosen);
+        return jdbcTemplate.query(sql, this::mapRowToMahasiswa, idDosen);
     }
 
     private Dosen mapRowToDosen(ResultSet rs, int rowNum) throws SQLException {
         Dosen dosen = new Dosen();
         dosen.setId(rs.getString("idDosen"));
+        dosen.setNama(rs.getString("nama"));
         return dosen;
     }
 
-    private Pengguna mapRowToPengguna(ResultSet rs, int rowNum) throws SQLException {
-        Pengguna p = new Pengguna();
-        p.setIdPengguna(rs.getString("idPengguna"));
-        p.setNama(rs.getString("nama"));
-        p.setEmail(rs.getString("email"));
-        p.setPassword(null);
-        return p;
+    private Mahasiswa mapRowToMahasiswa(ResultSet rs, int rowNum) throws SQLException {
+        Mahasiswa m = new Mahasiswa();
+        m.setNama(rs.getString("nama"));
+        return m;
     }
 }

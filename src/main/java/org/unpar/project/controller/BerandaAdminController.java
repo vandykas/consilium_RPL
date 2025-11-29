@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.unpar.project.model.Mahasiswa;
+import org.unpar.project.service.DosenService;
 import org.unpar.project.service.MahasiswaService;
 
 import java.util.List;
@@ -17,16 +18,20 @@ public class BerandaAdminController {
     @Autowired
     private MahasiswaService mahasiswaService;
 
+    @Autowired
+    private DosenService dosenService;
+
     @GetMapping("/mahasiswa")
     public String viewDaftarMahasiswa(Model model) {
         addCommonAttributes(model, "adminMahasiswa");
-        addTableColumn(model);
+        addMahasiswaTableColumn(model);
         return "beranda/adminMahasiswa";
     }
 
     @GetMapping("/dosen")
     public String viewDaftarDosen(Model model) {
         addCommonAttributes(model, "adminDosen");
+        addDosenTableColumn(model);
         return "beranda/adminDosen";
     }
 
@@ -35,11 +40,11 @@ public class BerandaAdminController {
         model.addAttribute("currentRole", "admin");
     }
 
-    private void addTableColumn(Model model) {
-        List<Mahasiswa> mahasiswaList = mahasiswaService.getAllMahasiswa();
-        for (Mahasiswa m : mahasiswaList) {
-            m.setDosenPembimbing(mahasiswaService.getListDosenPembimbing(m.getId()));
-        }
-        model.addAttribute("mahasiswaList", mahasiswaList);
+    private void addMahasiswaTableColumn(Model model) {
+        model.addAttribute("mahasiswaList", mahasiswaService.getAllMahasiswa());
+    }
+
+    private void addDosenTableColumn(Model model) {
+        model.addAttribute("dosenPembimbingList", dosenService.getAllDosen());
     }
 }
