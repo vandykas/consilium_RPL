@@ -1,0 +1,48 @@
+.pengumuman-container {
+    padding: var(--spacing-xl);
+    width: 100%;
+}
+
+.pengumuman-container h1 {
+    margin-bottom: var(--spacing-md);
+    font-size: 1.8rem;
+}
+
+.search-area {
+    margin-bottom: var(--spacing-md);
+}
+
+.search-area input {
+    width: 350px;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    border: 1px solid #ccc;
+}
+
+.table-wrapper {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead tr {
+    background-color: var(--primary-color);
+}
+
+th, td {
+    padding: var(--spacing-sm);
+    text-align: center;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.row-danger {
+    background-color: #ffdddd;
+}

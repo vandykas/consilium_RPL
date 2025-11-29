@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pengumuman Bimbingan</title>
+    <link rel="stylesheet" th:href="@{/css/navigation.css}">
+    <link rel="stylesheet" th:href="@{/css/pengumuman.css}">
+</head>
+
+<body>
+<th:block th:replace="~{layout/navigation :: navBar}"></th:block>
+
+<main class="pengumuman-container">
+
+    <h1>Pengumuman Hasil Bimbingan</h1>
+
+    <div class="search-area">
+        <input type="text" placeholder="Cari Berdasarkan NPM/Nama Mahasiswa">
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>NPM</th>
+                <th>Nama Mahasiswa</th>
+                <th>Topik Tugas Akhir</th>
+                <th>Bimbingan Sebelum UTS</th>
+                <th>Bimbingan Setelah UTS</th>
+                <th>Memenuhi Minimal</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="p, iter : ${pengumumanList}"
+                th:classappend="${p.memenuhi == false} ? 'row-danger'">
+                <td th:text="${iter.index + 1}"></td>
+                <td th:text="${p.npm}"></td>
+                <td th:text="${p.nama}"></td>
+                <td th:text="${p.topik}"></td>
+                <td th:text="${p.sebelumUTS}"></td>
+                <td th:text="${p.setelahUTS}"></td>
+                <td th:text="${p.memenuhi ? '✔' : 'X'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</main>
+</body>
+</html>
