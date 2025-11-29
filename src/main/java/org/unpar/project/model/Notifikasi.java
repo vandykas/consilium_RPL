@@ -12,8 +12,10 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class Notifikasi {
     private int id;
-    private String status;
+    private boolean status;
     private String ruangan;
+    private String pengirim;
+    private String catatanDosen;
     private LocalDate tanggal;
     private LocalTime waktuMulai;
     private LocalTime waktuSelesai;

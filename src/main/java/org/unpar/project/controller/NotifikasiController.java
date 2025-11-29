@@ -1,27 +1,37 @@
 package org.unpar.project.controller;
 
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.unpar.project.repository.NotifikasiRepository;
+import org.unpar.project.service.NotifikasiService;
 
 @Controller
 @RequestMapping("notifikasi")
 public class NotifikasiController {
+    @Autowired
+    private NotifikasiService notifikasiService;
+
     @GetMapping("/mahasiswa")
-    public String viewNotifikasiMahasiswa(Model model) {
-        addCommonAttributes(model, "mahasiswa");
+    public String viewNotifikasiMahasiswa(Model model,
+                                          HttpSession session) {
+        addCommonAttributes(model, "mahasiswa", (String) session.getAttribute("id"));
         return "notifikasi/notifikasi";
     }
 
     @GetMapping("/dosen")
-    public String viewNotifikasiDosen(Model model) {
-        addCommonAttributes(model, "dosen");
+    public String viewNotifikasiDosen(Model model,
+                                      HttpSession session) {
+        addCommonAttributes(model, "dosen", (String) session.getAttribute("id"));
         return "notifikasi/notifikasi";
     }
 
-    private void addCommonAttributes(Model model, String role) {
+    private void addCommonAttributes(Model model, String role, String id) {
         model.addAttribute("currentPage", "notifikasi");
         model.addAttribute("currentRole", role);
+        model.addAttribute("notifications", notifikasiService.getAllNotifikasiById(id));
     }
 }
