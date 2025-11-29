@@ -21,11 +21,11 @@
         </thead>
         <tbody>
         <tr th:each="dosen, iStat : ${dosenPembimbingList}">
-            <td th:text="${iStat.index + 1}">1</td>
-            <td th:text="${dosen.kodeDosen}">VANCS001</td>
-            <td th:text="${dosen.nama}">Vania Natali</td>
+            <td th:text="${iStat.index + 1}"></td>
+            <td th:text="${dosen.id}"></td>
+            <td th:text="${dosen.nama}"></td>
             <td>
-                <p th:each="topik : ${dosen.topikList}" th:text="${topik}"></p>
+                <p th:each="topik : ${dosen.topikList}" th:text="${topik.judulTopik}"></p>
             </td>
             <td>
                 <p th:each="mhs : ${dosen.mahasiswaList}" th:text="${mhs.nama}"></p>
@@ -36,10 +36,6 @@
         </tr>
         </tbody>
     </table>
-<!--   <div class="content-container">-->
-<!--        -->
-
-<!--    </div>-->
 </body>
 
 </html>
