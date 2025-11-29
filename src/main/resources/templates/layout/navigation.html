@@ -49,7 +49,7 @@
         
         <li th:classappend="${currentPage == 'pengumuman'} ? 'nav-bg-active'">
             <span>
-                <a href="#" 
+                <a th:href="@{/pengumuman/{role}(role=${currentRole})}" 
                    th:classappend="${currentPage == 'pengumuman'} ? 'nav-text-active'"
                    aria-current="${currentPage == 'pengumuman'} ? 'page' : null">
                     Pengumuman Bimbingan
