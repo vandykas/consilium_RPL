@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/pengumuman :: pengumuman(~{::title}, ~{::section})}">
+
+<head>
+    <title>Pengumuman Bimbingan - Mahasiswa</title>
+</head>
+
+<body>
+<section>
+
+    <div id="search-box">
+        <input type="text" placeholder="Cari berdasarkan NPM / Nama" id="searchInput">
+    </div>
+
+    <table id="pengumuman-table">
+        <thead>
+        <tr>
+            <th>No</th>
+            <th>NPM</th>
+            <th>Nama Mahasiswa</th>
+            <th>Topik</th>
+            <th>Sebelum UTS</th>
+            <th>Setelah UTS</th>
+            <th>Memenuhi</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="p, iter : ${pengumumanList}"
+            th:classappend="${p.memenuhiMinimal} ? '' : 'row_red'">
+
+            <td th:text="${iter.index + 1}">1</td>
+            <td th:text="${p.npm}">6182201001</td>
+            <td th:text="${p.nama}">Justin</td>
+            <td th:text="${p.topik}">AI</td>
+            <td th:text="${p.sebelumUts}">4</td>
+            <td th:text="${p.setelahUts}">3</td>
+            <td th:text="${p.memenuhiMinimal ? 'V' : 'X'}">V</td>
+        </tr>
+        </tbody>
+    </table>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,100 @@
+/* =============================== */
+/*        PENGUMUMAN CSS           */
+/* =============================== */
+
+#pengumuman-container {
+    width: 100%;
+    padding: 40px 70px;
+    box-sizing: border-box;
+}
+
+#pengumuman-container header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+/* ===== Search Box ===== */
+#search-box {
+    margin-bottom: 20px;
+}
+
+#search-box input {
+    width: 320px;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    background: #fafafa;
+    outline: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+#search-box input:focus {
+    border-color: #888;
+    background: #fff;
+}
+
+/* ===== TABLE ===== */
+#pengumuman-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+/* Header */
+#pengumuman-table thead {
+    background: #f4d369;
+}
+
+#pengumuman-table thead th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 700;
+    border-bottom: 1px solid #e0c45a;
+}
+
+/* Rows */
+#pengumuman-table tbody tr {
+    transition: 0.2s;
+}
+
+/* Normal row */
+#pengumuman-table tbody tr td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+/* Hover */
+#pengumuman-table tbody tr:hover {
+    background: #fff7d1;
+}
+
+/* Red rows from Figma */
+.row_red {
+    background: #ffb6b6 !important;
+}
+
+.row_red:hover {
+    background: #ffaaaa !important;
+}
+
+/* Final column (V / X) */
+#pengumuman-table td:last-child {
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Responsive */
+@media(max-width: 768px) {
+    #pengumuman-container {
+        padding: 20px;
+    }
+
+    #pengumuman-table {
+        font-size: 12px;
+    }
+}
