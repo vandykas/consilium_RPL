@@ -26,6 +26,9 @@ CREATE TABLE Mahasiswa (
 	foreign key (idMahasiswa) references Pengguna (idPengguna),
 	sebelumUTS int not null,
 	setelahUTS int not null
+	--menambahkan foreign key kode topik untuk mahasiswa
+	kodeTopik varchar(10) not null,
+	ADD FOREIGN KEY (kodeTopik) REFERENCES Topik(kodeTopik);
 );
 
 CREATE TABLE Jadwal (
@@ -34,6 +37,9 @@ CREATE TABLE Jadwal (
     tanggal DATE NOT NULL, --(yyyy-mm-dd)
     jamMulai TIME NOT NULL,--(hh:mm)
     jamSelesai TIME NOT NULL
+	--menambahkan nomor ruangan ke jadwal 
+	nomorRuangan int not null,
+	ADD FOREIGN KEY (nomorRuangan) REFERENCES Ruangan(nomorRuangan);
 );
 
 CREATE TABLE Kuliah (
@@ -123,17 +129,6 @@ CREATE TABLE DosToStud (
     FOREIGN KEY (idMahasiswa) REFERENCES Mahasiswa(idMahasiswa)
 	
 );
---1:m
-
---menambahkan foreign key kode topik untuk mahasiswa
-ALTER TABLE Mahasiswa
-ADD COLUMN kodeTopik varchar(10) not null,
-ADD FOREIGN KEY (kodeTopik) REFERENCES Topik(kodeTopik);
-
---menambahkan nomor ruangan ke jadwal 
-ALTER TABLE Jadwal 
-ADD COLUMN nomorRuangan int not null,
-ADD FOREIGN KEY (nomorRuangan) REFERENCES Ruangan(nomorRuangan);
 
 --3-ary
 CREATE TABLE Melakukan (
