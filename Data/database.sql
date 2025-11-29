@@ -345,6 +345,7 @@ INSERT INTO KirimDanTerima VALUES
 (10,'D09005','M23023');--18
 
 
+
 insert into DosToStud values
 ('D12135','M23023'),
 ('D09005','M23023'),
