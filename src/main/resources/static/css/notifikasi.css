@@ -16,7 +16,7 @@ header {
 }
 
 section {
-    min-height: 40vh;
+    height: fit-content;
     margin-bottom: var(--spacing-lg);
 }
 
