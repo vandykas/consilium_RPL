@@ -25,7 +25,7 @@
                 <div class="notification-body-container">
                     <div class="notification-item" 
                          th:each="notif : ${notifications}"
-                         th:if="${notif.status == 'pending'}">
+                         th:if="${notif.status == null}">
                         <div class="notification-item-left">
                             <p>
                                 Penjadwalan Bimbingan pada 
@@ -74,9 +74,9 @@
                          th:if="${notif.catatanDosen != null and notif.catatanDosen != ''}">
                         <div class="notification-item-left">
                             <p>
-                                Catatan mengenai bimbingan pada 
+                                Catatan mengenai bimbingan pada
                                 <span th:text="${notif.tanggal}">tanggal</span>
-                                di <span th:text="${notif.ruangan}">ruangan</span> 
+                                di <span th:text="${notif.ruangan}">ruangan</span>
                                 sudah dimasukkan
                             </p>
                         </div>
@@ -99,7 +99,7 @@
                 <div class="notification-body-container">
                     <div class="notification-item" 
                          th:each="notif : ${notifications}"
-                         th:if="${notif.status != 'pending'}">
+                         th:if="${notif.status == true}">
                         <div class="notification-item-left">
                             <p>
                                 Penjadwalan Bimbingan pada 
@@ -112,7 +112,7 @@
                                 <span th:text="${notif.waktuSelesai}">selesai</span>
                             </p>
                             <p>
-                                Dosen: <span th:text="${notif.dosen}">nama dosen</span>
+                                <span th:text="${currentRole == 'mahasiswa'} ? 'Dosen' : 'Mahasiswa'"></span>: <span th:text="${notif.pengirim}"></span>
                             </p>
                         </div>
                         <div class="notification-item-right">
@@ -123,19 +123,19 @@
                             </p>
                             <p><span th:text="${notif.waktuKirim}">waktu</span></p>
                             <button type="button"
-                                    th:if="${notif.isDisetujui == null}" 
+                                    th:if="${notif.status == null}"
                                     class="pending-button"
                                     disabled>
                                 Pending
                             </button>
                             <button type="button"
-                                    th:if="${notif.isDisetujui}" 
+                                    th:if="${notif.status}"
                                     class="accept-button"
                                     disabled>
                                 Disetujui
                             </button>
                             <button type="button"
-                                    th:if="${notif.isDisetujui == false}" 
+                                    th:if="${notif.status == false}"
                                     class="deny-button"
                                     disabled>
                                 Ditolak
