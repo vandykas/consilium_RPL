@@ -20,15 +20,27 @@ CREATE TABLE Admin (
 	foreign key (idAdmin) references Pengguna (idPengguna)
 );
 
+CREATE TABLE Ruangan (
+	nomorRuangan int primary key not null,
+	namaRuangan varchar(50) not null,
+	statusRuangan boolean not null,
+	jenisRuangan boolean not null
+);
+
+CREATE TABLE Topik (
+	kodeTopik varchar(10) primary key not null,
+	judulTopik varchar (200) not null
+);
+
 CREATE TABLE Mahasiswa (
 	idMahasiswa char(6) primary key not null,
 	pernahLogin boolean,
 	foreign key (idMahasiswa) references Pengguna (idPengguna),
 	sebelumUTS int not null,
-	setelahUTS int not null
+	setelahUTS int not null,
 	--menambahkan foreign key kode topik untuk mahasiswa
 	kodeTopik varchar(10) not null,
-	ADD FOREIGN KEY (kodeTopik) REFERENCES Topik(kodeTopik);
+	FOREIGN KEY (kodeTopik) REFERENCES Topik(kodeTopik)
 );
 
 CREATE TABLE Jadwal (
@@ -36,10 +48,10 @@ CREATE TABLE Jadwal (
     hari VARCHAR(6) NOT NULL,
     tanggal DATE NOT NULL, --(yyyy-mm-dd)
     jamMulai TIME NOT NULL,--(hh:mm)
-    jamSelesai TIME NOT NULL
+    jamSelesai TIME NOT NULL,
 	--menambahkan nomor ruangan ke jadwal 
 	nomorRuangan int not null,
-	ADD FOREIGN KEY (nomorRuangan) REFERENCES Ruangan(nomorRuangan);
+	FOREIGN KEY (nomorRuangan) REFERENCES Ruangan(nomorRuangan)
 );
 
 CREATE TABLE Kuliah (
@@ -47,6 +59,7 @@ CREATE TABLE Kuliah (
     FOREIGN KEY (idJadwal) REFERENCES Jadwal(idJadwal)
         ON DELETE CASCADE
 );
+
 
 CREATE TABLE Bimbingan (
     idJadwal INT PRIMARY KEY,
@@ -58,12 +71,6 @@ CREATE TABLE Bimbingan (
         ON DELETE CASCADE
 );
 
-CREATE TABLE Ruangan (
-	nomorRuangan int primary key not null,
-	namaRuangan varchar(50) not null,
-	statusRuangan boolean not null,
-	jenisRuangan boolean not null
-);
 
 CREATE TABLE Notifikasi (
     idNotifikasi SERIAL PRIMARY KEY ,
@@ -76,11 +83,6 @@ CREATE TABLE Notifikasi (
 	--foreign key 1:1 ke bimbingan
 	FOREIGN KEY (idJadwal) REFERENCES Bimbingan(idJadwal)
 	
-);
-
-CREATE TABLE Topik (
-	kodeTopik varchar(10) primary key not null,
-	judulTopik varchar (200) not null
 );
 
 
