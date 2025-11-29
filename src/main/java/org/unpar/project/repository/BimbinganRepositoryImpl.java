@@ -59,7 +59,7 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
                 LIMIT 1
                 """;
         try {
-            Bimbingan bimbingan = jdbcTemplate.queryForObject(sql, this::mapRowToBimbingan, id, LocalDate.of(2025, 1, 1));
+            Bimbingan bimbingan = jdbcTemplate.queryForObject(sql, this::mapRowToBimbingan, id, LocalDate.now());
             return Optional.ofNullable(bimbingan);
         }
         catch (EmptyResultDataAccessException e) {
