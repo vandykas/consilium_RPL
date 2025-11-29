@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Dosen {
     private String id;
+    private String nama;
 }

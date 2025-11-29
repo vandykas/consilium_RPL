@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.unpar.project.model.Bimbingan;
+import org.unpar.project.model.Dosen;
 import org.unpar.project.model.Pengguna;
 import org.unpar.project.service.BimbinganService;
 import org.unpar.project.service.DosenService;
@@ -58,7 +59,7 @@ public class BerandaController {
         addCommonAttributes(model, "dosen");
 
         model.addAttribute("name", session.getAttribute("name"));
-        addDosenSpecificAttributes(model, session, idPengguna);
+        addDosenSpecificAttributes(model, idPengguna);
         return "beranda/dosen";
     }
 
@@ -75,11 +76,8 @@ public class BerandaController {
         model.addAttribute("dosenNextBimbingan", dosenNames);
     }
 
-    private void addDosenSpecificAttributes(Model model, HttpSession session, String idPengguna) {
+    private void addDosenSpecificAttributes(Model model, String idPengguna) {
         model.addAttribute("topikTA", getTopikTAForDosen(idPengguna));
-
-//        List<String> mahasiswaNames = getMahasiswaNames(idPengguna);
-//        model.addAttribute("mahasiswaList", mahasiswaNames);
     }
 
     private String getTopikTA(String idMahasiswa) {
@@ -101,7 +99,7 @@ public class BerandaController {
     private List<String> getDosenNames(String idMahasiswa) {
         return mahasiswaService.getListDosenPembimbing(idMahasiswa)
                 .stream()
-                .map(Pengguna::getNama)
+                .map(Dosen::getNama)
                 .collect(Collectors.toList());
     }
 
