@@ -56,9 +56,6 @@ public class BerandaController {
         String idPengguna = (String) session.getAttribute("id");
 
         addCommonAttributes(model, "dosen");
-//        addUpcomingBimbingan(model, idPengguna);
-//        addCompletedBimbingan(model, idPengguna);
-
 
         model.addAttribute("name", session.getAttribute("name"));
         addDosenSpecificAttributes(model, session, idPengguna);
@@ -81,8 +78,8 @@ public class BerandaController {
     private void addDosenSpecificAttributes(Model model, HttpSession session, String idPengguna) {
         model.addAttribute("topikTA", getTopikTAForDosen(idPengguna));
 
-        List<String> mahasiswaNames = getMahasiswaNames(idPengguna);
-        model.addAttribute("mahasiswaList", mahasiswaNames);
+//        List<String> mahasiswaNames = getMahasiswaNames(idPengguna);
+//        model.addAttribute("mahasiswaList", mahasiswaNames);
     }
 
     private String getTopikTA(String idMahasiswa) {
