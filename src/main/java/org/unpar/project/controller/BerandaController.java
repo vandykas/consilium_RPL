@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.unpar.project.model.Bimbingan;
 import org.unpar.project.model.Pengguna;
 import org.unpar.project.service.BimbinganService;
+import org.unpar.project.service.DosenService;
 import org.unpar.project.service.MahasiswaService;
 import org.unpar.project.service.TopikService;
 
@@ -22,6 +23,9 @@ public class BerandaController {
 
     @Autowired
     private MahasiswaService mahasiswaService;
+
+    @Autowired
+    private DosenService dosenService;
 
     @Autowired
     private TopikService topikService;
@@ -51,6 +55,14 @@ public class BerandaController {
         String idPengguna = (String) session.getAttribute("id");
 
         addCommonAttributes(model, "dosen");
+        addUpcomingBimbingan(model, idPengguna);
+        addCompletedBimbingan(model, idPengguna);
+
+        List<String> topikDosen = dosenService.getKodeTopikDosen(idPengguna);
+
+        List<Pengguna> mahasiswaList = dosenService.getListMahasiswaBimbingan(idPengguna);
+        //model.addAttribute("mahasiswaList", mahasiswaList);
+
         model.addAttribute("name", session.getAttribute("name"));
         return "beranda/dosen";
     }
