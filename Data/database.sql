@@ -302,14 +302,14 @@ INSERT INTO Bimbingan VALUES
 INSERT INTO Notifikasi (statusPersetujuan, alasanPenolakan, waktuKirim, tanggalKirim, idJadwal) VALUES
 (false,'Belum lengkap', '09:00','2025-09-10',2), --1
 (true,NULL,'12:00','2025-10-11',5), --2
-(true,NULL,'13:00','2025-10-11',6), --3
+(null,NULL,'13:00','2025-10-11',6), --3
 (true,NULL,'15:00','2025-10-11',8), --4
 (false,'Gagal dijadwalkan','17:00','2025-11-12',10), --5
 (true,NULL,'13:00','2025-11-12',12), --6
 (false,'Dosen sedang keluar kota','08:00','2025-12-13',13), --7
 (false,'Dosen sakit','12:00','2025-12-13',15), --8
 (false,'Mahasiswa Sakit','09:00','2025-12-13',16), --9
-(true,NULL,'11:00','2025-09-14',18); --10
+(True,NULL,'11:00','2025-09-14',18); --10
 
 INSERT INTO KuliahMaha VALUES
 ('M23031',1),
@@ -333,16 +333,17 @@ INSERT INTO Melakukan VALUES
 ('D09005','M23084',18);
 
 INSERT INTO KirimDanTerima VALUES
-(1,'M23023','D12135'),--2
-(2,'D12135','M23031'),--5
-(3,'D12135','M23075'),--6
-(4,'D09005','M23079'),--8
-(5,'M23084','D09005'),--10
-(6,'M23023','D12135'),--12
+(1,'D12135','M23023'),--2
+(2,'D12135','M23023'),--5
+(3,'D12135','M23023'),--6
+(4,'D09005','M23023'),--8
+(5,'D09005','M23023'),--10
+(6,'D12135','M23023'),--12
 (7,'M23031','D12135'),--13
 (8,'M23075','D09005'),--15
-(9,'D09005','M23079'),--16
-(10,'M23084','D09005');--18
+(9,'D09005','M23023'),--16
+(10,'D09005','M23023');--18
+
 
 
 insert into DosToStud values
