@@ -13,6 +13,7 @@ import org.unpar.project.service.DosenService;
 import org.unpar.project.service.MahasiswaService;
 import org.unpar.project.service.TopikService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -55,15 +56,12 @@ public class BerandaController {
         String idPengguna = (String) session.getAttribute("id");
 
         addCommonAttributes(model, "dosen");
-        addUpcomingBimbingan(model, idPengguna);
-        addCompletedBimbingan(model, idPengguna);
+//        addUpcomingBimbingan(model, idPengguna);
+//        addCompletedBimbingan(model, idPengguna);
 
-        List<String> topikDosen = dosenService.getKodeTopikDosen(idPengguna);
-
-        List<Pengguna> mahasiswaList = dosenService.getListMahasiswaBimbingan(idPengguna);
-        //model.addAttribute("mahasiswaList", mahasiswaList);
 
         model.addAttribute("name", session.getAttribute("name"));
+        addDosenSpecificAttributes(model, session, idPengguna);
         return "beranda/dosen";
     }
 
@@ -80,13 +78,38 @@ public class BerandaController {
         model.addAttribute("dosenNextBimbingan", dosenNames);
     }
 
+    private void addDosenSpecificAttributes(Model model, HttpSession session, String idPengguna) {
+        model.addAttribute("topikTA", getTopikTAForDosen(idPengguna));
+
+        List<String> mahasiswaNames = getMahasiswaNames(idPengguna);
+        model.addAttribute("mahasiswaList", mahasiswaNames);
+    }
+
     private String getTopikTA(String idMahasiswa) {
         String kodeTopik = mahasiswaService.getKodeTopikMahasiswa(idMahasiswa);
         return topikService.getJudul(kodeTopik);
     }
 
+    private List<String> getTopikTAForDosen(String idDosen) {
+        List<String> kodeTopik = dosenService.getKodeTopikDosen(idDosen);
+
+        List<String> judulTopik = new ArrayList<>();
+        for (String kode : kodeTopik) {
+            judulTopik.add(topikService.getJudul(kode));
+        }
+
+        return judulTopik;
+    }
+
     private List<String> getDosenNames(String idMahasiswa) {
         return mahasiswaService.getListDosenPembimbing(idMahasiswa)
+                .stream()
+                .map(Pengguna::getNama)
+                .collect(Collectors.toList());
+    }
+
+    private List<String> getMahasiswaNames(String idDosen) {
+        return dosenService.getListMahasiswaBimbingan(idDosen)
                 .stream()
                 .map(Pengguna::getNama)
                 .collect(Collectors.toList());
