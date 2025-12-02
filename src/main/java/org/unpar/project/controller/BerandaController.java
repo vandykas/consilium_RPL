@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.unpar.project.model.Bimbingan;
 import org.unpar.project.model.Dosen;
+import org.unpar.project.model.Mahasiswa;
 import org.unpar.project.model.Pengguna;
 import org.unpar.project.service.BimbinganService;
 import org.unpar.project.service.DosenService;
 import org.unpar.project.service.MahasiswaService;
 import org.unpar.project.service.TopikService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -78,6 +80,16 @@ public class BerandaController {
 
     private void addDosenSpecificAttributes(Model model, String idPengguna) {
         model.addAttribute("topikTA", getTopikTAForDosen(idPengguna));
+
+        List<Mahasiswa> mahasiswaList = getMahasiswaNames(idPengguna);
+        for (Mahasiswa m : mahasiswaList) {
+            m.setNamaTopik(getTopikTA(m.getId()));
+            m.setSebelumUts(mahasiswaService.getCounterBimbinganBeforeUTS(m.getId()));
+            m.setSetelahUts(mahasiswaService.getCounterBimbinganAfterUTS(m.getId()));
+            m.setBimbinganTerakhir(getBimbinganTerakhirMahasiswa(m.getId()));
+        }
+        model.addAttribute("mahasiswaList", mahasiswaList);
+
     }
 
     private String getTopikTA(String idMahasiswa) {
@@ -101,6 +113,14 @@ public class BerandaController {
                 .stream()
                 .map(Dosen::getNama)
                 .collect(Collectors.toList());
+    }
+
+    private List<Mahasiswa> getMahasiswaNames(String idDosen) {
+        return dosenService.getListMahasiswaBimbingan(idDosen);
+    }
+
+    private LocalDate getBimbinganTerakhirMahasiswa(String idMahasiswa) {
+        return mahasiswaService.getBimbinganTerakhir(idMahasiswa);
     }
 
     private void addUpcomingBimbingan(Model model, String id) {
