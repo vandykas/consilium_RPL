@@ -112,12 +112,13 @@ tbody td {
     text-align: center; /* Rata tengah untuk konten tabel */
     justify-content: center;
 }
-td,th {
-    border:1px solid #CECECE;
+
+tbody > tr:nth-child(even) {
+    background-color: var(--bg-current-color);
 }
 
-tbody tr:last-child td {
-    border-bottom: none;
+td,th {
+    border:1px solid #CECECE;
 }
 
 #edit{
