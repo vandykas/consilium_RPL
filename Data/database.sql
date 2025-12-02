@@ -252,7 +252,7 @@ INSERT INTO Jadwal (hari, tanggal, jamMulai, jamSelesai, nomorRuangan) VALUES
 ('Senin','2025-09-10','10:00','12:00',9016),--2
 ('Senin','2025-09-10','13:00','15:00',9015),--3
 ('Senin','2025-09-10','16:00','18:00',9018),--4
-('Selasa','2025-10-11','08:00','10:00',9015),--5
+('Selasa','2026-10-11','08:00','10:00',9015),--5 ------
 ('Selasa','2025-10-11','10:00','12:00',9017),--6
 ('Selasa','2025-10-11','13:00','15:00',9016),--7
 ('Selasa','2025-10-11','16:00','18:00',9017),--8
@@ -299,7 +299,7 @@ INSERT INTO Bimbingan VALUES
 
 INSERT INTO Notifikasi (statusPersetujuan, alasanPenolakan, waktuKirim, tanggalKirim, idJadwal) VALUES
 (false,'Belum lengkap', '09:00','2025-09-10',2), --1
-(true,NULL,'12:00','2026-10-11',5), --2
+(true,NULL,'12:00','2026-10-11',5), --2 -------
 (null,NULL,'13:00','2025-10-11',6), --3
 (true,NULL,'15:00','2025-10-11',8), --4
 (false,'Gagal dijadwalkan','17:00','2025-11-12',10), --5
