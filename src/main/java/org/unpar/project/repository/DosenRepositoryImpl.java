@@ -41,7 +41,7 @@ public class DosenRepositoryImpl implements DosenRepository {
     @Override
     public List<Mahasiswa> getListMahasiswaBimbingan(String idDosen) {
         String sql = """
-            SELECT p.idPengguna, p.nama, p.email
+            SELECT p.idPengguna, p.nama
             FROM DosToStud dts
             JOIN Pengguna p ON p.idPengguna = dts.idMahasiswa
             WHERE dts.idDosen = ?
@@ -59,6 +59,7 @@ public class DosenRepositoryImpl implements DosenRepository {
 
     private Mahasiswa mapRowToMahasiswa(ResultSet rs, int rowNum) throws SQLException {
         Mahasiswa m = new Mahasiswa();
+        m.setId(rs.getString("idPengguna"));
         m.setNama(rs.getString("nama"));
         return m;
     }
