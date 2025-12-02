@@ -119,8 +119,16 @@ public class BerandaController {
     }
 
     private void addProgressBimbingan(Model model, String id) {
-        model.addAttribute("sebelumUTS", mahasiswaService.getCounterBimbinganBeforeUTS(id));
-        model.addAttribute("setelahUTS", mahasiswaService.getCounterBimbinganAfterUTS(id));
+        int countBimbinganSebelumUTS = mahasiswaService.getCounterBimbinganBeforeUTS(id);
+        int countBimbinganSetelahUTS = mahasiswaService.getCounterBimbinganAfterUTS(id);
+
+        boolean isMemenuhiSebelumUTS = bimbinganService.hasMetMinimumSebelumUTS(countBimbinganSebelumUTS);
+        boolean isMemenuhiSetelahUTS = bimbinganService.hasMetMinimumSetelahUTS(countBimbinganSetelahUTS);
+
+        model.addAttribute("isMemenuhiSebelumUTS",  isMemenuhiSebelumUTS);
+        model.addAttribute("isMemenuhiSetelahUTS",  isMemenuhiSetelahUTS);
+        model.addAttribute("sebelumUTS",  countBimbinganSebelumUTS);
+        model.addAttribute("setelahUTS",  countBimbinganSetelahUTS);
     }
 
     private Bimbingan createEmptyBimbingan() {
