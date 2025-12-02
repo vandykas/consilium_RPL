@@ -60,14 +60,14 @@
         </div>
         <div class="circle-wrapper">
             <div>
-                <div th:class="${sebelumUTS >= 2} ? 'progress-circle-yellow' : 'progress-circle-red'">
+                <div th:class="${isMemenuhiSebelumUTS} ? 'progress-circle-yellow' : 'progress-circle-red'">
                     <span><span th:text="${sebelumUTS}"></span> dari 2</span>
                 </div>
                 <br>
                 <p>Sebelum UTS</p>
             </div>
             <div>
-                <div th:class="${setelahUTS >= 2} ? 'progress-circle-yellow' : 'progress-circle-red'">
+                <div th:class="${isMemenuhiSetelahUTS} ? 'progress-circle-yellow' : 'progress-circle-red'">
                     <span><span th:text="${setelahUTS}"></span> dari 2</span>
                 </div>
                 <br>
