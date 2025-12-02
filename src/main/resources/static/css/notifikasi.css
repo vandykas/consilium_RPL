@@ -5,7 +5,7 @@ main {
 }
 
 header {
-    min-height: 100vh;
+    max-height: 100vh;
     display: flex;
     align-items: center;
     padding-left: var(--spacing-lg);
@@ -16,7 +16,7 @@ header {
 }
 
 section {
-    min-height: 40vh;
+    height: fit-content;
     margin-bottom: var(--spacing-lg);
 }
 
@@ -76,7 +76,7 @@ section {
     color: var(--text-content-color-light);
     font-weight: 600;
     padding: var(--spacing-xs) var(--spacing-lg);
-    min-width: 100px;
+    width: 120px;
 }
 
 .pending-button {

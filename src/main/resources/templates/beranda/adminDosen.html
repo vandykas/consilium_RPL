@@ -1,63 +1,40 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/berandaAdmin :: beranda(~{::title})}">
-
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/berandaAdmin :: beranda(~{::title}, ~{::header}, ~{::table})}">
 <head>
     <title>Beranda - Dosen</title>
-    <link rel="stylesheet" href="../../static/css/berandaAdmin.css">
 </head>
-
 <body>
-   <div class="content-container">
-        <header class="main-header">
-            <h1 class="page-title">Daftar Dosen Pembimbing</h1>
-        </header>
-        
-        <div class="content-controls">
-            <div class="search-bar">
-                <input type="text" placeholder="Cari Berdasarkan NPM/Nama Mahasiswa" class="search-input">
-            </div>
-
-            <div class="action-buttons">
-                <button class="action-btn add-btn" title="Tambah Dosen">
-                    +
-                </button>
-                <button class="action-btn delete-btn" title="Hapus yang Dipilih">
-                    -
-                </button>
-            </div>
-        </div>
-
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Kode Dosen</th>
-                        <th>Nama Dosen Pembimbing</th>
-                        <th>Topik yang Dibuka</th>
-                        <th>Mahasiswa yang Dibimbing</th>
-                        <th>Edit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="dosen, iStat : ${dosenPembimbingList}">
-                        <td th:text="${iStat.index + 1}">1</td> 
-                        <td th:text="${dosen.kodeDosen}">VANCS001</td>
-                        <td th:text="${dosen.nama}">Vania Natali</td>
-                        <td>
-                            <p th:each="topik : ${dosen.topikList}" th:text="${topik}"></p>
-                        </td>
-                        <td>
-                            <p th:each="mhs : ${dosen.mahasiswaList}" th:text="${mhs.nama}"></p>
-                        </td>
-                        <td class="action-cell">
-                            <input id="edit"type="checkbox" class="row-checkbox">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <header class="main-header">
+        <h1 class="page-title">Daftar Dosen Pembimbing</h1>
+    </header>
+    <table>
+        <thead>
+        <tr>
+            <th>No</th>
+            <th>Kode Dosen</th>
+            <th>Nama Dosen Pembimbing</th>
+            <th>Topik yang Dibuka</th>
+            <th>Mahasiswa yang Dibimbing</th>
+            <th>Edit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="dosen, iStat : ${dosenPembimbingList}">
+            <td th:text="${iStat.index + 1}"></td>
+            <td th:text="${dosen.id}"></td>
+            <td th:text="${dosen.nama}"></td>
+            <td>
+                <p th:each="topik : ${dosen.topikList}" th:text="${topik.judulTopik}"></p>
+            </td>
+            <td>
+                <p th:each="mhs : ${dosen.mahasiswaList}" th:text="${mhs.nama}"></p>
+            </td>
+            <td class="action-cell">
+                <input id="edit"type="checkbox" class="row-checkbox">
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </body>
-
 </html>

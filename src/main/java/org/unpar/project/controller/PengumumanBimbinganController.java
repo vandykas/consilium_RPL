@@ -12,7 +12,7 @@ import org.unpar.project.service.PengumumanService;
 import java.util.List;
 
 @Controller
-@RequestMapping("pengumuman")
+@RequestMapping("/pengumuman/bimbingan")
 public class PengumumanBimbinganController {
 
     @Autowired

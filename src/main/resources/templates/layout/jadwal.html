@@ -1,3 +1,4 @@
+<<<<<<< HEAD
     <!DOCTYPE html>
     <html lang="id" 
         xmlns:th="http://www.thymeleaf.org"
@@ -31,6 +32,67 @@
                             onclick="openPengajuanPopup()">
                         Ajukan Bimbingan
                     </button>
+=======
+<!DOCTYPE html>
+<html lang="id" 
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="jadwal (title, welcomeText)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title}">Jadwal Bimbingan</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/navigation.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/calendar.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/jadwal.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/popup.css}"/>
+    <script rel="javascript" type="text/javascript" th:src="@{/js/popup.js}" defer></script>
+</head>
+<body>
+    <th:block th:replace="~{layout/navigation :: navBar}"></th:block>
+    <main>
+        <div id="left-container">
+            <header>
+                <h1>Jadwal Bimbingan</h1>
+                <p th:replace="${welcomeText}"></p>
+            </header>
+            <div id="button-container">
+                <button th:if="${currentRole == 'mahasiswa'}" 
+                        type="button"
+                        class="button_blue">
+                    Edit Jadwal Kuliah
+                </button>
+                <button type="button" 
+                        class="button_black">
+                    Ajukan Bimbingan
+                </button>
+            </div>
+        </div>
+        
+        <div id="right-container">
+            <div class="calendar">
+                <!-- Header hari -->
+                <div class="day-header" th:each="day : ${days}">
+                    <span th:text="${day.number}">1</span>
+                    <span th:text="${day.name}">Senin</span>
+                </div>
+
+                <!-- Grid jam -->
+                <div class="time-slot" th:each="slot : ${timeSlots}"></div>
+
+                <!-- Event bimbingan -->
+                <div class="event bimbingan"
+                     th:each="b : ${bimbinganList}"
+                     th:style="'grid-column: ' + ${b.dayColumn} + '; grid-row: ' + ${b.startRow} + ' / ' + ${b.endRow}">
+                    <h4 th:text="${b.title}">Bimbingan</h4>
+                    <p th:text="${b.ruang}">Ruangan</p>
+                </div>
+
+                <!-- Event blokir -->
+                <div class="event blocked"
+                     th:each="b : ${blockedSlots}"
+                     th:style="'grid-column: ' + ${b.dayColumn} + '; grid-row: ' + ${b.startRow} + ' / ' + ${b.endRow}">
+>>>>>>> 8c49fed7f4ed137a4510664e7036e32951fea6ca
                 </div>
             </div>
             

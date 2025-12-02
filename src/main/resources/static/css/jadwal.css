@@ -29,6 +29,21 @@ header > h1 {
     font-size: clamp(2rem, 4vw, 3rem);
 }
 
+.bimbingan-reminder {
+    border-radius: var(--radius-sm);
+    color: var(--text-content-color-light);
+    font-weight: 500;
+    padding: var(--spacing-xs);
+}
+
+.danger-bimbingan {
+    background-color: var(--danger-color);
+}
+
+.success-bimbingan {
+    background-color: var(--success-color);
+}
+
 #button-container {
     display: flex;
     flex-direction: column;

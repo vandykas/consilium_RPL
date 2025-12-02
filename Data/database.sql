@@ -1,3 +1,6 @@
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
 --basic database
 CREATE TABLE Pengguna (
 	idPengguna char(6) primary key not null,
@@ -8,6 +11,7 @@ CREATE TABLE Pengguna (
 	
 CREATE TABLE DosenPembimbing (
 	idDosen char(6) primary key not null,
+	pernahLogin boolean,
 	foreign key (idDosen) references Pengguna (idPengguna)
 );
 
@@ -16,19 +20,38 @@ CREATE TABLE Admin (
 	foreign key (idAdmin) references Pengguna (idPengguna)
 );
 
+CREATE TABLE Ruangan (
+	nomorRuangan int primary key not null,
+	namaRuangan varchar(50) not null,
+	statusRuangan boolean not null,
+	jenisRuangan boolean not null
+);
+
+CREATE TABLE Topik (
+	kodeTopik varchar(10) primary key not null,
+	judulTopik varchar (200) not null
+);
+
 CREATE TABLE Mahasiswa (
 	idMahasiswa char(6) primary key not null,
+	pernahLogin boolean,
 	foreign key (idMahasiswa) references Pengguna (idPengguna),
 	sebelumUTS int not null,
-	setelahUTS int not null
+	setelahUTS int not null,
+	--menambahkan foreign key kode topik untuk mahasiswa
+	kodeTopik varchar(10) not null,
+	FOREIGN KEY (kodeTopik) REFERENCES Topik(kodeTopik)
 );
 
 CREATE TABLE Jadwal (
     idJadwal SERIAL PRIMARY KEY,
     hari VARCHAR(6) NOT NULL,
     tanggal DATE NOT NULL, --(yyyy-mm-dd)
-    jamMulai TIME NOT NULL,--(hh:mm:ss)
-    jamSelesai TIME NOT NULL
+    jamMulai TIME NOT NULL,--(hh:mm)
+    jamSelesai TIME NOT NULL,
+	--menambahkan nomor ruangan ke jadwal 
+	nomorRuangan int not null,
+	FOREIGN KEY (nomorRuangan) REFERENCES Ruangan(nomorRuangan)
 );
 
 CREATE TABLE Kuliah (
@@ -37,22 +60,17 @@ CREATE TABLE Kuliah (
         ON DELETE CASCADE
 );
 
+
 CREATE TABLE Bimbingan (
     idJadwal INT PRIMARY KEY,
-    tugas VARCHAR(250) NOT NULL,
-    inti VARCHAR(250) NOT NULL,
-    kelompokPerulangan VARCHAR(50),
+    tugas VARCHAR(250) ,
+    inti VARCHAR(250) ,
+    kelompokPerulangan int,
 
     FOREIGN KEY (idJadwal) REFERENCES Jadwal(idJadwal)
         ON DELETE CASCADE
 );
 
-CREATE TABLE Ruangan (
-	nomorRuangan int primary key not null,
-	namaRuangan varchar(50) not null,
-	statusRuangan varchar(50) not null,
-	jenisRuangan boolean not null
-);
 
 CREATE TABLE Notifikasi (
     idNotifikasi SERIAL PRIMARY KEY ,
@@ -65,11 +83,6 @@ CREATE TABLE Notifikasi (
 	--foreign key 1:1 ke bimbingan
 	FOREIGN KEY (idJadwal) REFERENCES Bimbingan(idJadwal)
 	
-);
-
-CREATE TABLE Topik (
-	kodeTopik varchar(10) primary key not null,
-	judulTopik varchar (200) not null
 );
 
 
@@ -117,18 +130,7 @@ CREATE TABLE DosToStud (
     FOREIGN KEY (idDosen) REFERENCES DosenPembimbing(idDosen),
     FOREIGN KEY (idMahasiswa) REFERENCES Mahasiswa(idMahasiswa)
 	
-)
---1:m
-
---menambahkan foreign key kode topik untuk mahasiswa
-ALTER TABLE Mahasiswa
-ADD COLUMN kodeTopik varchar(10) not null,
-ADD FOREIGN KEY (kodeTopik) REFERENCES Topik(kodeTopik);
-
---menambahkan nomor ruangan ke jadwal 
-ALTER TABLE Jadwal 
-ADD COLUMN nomorRuangan int not null,
-ADD FOREIGN KEY (nomorRuangan) REFERENCES Ruangan(nomorRuangan);
+);
 
 --3-ary
 CREATE TABLE Melakukan (
@@ -155,7 +157,42 @@ CREATE TABLE KirimDanTerima (
     FOREIGN KEY (idPenerima) REFERENCES Pengguna(idPengguna)
 );
 
+---Tabel View---
+CREATE OR REPLACE VIEW ViewBimbinganLengkap AS
+SELECT 
+	ROW_NUMBER() OVER (
+        PARTITION BY m.idMahasiswa
+        ORDER BY j.tanggal
+    ) AS nomorBimbingan,
+    m.idDosen,
+    m.idMahasiswa,
+    m.idJadwal,
 
+    -- dari Bimbingan
+    b.tugas,
+    b.inti,
+    b.kelompokPerulangan,
+
+    -- dari Jadwal
+    j.hari,
+    j.tanggal,
+    j.jamMulai,
+    j.jamSelesai,
+
+    -- dari Ruangan
+    r.namaRuangan,
+    -- dari Notifikasi
+    n.statusPersetujuan
+
+FROM Melakukan m
+JOIN Bimbingan b
+    ON m.idJadwal = b.idJadwal
+JOIN Jadwal j
+    ON b.idJadwal = j.idJadwal
+JOIN Ruangan r
+    ON j.nomorRuangan = r.nomorRuangan
+LEFT JOIN Notifikasi n      -- gunakan LEFT JOIN karena notifikasi tidak selalu ada
+    ON b.idJadwal = n.idJadwal;
 
 ----------------------------Insert data dummy----------------------------------------
 INSERT INTO Pengguna VALUES
@@ -171,8 +208,8 @@ INSERT INTO Pengguna VALUES
 ('A23003','Andrew Kevin Alexander','Adminboy','Endru@.unpar.ac.id');
 
 INSERT INTO DosenPembimbing VALUES
-('D12135'),
-('D09005');
+('D12135',true),
+('D09005',false);
 
 INSERT INTO Admin VALUES
 ('A23001'),
@@ -192,35 +229,45 @@ INSERT INTO Topik VALUES
 ('VAN6005BDS','Pengembangan Sistem Intelijen Bisnis untuk Penilaian Kinerja Bidang Pastoral di Keuskupan Bandung');
 
 INSERT INTO Mahasiswa VALUES
-('M23023', 2, 2, 'RCP6001ACS'),
-('M23031', 2, 1, 'RCP6002ACS'),
-('M23075', 2, 1, 'VAN6005BDS'),
-('M23079', 2, 0, 'VAN6004CDS'),
-('M23084', 2, 0, 'RCP6003BCS');
+('M23023',true,2, 2, 'RCP6001ACS'),
+('M23031',true,2, 1, 'RCP6002ACS'),
+('M23075',false,2, 1, 'VAN6005BDS'),
+('M23079',false,2, 0, 'VAN6004CDS'),
+('M23084',false,2, 0, 'RCP6003BCS');
 
 INSERT INTO Ruangan VALUES
-(9001,'Ruang Skripsi','Terpakai',false),
-(9013,'Lab OwnGames','Kosong',false),
-(9014,'Lab Fisika','Kosong',false),
-(9015,'Lab 4','Kosong',true),
-(9016,'Lab 3','Kosong',true),
-(9017,'Lab 2','Terpakai',true),
-(9018,'Lab 1','Kosong',false),
-(9120,'Kelas 9120','Terpakai',false),
-(9121,'Kelas 9121','Kosong',false),
-(10111,'Kelas 10111','Kosong',false);
+(9001,'Ruang Skripsi',true,false),
+(9013,'Lab OwnGames',false,false),
+(9014,'Lab Fisika',false,false),
+(9015,'Lab 4',False,true),
+(9016,'Lab 3',False,true),
+(9017,'Lab 2',True,true),
+(9018,'Lab 1',False,false),
+(9120,'Kelas 9120',True,false),
+(9121,'Kelas 9121',False,false),
+(10111,'Kelas 10111',False,false);
 
 INSERT INTO Jadwal (hari, tanggal, jamMulai, jamSelesai, nomorRuangan) VALUES
-('Senin','2025-01-10','08:00','10:00',9015),--1
-('Senin','2025-01-10','10:00','12:00',9016),--2
-('Selasa','2025-01-11','08:00','10:00',9015),--3
-('Selasa','2025-01-11','10:00','12:00',9017),--4
-('Rabu','2025-01-12','08:00','10:00',10111),--5
-('Rabu','2025-01-12','10:00','12:00',9018),--6
-('Kamis','2025-01-13','08:00','10:00',9120),--7
-('Kamis','2025-01-13','10:00','12:00',9121),--8
-('Jumat','2025-01-14','08:00','10:00',9121),--9
-('Jumat','2025-01-14','10:00','12:00',9018);--10
+('Senin','2025-09-10','08:00','10:00',9015),--1
+('Senin','2025-09-10','10:00','12:00',9016),--2
+('Senin','2025-09-10','13:00','15:00',9015),--3
+('Senin','2025-09-10','16:00','18:00',9018),--4
+('Selasa','2025-10-11','08:00','10:00',9015),--5
+('Selasa','2025-10-11','10:00','12:00',9017),--6
+('Selasa','2025-10-11','13:00','15:00',9016),--7
+('Selasa','2025-10-11','16:00','18:00',9017),--8
+('Rabu','2025-11-12','08:00','10:00',10111),--9
+('Rabu','2025-11-12','10:00','12:00',9018),--10
+('Rabu','2025-11-12','13:00','15:00',10111),--11
+('Rabu','2025-11-12','16:00','18:00',9018),--12
+('Kamis','2025-12-13','08:00','10:00',9120),--13
+('Kamis','2025-12-13','10:00','12:00',9121),--14
+('Kamis','2025-12-13','13:00','15:00',9018),--15
+('Kamis','2025-12-13','16:00','18:00',9018),--16
+('Jumat','2025-09-14','08:00','10:00',9121),--17
+('Jumat','2025-09-14','10:00','12:00',9018),--18
+('Jumat','2025-09-14','13:00','15:00',9121),--19
+('Jumat','2025-09-14','16:00','18:00',9018);--20
 
 
 INSERT INTO MembukaTopik VALUES
@@ -236,53 +283,77 @@ INSERT INTO MembukaTopik VALUES
 ('D09005','VAN6005BDS');
 
 INSERT INTO Kuliah VALUES
-(1),(3),(4),(7),(9);
+(1),(3),(4),(7),(9),(11),(14),(17),(19),(20);
 
 INSERT INTO Bimbingan VALUES
-(2,'Membuat database dengan data dummy','Pembuatan database','Senin'),--senin
-(5,'Memperbaiki algoritma pencarian','Perbaikan algoritma A*','Rabu'),--rabu
-(6,'Memperbaiki fitur-fitur','Perbaikan fitur filter berdasarkan nama',null),--rabu
-(8,'Menghilangkan redundant dalam kode','Menghapus looping dalam kode','Kamis'),--kamis
-(10,'Membuat algoritma pencarian baru','Membuat algoritma BFS',null);--jumat
+(2,'Membuat database dengan data dummy','Pembuatan database',1),--senin 10-12
+(5,'Memperbaiki algoritma pencarian','Perbaikan algoritma A*',3),--selase 8-10
+(6,'Memperbaiki fitur-fitur','Perbaikan fitur filter berdasarkan nama',null),--selasa 10-12
+(8,'Menghilangkan redundant dalam kode','Menghapus looping dalam kode',4),--selasa 16-18
+(10,'Membuat algoritma pencarian baru','Membuat algoritma BFS',null),-- rabu 10-12
+(12,'Memperbaiki bug','Membuat algoritma BFS',3),-- rabu 16-18
+(13,'Menerapkan cookies','Membuat algoritma BFS',4),-- kamis 8-10
+(15,'Menghilangkan kode redundant','Membuat algoritma BFS',null),-- kamis 13-15
+(16,NULL,NULL,NULL),-- kamis 16-18
+(18,NULL,NULL,5);-- jumat 10-12
 
 INSERT INTO Notifikasi (statusPersetujuan, alasanPenolakan, waktuKirim, tanggalKirim, idJadwal) VALUES
-(false,'Belum lengkap', '09:00','2025-01-10',2),
-(true,NULL,'12:00','2025-01-12',5),
-(true,NULL,'13:00','2025-01-12',6),
-(true,NULL,'15:00','2025-01-13',8),
-(false,'Gagal dijadwalkan','17:00','2025-01-14',10);
+(false,'Belum lengkap', '09:00','2025-09-10',2), --1
+(true,NULL,'12:00','2025-10-11',5), --2
+(null,NULL,'13:00','2025-10-11',6), --3
+(true,NULL,'15:00','2025-10-11',8), --4
+(false,'Gagal dijadwalkan','17:00','2025-11-12',10), --5
+(true,NULL,'13:00','2025-11-12',12), --6
+(false,'Dosen sedang keluar kota','08:00','2025-12-13',13), --7
+(false,'Dosen sakit','12:00','2025-12-13',15), --8
+(false,'Mahasiswa Sakit','09:00','2025-12-13',16), --9
+(True,NULL,'11:00','2025-09-14',18); --10
 
 INSERT INTO KuliahMaha VALUES
 ('M23031',1),
+('M23031',17),
 ('M23023',3),
-('M23075',4);
+('M23075',4),
+('M23075',19),
+('M23079',11),
+('M23084',14),
+('M23084',20);
 
 INSERT INTO KuliahDosen VALUES
 ('D12135',7),
 ('D09005',9);
 
 INSERT INTO Melakukan VALUES
-('D12135','M23023',2),
-('D12135','M23031',5),
-('D12135','M23075',6),
-('D09005','M23079',8),
-('D09005','M23084',10);
+('D12135','M23023',5),
+('D12135','M23031',6),
+('D12135','M23075',8),
+('D09005','M23079',12),
+('D09005','M23084',18);
 
 INSERT INTO KirimDanTerima VALUES
-(1,'M23023','D12135'),--2
-(2,'D12135','M23031'),--5
-(3,'D12135','M23075'),--6
-(4,'D09005','M23079'),--8
-(5,'M23084','D09005');--10
+(1,'D12135','M23023'),--2
+(2,'D12135','M23023'),--5
+(3,'D12135','M23023'),--6
+(4,'D09005','M23023'),--8
+(5,'D09005','M23023'),--10
+(6,'D12135','M23023'),--12
+(7,'M23031','D12135'),--13
+(8,'M23075','D09005'),--15
+(9,'D09005','M23023'),--16
+(10,'D09005','M23023');--18
+
+
 
 insert into DosToStud values
 ('D12135','M23023'),
+('D09005','M23023'),
 ('D12135','M23031'),
+('D09005','M23031'),
 ('D12135','M23084'),
 ('D09005','M23075'),
 ('D09005','M23079');
 
-
+SELECT * FROM notifikasi;
 
 
 

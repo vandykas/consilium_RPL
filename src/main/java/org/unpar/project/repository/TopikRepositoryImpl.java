@@ -22,11 +22,24 @@ public class TopikRepositoryImpl implements TopikRepository {
         return topik.isEmpty() ? null : topik.getFirst();
     }
 
-//    public Topik mapRowToTopik(ResultSet rs, int rowNum) throws SQLException {
-//        Topik topik = new Topik();
-//        topik.setKodeTopik(rs.getString("kodeTopik"));
-//        topik.setJudulTopik(rs.getString("judulTopik"));
-//
-//        return topik;
-//    }
+    @Override
+    public List<Topik> findAllTopikByDosen(String id) {
+        String sql = """
+                SELECT
+                    t.judulTopik
+                FROM
+                    (SELECT
+                        mt.kodeTopik
+                     FROM MembukaTopik mt
+                     WHERE mt.iddosen = ?) mt
+                JOIN Topik t ON mt.kodetopik = t.kodetopik
+                """;
+        return jdbcTemplate.query(sql, this::mapRowToTopik, id);
+    }
+
+    private Topik mapRowToTopik(ResultSet rs, int rowNum) throws SQLException {
+        Topik topik = new Topik();
+        topik.setJudulTopik(rs.getString("judulTopik"));
+        return topik;
+    }
 }

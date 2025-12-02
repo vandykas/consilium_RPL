@@ -157,10 +157,6 @@ header {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
-.riwayat {
-    font-weight: 500;
-}
-
 .detail {
     opacity: 0.7;
     font-size: 0.9rem;
@@ -168,6 +164,8 @@ header {
 
 #progress {
     grid-area: progress;
+    display: flex;
+    flex-direction: column;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     border-radius: var(--radius-sm);
     overflow: hidden;
@@ -177,46 +175,38 @@ header {
     display: flex;
     gap: 3.125rem;
     justify-content: center;
+    align-items: center;
+    flex: 1;
     padding: var(--spacing-lg);
 }
 
-.progress-circle {
-    --size: 120px;
-    --stroke: 8px;
-    --p: 0;
-    width: var(--size);
-    height: var(--size);
-    border-radius: 50%;
-    position: relative;
-    background: conic-gradient(
-        var(--primary-color) calc(var(--p) * 1%), 
-        #f2e3b5 0
-    );
+.circle-wrapper p {
+    text-align: center;
+}
+
+.circle-wrapper > div > div {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.125rem;
-    font-weight: 600;
 }
 
-.progress-circle::before {
-    content: "";
-    position: absolute;
-    inset: var(--stroke);
-    background: white;
+.progress-circle-yellow {
+    background-color: var(--primary-color);
     border-radius: 50%;
+    font-weight: bold;
+    font-size: 1.3em;
+    width: 140px;
+    height: 140px;
 }
 
-.progress-circle span {
-    position: relative;
-    z-index: 2;
+.progress-circle-red {
+    border: 5px solid var(--danger-color);
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 1.3em;
+    width: 140px;
+    height: 140px;
 }
-
-.progress-circle[data-progress="100"] { --p: 100; }
-.progress-circle[data-progress="75"] { --p: 75; }
-.progress-circle[data-progress="50"] { --p: 50; }
-.progress-circle[data-progress="25"] { --p: 25; }
-.progress-circle[data-progress="0"] { --p: 0; }
 
 .student-item {
     display: flex;

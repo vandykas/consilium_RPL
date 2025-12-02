@@ -3,11 +3,13 @@ package org.unpar.project.repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.unpar.project.model.Pengguna;
 import org.unpar.project.model.PengumumanBimbingan;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
 
 @Repository
 public class PengumumanRepositoryImpl implements PengumumanRepository {

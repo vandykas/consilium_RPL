@@ -1,21 +1,36 @@
 <!DOCTYPE html>
 <html lang="id" 
       xmlns:th="http://www.thymeleaf.org"
-      th:fragment="beranda (title)">
+      th:fragment="beranda (title, header, table)">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:replace="${title}">BerandaAdmin</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/beranda.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/navigation.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/berandaAdmin.css}"/>
 </head>
 <body>
     <th:block th:replace="~{layout/navigation :: navBar}"></th:block>
-    <main th:attr="id=${currentPage=='adminDosen'} ? 'grid-mahasiswa' : 'grid-dosen'">
-        <header th:replace="${card_profile}"></header>
-        <section th:replace="${card_reminder}"></section>
-        <section th:replace="${card_history}"></section>
-        <section th:replace="${card_progress}"></section>
+    <div class="content-container">
+        <header th:replace="${header}"></header>
+        <div class="content-controls">
+            <div class="search-bar">
+                <input type="text" placeholder="Cari Berdasarkan Mahasiswa/Dosen" class="search-input">
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn add-btn" title="Tambah Dosen">
+                    +
+                </button>
+                <button class="action-btn delete-btn" title="Hapus yang Dipilih">
+                    -
+                </button>
+            </div>
+        </div>
+        <main class="table-wrapper">
+            <table th:replace="${table}"></table>
+        </main>
+    </div>
 </body>
 </html>

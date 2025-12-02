@@ -1,88 +1,48 @@
-
-#pengumuman-container {
+.pengumuman-container {
+    padding: var(--spacing-lg);
     width: 100%;
-    padding: 40px 70px;
-    box-sizing: border-box;
 }
 
-#pengumuman-container header h1 {
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 25px;
+.pengumuman-container h1 {
+    margin-bottom: var(--spacing-md);
+    font-size: 1.8rem;
 }
 
-#search-box {
-    margin-bottom: 20px;
+.search-area {
+    margin-bottom: var(--spacing-md);
 }
 
-#search-box input {
-    width: 320px;
-    padding: 10px 15px;
-    border-radius: 20px;
+.search-area input {
+    width: 350px;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
     border: 1px solid #ccc;
-    background: #fafafa;
-    outline: none;
-    font-size: 14px;
-    transition: 0.2s;
 }
 
-#search-box input:focus {
-    border-color: #888;
-    background: #fff;
+.table-wrapper {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
 }
 
-#pengumuman-table {
+table {
     width: 100%;
     border-collapse: collapse;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    font-size: 14px;
 }
 
-#pengumuman-table thead {
-    background: #f4d369;
+thead tr {
+    background-color: var(--primary-color);
 }
 
-#pengumuman-table thead th {
-    padding: 12px;
-    text-align: left;
-    font-weight: 700;
-    border-bottom: 1px solid #e0c45a;
-}
-
-#pengumuman-table tbody tr {
-    transition: 0.2s;
-}
-
-#pengumuman-table tbody tr td {
-    padding: 10px 12px;
-    border-bottom: 1px solid #f1f1f1;
-}
-
-#pengumuman-table tbody tr:hover {
-    background: #fff7d1;
-}
-
-.row_red {
-    background: #ffb6b6 !important;
-}
-
-.row_red:hover {
-    background: #ffaaaa !important;
-}
-
-#pengumuman-table td:last-child {
+th, td {
+    padding: var(--spacing-sm);
     text-align: center;
-    font-weight: bold;
 }
 
-@media(max-width: 768px) {
-    #pengumuman-container {
-        padding: 20px;
-    }
+tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
 
-    #pengumuman-table {
-        font-size: 12px;
-    }
+.row-danger {
+    background-color: #ffdddd;
 }
