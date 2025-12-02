@@ -299,7 +299,7 @@ INSERT INTO Bimbingan VALUES
 
 INSERT INTO Notifikasi (statusPersetujuan, alasanPenolakan, waktuKirim, tanggalKirim, idJadwal) VALUES
 (false,'Belum lengkap', '09:00','2025-09-10',2), --1
-(true,NULL,'12:00','2025-10-11',5), --2
+(true,NULL,'12:00','2026-10-11',5), --2
 (null,NULL,'13:00','2025-10-11',6), --3
 (true,NULL,'15:00','2025-10-11',8), --4
 (false,'Gagal dijadwalkan','17:00','2025-11-12',10), --5
@@ -333,6 +333,7 @@ INSERT INTO Melakukan VALUES
 ('D12135','M23023',16),
 ('D09005','M23023',18);
 
+
 INSERT INTO KirimDanTerima VALUES
 (1,'D12135','M23023'),--2
 (2,'D12135','M23023'),--5
@@ -356,7 +357,7 @@ insert into DosToStud values
 ('D09005','M23075'),
 ('D09005','M23079');
 
-SELECT * FROM notifikasi;
+--SELECT * FROM notifikasi;
 
 
 
