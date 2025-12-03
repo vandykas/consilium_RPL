@@ -4,6 +4,7 @@ import org.unpar.project.model.Dosen;
 import org.unpar.project.model.Mahasiswa;
 import org.unpar.project.model.Pengguna;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface MahasiswaRepository {
@@ -12,4 +13,5 @@ public interface MahasiswaRepository {
     String getKodeTopikMahasiswa(String idMahasiswa);
     List<Dosen> getListDosenPembimbing(String idMahasiswa);
     List<Mahasiswa> findAllMahasiswa();
+    LocalDate getBimbinganTerakhir(String idMahasiswa);
 }

@@ -13,11 +13,22 @@ public class BimbinganService {
     @Autowired
     private BimbinganRepository bimbinganRepository;
 
+    private final int MINIMUM_BIMBINGAN_SEBELUM_UTS = 2;
+    private final int MINIMUM_BIMBINGAN_SETELAH_UTS = 2;
+
     public Optional<Bimbingan> findUpcomingBimbinganByMahasiswa(String id) {
         return bimbinganRepository.findUpcomingBimbinganByMahasiswa(id);
     }
 
     public List<Bimbingan> findCompletedBimbinganByMahasiswa(String id) {
         return bimbinganRepository.findCompletedBimbinganByMahasiswa(id);
+    }
+
+    public boolean hasMetMinimumSebelumUTS(int bimbinganSebelumUTS) {
+        return bimbinganSebelumUTS >= MINIMUM_BIMBINGAN_SEBELUM_UTS;
+    }
+
+    public boolean hasMetMinimumSetelahUTS(int bimbinganSetelahUTS) {
+        return bimbinganSetelahUTS >= MINIMUM_BIMBINGAN_SETELAH_UTS;
     }
 }

@@ -27,7 +27,7 @@ public class DosenService {
 
     public List<Dosen> getAllDosen() {
         List<Dosen> dosenList = dosenRepository.findAllDosen();
-        for  (Dosen dosen : dosenList) {
+        for (Dosen dosen : dosenList) {
             dosen.setMahasiswaList(getListMahasiswaBimbingan(dosen.getId()));
             dosen.setTopikList(topikRepository.findAllTopikByDosen(dosen.getId()));
         }
