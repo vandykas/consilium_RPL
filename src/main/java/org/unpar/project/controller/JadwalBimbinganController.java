@@ -44,11 +44,11 @@ public class JadwalBimbinganController {
     private void checkBeforeOrAfterUTS(Model model, LocalDate now, String id) {
         long week = ChronoUnit.WEEKS.between(awalKuliah, now) + 1;
         if (week <= 7) {
-            model.addAttribute("uts", "sebelum");
+            model.addAttribute("isSebelumUts", true);
             model.addAttribute("countBimbingan", mahasiswaService.getCounterBimbinganBeforeUTS(id));
         }
         else {
-            model.addAttribute("uts", "setelah");
+            model.addAttribute("isSebelumUts", false);
             model.addAttribute("countBimbingan", mahasiswaService.getCounterBimbinganAfterUTS(id));
         }
     }
