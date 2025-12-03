@@ -1,5 +1,7 @@
 package org.unpar.project.repository;
 
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.unpar.project.model.Dosen;
 import org.unpar.project.model.Mahasiswa;
 import org.springframework.stereotype.Repository;
@@ -9,6 +11,8 @@ import org.unpar.project.model.Pengguna;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -64,6 +68,25 @@ public class MahasiswaRepositoryImpl implements MahasiswaRepository {
         """;
 
         return jdbcTemplate.query(sql, this::mapRowToDosen, idMahasiswa);
+    }
+
+    @Override
+    public LocalDate getBimbinganTerakhir(String idMahasiswa) {
+        String sql = """
+            SELECT tanggal
+            FROM ViewBimbinganLengkap
+            WHERE idMahasiswa = ?
+            ORDER BY idJadwal DESC
+            LIMIT 1
+        """;
+
+        try {
+            return jdbcTemplate.queryForObject(sql, LocalDate.class, idMahasiswa);
+        }
+        catch (EmptyResultDataAccessException ex) {
+            throw new DataAccessResourceFailureException("Mahasiswa tidak ditemukan");
+        }
+
     }
 
     private Dosen mapRowToDosen(ResultSet rs, int rowNum) throws SQLException {

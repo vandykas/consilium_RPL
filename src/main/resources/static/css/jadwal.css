@@ -8,6 +8,7 @@ main {
     display: grid;
     grid-template-columns: 0.3fr 1fr;
     grid-template-areas: "left right";
+    column-gap: var(--spacing-lg);
     padding: var(--spacing-lg);
     flex: 1;
 }
@@ -16,6 +17,10 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+}
+
+#right-container {
+    padding-left: var(--spacing-lg);
 }
 
 header {

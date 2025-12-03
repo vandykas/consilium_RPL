@@ -2,6 +2,7 @@ package org.unpar.project.service;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,14 @@ public class MahasiswaService {
 
     public int getCounterBimbinganAfterUTS(String idPengguna) {
         return mahasiswaRepository.findCounterBimbinganAfterUTS(idPengguna);
+    }
+
+    public LocalDate getBimbinganTerakhir(String idMahasiswa) {
+        try {
+            return mahasiswaRepository.getBimbinganTerakhir(idMahasiswa);
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 }

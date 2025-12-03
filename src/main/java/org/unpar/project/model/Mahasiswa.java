@@ -1,5 +1,6 @@
 package org.unpar.project.model;
 
+import java.time.LocalDate;
 import java.util.List;
 import lombok.Data;
 import lombok.AllArgsConstructor;
@@ -16,4 +17,5 @@ public class Mahasiswa {
     private List<Dosen> dosenPembimbing;
     private int sebelumUts;
     private int setelahUts;
+    private LocalDate bimbinganTerakhir;
 }
