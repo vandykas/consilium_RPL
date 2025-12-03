@@ -30,8 +30,8 @@ public class PenggunaService {
     }
 
     private boolean isPasswordValid(Pengguna pengguna, String password) {
-        return pengguna.getPassword() != null &&
-                pengguna.getPassword().equals(password);
+        return pengguna.getPassword() != null
+                && pengguna.getPassword().equals(password);
     }
 
     public String getRoleFromId(String idPengguna) {
@@ -48,4 +48,17 @@ public class PenggunaService {
 
         return role;
     }
+
+    public boolean isFirstLogin(String idPengguna) {
+        return penggunaRepository.isFirstLogin(idPengguna);
+    }
+
+    public void updateLoginStatus(String idPengguna) {
+        penggunaRepository.updateLoginStatus(idPengguna);
+    }
+
+    public void updatePassword(String id, String newPassword) {
+        penggunaRepository.updatePassword(id, newPassword);
+    }
+
 }
