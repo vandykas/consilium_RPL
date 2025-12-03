@@ -43,8 +43,8 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
                                 viewBimbinganLengkap b
                             WHERE b.idmahasiswa = ?
                             AND b.statuspersetujuan = true
-                            order by id_asli) as b
-                            where b.tanggal <= ?
+                            ORDER BY id_asli DESC) AS b
+                            WHERE b.tanggal <= ?
                         """;
         return jdbcTemplate.query(sql, this::mapRowToBimbingan, id,LocalDate.now());
     }
@@ -74,8 +74,8 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
                 		        viewBimbinganLengkap b
                 	        WHERE b.idmahasiswa = ?
                 	        AND b.statuspersetujuan = true
-                	        order by id_asli) as b
-                        where b.tanggal >= ?
+                	        ORDER BY id_asli) AS b
+                        WHERE b.tanggal >= ?
                         LIMIT 1
                     """;
         try {

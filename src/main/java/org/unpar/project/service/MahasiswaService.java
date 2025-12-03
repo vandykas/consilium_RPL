@@ -42,6 +42,11 @@ public class MahasiswaService {
     }
 
     public LocalDate getBimbinganTerakhir(String idMahasiswa) {
-        return mahasiswaRepository.getBimbinganTerakhir(idMahasiswa);
+        try {
+            return mahasiswaRepository.getBimbinganTerakhir(idMahasiswa);
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 }
