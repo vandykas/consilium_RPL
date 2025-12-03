@@ -21,14 +21,14 @@ public class PenggunaRepositoryImpl implements PenggunaRepository {
     public Optional<Pengguna> findByEmail(String email) {
         String sql = "SELECT idpengguna, nama, password, email FROM Pengguna WHERE email = ?";
         List<Pengguna> results = jdbcTemplate.query(sql, this::mapRowToUser, email);
-        return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
+        return results.isEmpty() ? Optional.empty() : Optional.of(results.getFirst());
     }
 
     @Override
     public Optional<Pengguna> findById(String id) {
         String sql = "SELECT idpengguna, nama, password, email FROM Pengguna WHERE idpengguna = ?";
         List<Pengguna> results = jdbcTemplate.query(sql, this::mapRowToUser, id);
-        return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
+        return results.isEmpty() ? Optional.empty() : Optional.of(results.getFirst());
     }
 
     @Override
@@ -40,11 +40,9 @@ public class PenggunaRepositoryImpl implements PenggunaRepository {
 
     @Override
     public void updateLoginStatus(String id) {
-        String sqlM = "UPDATE Pengguna SET pernahlogin = true WHERE idpengguna = ?";
-        String sqlD = "UPDATE Pengguna SET pernahlogin = true WHERE idpengguna = ?";
+        String sql = "UPDATE Pengguna SET pernahlogin = true WHERE idpengguna = ?";
 
-        jdbcTemplate.update(sqlM, id);
-        jdbcTemplate.update(sqlD, id);
+        jdbcTemplate.update(sql, id);
     }
 
     @Override
