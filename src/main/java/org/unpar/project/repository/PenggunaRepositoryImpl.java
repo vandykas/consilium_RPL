@@ -32,21 +32,16 @@ public class PenggunaRepositoryImpl implements PenggunaRepository {
     }
 
     @Override
-    public boolean isFirstLogin(String id) {
-        String sql = """
-        SELECT pernahlogin FROM mahasiswa WHERE idmahasiswa = ?
-        UNION
-        SELECT pernahlogin FROM dosenpembimbing WHERE iddosen = ?
-    """;
+    public Boolean isFirstLogin(String id) {
+        String sql = "SELECT p.pernahLogin FROM Pengguna p WHERE p.idpengguna = ?";
 
-        Boolean result = jdbcTemplate.queryForObject(sql, Boolean.class, id, id);
-        return result == null || !result;
+        return jdbcTemplate.queryForObject(sql, Boolean.class, id);
     }
 
     @Override
     public void updateLoginStatus(String id) {
-        String sqlM = "UPDATE mahasiswa SET pernahlogin = true WHERE idmahasiswa = ?";
-        String sqlD = "UPDATE dosenpembimbing SET pernahlogin = true WHERE iddosen = ?";
+        String sqlM = "UPDATE Pengguna SET pernahlogin = true WHERE idpengguna = ?";
+        String sqlD = "UPDATE Pengguna SET pernahlogin = true WHERE idpengguna = ?";
 
         jdbcTemplate.update(sqlM, id);
         jdbcTemplate.update(sqlD, id);

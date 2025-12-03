@@ -1,9 +1,8 @@
 package org.unpar.project.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -24,41 +23,51 @@ public class PenggunaService {
     @Autowired
     private PenggunaRepository penggunaRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public Optional<Pengguna> login(String email, String password) {
-        return penggunaRepository.findByEmail(email)
-                .filter(pengguna -> isPasswordValid(pengguna, password));
+        Optional<Pengguna> penggunaDitemukan = penggunaRepository.findByEmail(email);
+        if (penggunaDitemukan.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Pengguna p =  penggunaDitemukan.get();
+        if (isPasswordValid(p.getIdPengguna(), password, p.getPassword())) {
+            penggunaDitemukan.get().setRole(getRoleFromId(p.getIdPengguna()));
+            return penggunaDitemukan;
+        }
+        return Optional.empty();
     }
 
-    private boolean isPasswordValid(Pengguna pengguna, String password) {
-        return pengguna.getPassword() != null
-                && pengguna.getPassword().equals(password);
+    private boolean isPasswordValid(String id, String passwordInput, String password) {
+        if (isEverLogin(id)) {
+            return passwordEncoder.matches(passwordInput, password);
+        }
+        else {
+            return passwordInput.equals(password);
+        }
     }
 
     public String getRoleFromId(String idPengguna) {
-        if (idPengguna == null || idPengguna.isEmpty()) {
-            throw new IllegalArgumentException("ID Pengguna tidak boleh kosong");
-        }
-
         char roleChar = idPengguna.charAt(0);
-        String role = idToRole.get(roleChar);
-
-        if (role == null) {
-            throw new IllegalArgumentException("Role tidak valid: " + roleChar);
-        }
-
-        return role;
+        return idToRole.get(roleChar);
     }
 
-    public boolean isFirstLogin(String idPengguna) {
+    public Boolean isEverLogin(String idPengguna) {
         return penggunaRepository.isFirstLogin(idPengguna);
     }
 
-    public void updateLoginStatus(String idPengguna) {
-        penggunaRepository.updateLoginStatus(idPengguna);
+    public void updatePassAndChangeStatus(String idPengguna, String changePasswordRequest) {
+        updatePassword(idPengguna, passwordEncoder.encode(changePasswordRequest));
+        updateLoginStatus(idPengguna);
     }
 
     public void updatePassword(String id, String newPassword) {
         penggunaRepository.updatePassword(id, newPassword);
     }
 
+    public void updateLoginStatus(String idPengguna) {
+        penggunaRepository.updateLoginStatus(idPengguna);
+    }
 }

@@ -1,17 +1,17 @@
 package org.unpar.project.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.unpar.project.dto.ChangePasswordRequest;
+import org.unpar.project.dto.LoginRequest;
 import org.unpar.project.model.Pengguna;
 import org.unpar.project.service.PenggunaService;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -25,9 +25,54 @@ public class AuthController {
         return "login/login";
     }
 
+    @PostMapping("/login")
+    public String login(@Valid LoginRequest loginRequest,
+                        BindingResult bindingResult,
+                        HttpSession session) {
+        if (bindingResult.hasErrors()) {
+            return "login/login";
+        }
+
+        Optional<Pengguna> penggunaOpt = penggunaService.login(loginRequest.getEmail(), loginRequest.getPassword());
+        if (penggunaOpt.isEmpty()) {
+            return "login/login";
+        }
+
+        Pengguna pengguna = penggunaOpt.get();
+        session.setAttribute("pengguna", pengguna);
+        if (!penggunaService.isEverLogin(pengguna.getIdPengguna())) {
+            return "redirect:/change_password";
+        }
+
+        return "redirect:/beranda/" + pengguna.getRole();
+    }
+
     @GetMapping("/change_password")
-    public String viewChangePassword() {
+    public String viewChangePassword(ChangePasswordRequest changePasswordRequest) {
         return "login/change_password";
+    }
+
+    @PostMapping("/change_password")
+    public String changePassword(@Valid ChangePasswordRequest changePasswordRequest,
+                                 BindingResult bindingResult,
+                                 HttpSession session) {
+        if (!bindingResult.hasFieldErrors("password")
+            && !bindingResult.hasFieldErrors("confirmPassword")
+                && !changePasswordRequest.getPassword().equals(changePasswordRequest.getConfirmPassword())) {
+            bindingResult.rejectValue(
+                    "confirmPassword",
+                    "PasswordMismatch",
+                    "Password tidak sama"
+            );
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "login/change_password";
+        }
+
+        Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
+        penggunaService.updatePassAndChangeStatus(pengguna.getIdPengguna(), changePasswordRequest.getPassword());
+        return "redirect:/beranda/" + pengguna.getRole();
     }
 
     @GetMapping("/forgot_password")
@@ -35,64 +80,9 @@ public class AuthController {
         return "login/forgot_password";
     }
 
-    @PostMapping("/login")
-    public String login(HttpServletRequest request, HttpSession session) {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-
-        Optional<Pengguna> penggunaOpt = penggunaService.login(email, password);
-
-        if (penggunaOpt.isEmpty()) {
-            return "redirect:/login?error";
-        }
-
-        Pengguna pengguna = penggunaOpt.get();
-
-        session.setAttribute("id", pengguna.getIdPengguna());
-        session.setAttribute("name", pengguna.getNama());
-        session.setAttribute("role", penggunaService.getRoleFromId(pengguna.getIdPengguna()));
-
-        if (penggunaService.isFirstLogin(pengguna.getIdPengguna())) {
-            return "redirect:/change_password";
-        }
-
-        return "redirect:/beranda/" + session.getAttribute("role");
-    }
-
-    @PostMapping("/change_password")
-    public String changePassword(HttpServletRequest request, HttpSession session) {
-        String id = (String) session.getAttribute("id");
-
-        if (id == null) {
-            return "redirect:/login";
-        }
-
-        String newPassword = request.getParameter("newPassword");
-        String confirmPassword = request.getParameter("confirmPassword");
-
-        if (newPassword == null || confirmPassword == null || !newPassword.equals(confirmPassword)) {
-            return "redirect:/change_password?error=nomatch";
-        }
-
-        penggunaService.updatePassword(id, newPassword);
-        penggunaService.updateLoginStatus(id);
-
-        return "redirect:/beranda/" + session.getAttribute("role");
-    }
-
     @PostMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/login";
-    }
-
-    private String handleSuccessfulLogin(Pengguna pengguna, HttpSession session) {
-        String role = penggunaService.getRoleFromId(pengguna.getIdPengguna());
-
-        session.setAttribute("name", pengguna.getNama());
-        session.setAttribute("id", pengguna.getIdPengguna());
-        session.setAttribute("role", role);
-
-        return "redirect:/beranda/" + role;
     }
 }

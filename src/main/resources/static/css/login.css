@@ -75,6 +75,10 @@ main {
     height: auto;
 }
 
+.error {
+    color: var(--danger-color);
+}
+
 @media (max-width: 768px) {
     main {
         grid-template-columns: 1fr;
