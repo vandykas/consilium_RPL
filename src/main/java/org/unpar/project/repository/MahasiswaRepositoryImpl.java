@@ -39,10 +39,10 @@ public class MahasiswaRepositoryImpl implements MahasiswaRepository {
             SELECT
                 m.idMahasiswa,
                 p.nama,
-                t.judulTopik, 
-                m.sebelumUTS, 
+                t.judulTopik,
+                m.sebelumUTS,
                 m.setelahUTS
-            FROM 
+            FROM
                 Mahasiswa m
             JOIN Pengguna p ON p.idPengguna = m.idMahasiswa
             JOIN Topik t ON m.kodeTopik = t.kodeTopik

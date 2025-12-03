@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.unpar.project.model.Pengguna;
 import org.unpar.project.repository.NotifikasiRepository;
 import org.unpar.project.service.NotifikasiService;
 
@@ -18,14 +19,16 @@ public class NotifikasiController {
     @GetMapping("/mahasiswa")
     public String viewNotifikasiMahasiswa(Model model,
                                           HttpSession session) {
-        addCommonAttributes(model, "mahasiswa", (String) session.getAttribute("id"));
+        Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
+        addCommonAttributes(model, "mahasiswa", pengguna.getIdPengguna());
         return "notifikasi/notifikasi";
     }
 
     @GetMapping("/dosen")
     public String viewNotifikasiDosen(Model model,
                                       HttpSession session) {
-        addCommonAttributes(model, "dosen", (String) session.getAttribute("id"));
+        Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
+        addCommonAttributes(model, "dosen", pengguna.getIdPengguna());
         return "notifikasi/notifikasi";
     }
 

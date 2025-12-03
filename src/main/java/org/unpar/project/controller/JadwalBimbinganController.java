@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.unpar.project.model.Pengguna;
 import org.unpar.project.service.MahasiswaService;
 
 import java.time.LocalDate;
@@ -22,21 +23,24 @@ public class JadwalBimbinganController {
     @GetMapping("/mahasiswa")
     public String viewJadwalMahasiswa(Model model,
                                       HttpSession session) {
-        addCommonAttributes(model, "mahasiswa");
-        checkBeforeOrAfterUTS(model, LocalDate.now(), (String) session.getAttribute("id"));
-        model.addAttribute("name",  session.getAttribute("name"));
+        Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
+
+        addCommonAttributes(model, "mahasiswa", pengguna.getNama());
+        checkBeforeOrAfterUTS(model, LocalDate.now(), pengguna.getIdPengguna());
         return "jadwal/mahasiswa";
     }
 
     @GetMapping("/dosen")
     public String viewJadwalDosen(Model model,
                                   HttpSession session) {
-        addCommonAttributes(model, "dosen");
-        model.addAttribute("name",  session.getAttribute("name"));
+        Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
+
+        addCommonAttributes(model, "dosen", pengguna.getNama());
         return "jadwal/dosen";
     }
 
-    private void addCommonAttributes(Model model, String role) {
+    private void addCommonAttributes(Model model, String role, String nama) {
+        model.addAttribute("name", nama);
         model.addAttribute("currentPage", "jadwal");
         model.addAttribute("currentRole", role);
     }
