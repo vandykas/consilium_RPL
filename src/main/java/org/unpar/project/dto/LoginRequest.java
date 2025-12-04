@@ -7,11 +7,11 @@ import lombok.Data;
 
 @Data
 public class LoginRequest {
-    @NotBlank
-    @Email(message = "Wrong email format")
+    @NotBlank(message = "Field harus diisi")
+    @Email(message = "Format email salah. Contoh: nama@example.com")
     private String email;
 
-    @NotBlank
-    @Size(min = 8, max = 20, message = "Password must be between 8 and 20 characters")
+    @NotBlank(message = "Field harus diisi")
+    @Size(min = 8, max = 20, message = "Password harus di antara 8 hingga 20 karakter")
     private String password;
 }

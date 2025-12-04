@@ -21,7 +21,7 @@ public class AuthController {
     private PenggunaService penggunaService;
 
     @GetMapping("/login")
-    public String viewLogin() {
+    public String viewLogin(LoginRequest loginRequest) {
         return "login/login";
     }
 
@@ -56,9 +56,7 @@ public class AuthController {
     public String changePassword(@Valid ChangePasswordRequest changePasswordRequest,
                                  BindingResult bindingResult,
                                  HttpSession session) {
-        if (!bindingResult.hasFieldErrors("password")
-            && !bindingResult.hasFieldErrors("confirmPassword")
-                && !changePasswordRequest.getPassword().equals(changePasswordRequest.getConfirmPassword())) {
+        if (!isPasswordMatching(changePasswordRequest.getPassword(), changePasswordRequest.getConfirmPassword())) {
             bindingResult.rejectValue(
                     "confirmPassword",
                     "PasswordMismatch",
@@ -84,5 +82,9 @@ public class AuthController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/login";
+    }
+
+    private boolean isPasswordMatching(String password, String confirmPassword) {
+        return password.equals(confirmPassword);
     }
 }
