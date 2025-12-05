@@ -48,16 +48,20 @@
                                 </time>
                             </p>
                             <p><span th:text="${notif.waktuKirim}">waktu</span></p>
-                            <button type="button" 
-                                    class="accept-button"
-                                    th:data-notif-id="${notif.id}">
-                                Setuju
-                            </button>
-                            <button type="button" 
-                                    class="deny-button"
-                                    th:data-notif-id="${notif.id}">
-                                Tolak
-                            </button>
+                            <form method="POST" th:action="@{/notifikasi/updateNotifikasi}">
+                                <input type="hidden" name="id" th:value="${notif.id}">
+                                <input type="hidden" name="status" value="OK">
+                                <button type="submit" class="accept-button">
+                                    Setuju
+                                </button>
+                            </form>
+                            <form method="POST" th:action="@{/notifikasi/updateNotifikasi}">
+                                <input type="hidden" name="id" th:value="${notif.id}">
+                                <input type="hidden" name="status" value="NO">
+                                <button type="submit" class="deny-button">
+                                    Tolak
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
