@@ -1,11 +1,12 @@
 package org.unpar.project.aspect;
 
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@Aspect
-@Component
-public class ExceptionHandler {
-    @AfterThrowing(value = "SecurityException"())
+@ControllerAdvice
+public class GlobalExceptionHandler {
+    @ExceptionHandler(value=SecurityException.class)
+    public String handleSecurityException() {
+        return "redirect:/login";
+    }
 }
