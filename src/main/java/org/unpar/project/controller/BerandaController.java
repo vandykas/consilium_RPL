@@ -45,7 +45,7 @@ public class BerandaController {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
         String idPengguna = pengguna.getIdPengguna();
 
-        addCommonAttributes(model, "mahasiswa", pengguna.getNama());
+        addCommonAttributes(model, pengguna);
         addUpcomingBimbingan(model, idPengguna);
         addCompletedBimbingan(model, idPengguna);
         addProgressBimbingan(model, idPengguna);
@@ -63,7 +63,7 @@ public class BerandaController {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
         String idPengguna = pengguna.getIdPengguna();
 
-        addCommonAttributes(model, "dosen", pengguna.getNama());
+        addCommonAttributes(model, pengguna);
 
         model.addAttribute("name", session.getAttribute("name"));
         addDosenSpecificAttributes(model, idPengguna);
@@ -161,9 +161,8 @@ public class BerandaController {
         return new Bimbingan();
     }
 
-    private void addCommonAttributes(Model model, String role, String nama) {
-        model.addAttribute("name", nama);
+    private void addCommonAttributes(Model model, Pengguna pengguna) {
         model.addAttribute("currentPage", "beranda");
-        model.addAttribute("currentRole", role);
+        model.addAttribute("pengguna", pengguna);
     }
 }

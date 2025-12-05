@@ -22,7 +22,7 @@ public class NotifikasiController {
     public String viewNotifikasiMahasiswa(Model model,
                                           HttpSession session) {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
-        addCommonAttributes(model, "mahasiswa", pengguna.getIdPengguna());
+        addCommonAttributes(model, pengguna);
         return "notifikasi/notifikasi";
     }
 
@@ -30,7 +30,7 @@ public class NotifikasiController {
     public String viewNotifikasiDosen(Model model,
                                       HttpSession session) {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
-        addCommonAttributes(model, "dosen", pengguna.getIdPengguna());
+        addCommonAttributes(model, pengguna);
         return "notifikasi/notifikasi";
     }
 
@@ -45,9 +45,9 @@ public class NotifikasiController {
         return "redirect:/notifikasi/" + pengguna.getRole();
     }
 
-    private void addCommonAttributes(Model model, String role, String id) {
+    private void addCommonAttributes(Model model, Pengguna pengguna) {
         model.addAttribute("currentPage", "notifikasi");
-        model.addAttribute("currentRole", role);
-        model.addAttribute("notifications", notifikasiService.getAllNotifikasiById(id));
+        model.addAttribute("pengguna", pengguna);
+        model.addAttribute("notifications", notifikasiService.getAllNotifikasiById(pengguna.getIdPengguna()));
     }
 }
