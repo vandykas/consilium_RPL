@@ -25,7 +25,7 @@ public class JadwalBimbinganController {
                                       HttpSession session) {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
 
-        addCommonAttributes(model, "mahasiswa", pengguna.getNama());
+        addCommonAttributes(model, pengguna);
         checkBeforeOrAfterUTS(model, LocalDate.now(), pengguna.getIdPengguna());
         return "jadwal/mahasiswa";
     }
@@ -35,14 +35,13 @@ public class JadwalBimbinganController {
                                   HttpSession session) {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
 
-        addCommonAttributes(model, "dosen", pengguna.getNama());
+        addCommonAttributes(model, pengguna);
         return "jadwal/dosen";
     }
 
-    private void addCommonAttributes(Model model, String role, String nama) {
-        model.addAttribute("name", nama);
+    private void addCommonAttributes(Model model, Pengguna pengguna) {
         model.addAttribute("currentPage", "jadwal");
-        model.addAttribute("currentRole", role);
+        model.addAttribute("pengguna", pengguna);
     }
 
     private void checkBeforeOrAfterUTS(Model model, LocalDate now, String id) {

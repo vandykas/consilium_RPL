@@ -23,7 +23,7 @@
                 <p th:replace="${welcomeText}"></p>
             </header>
             <div id="button-container">
-                <button th:if="${currentRole == 'mahasiswa'}"
+                <button th:if="${pengguna.role == 'mahasiswa'}"
                         type="button"
                         class="button_blue">
                     Edit Jadwal Kuliah
