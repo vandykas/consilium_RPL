@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.unpar.project.aspect.RequiredRole;
 import org.unpar.project.model.Bimbingan;
 import org.unpar.project.model.Dosen;
 import org.unpar.project.model.Mahasiswa;
@@ -38,6 +39,7 @@ public class BerandaController {
     private BimbinganService bimbinganService;
 
     @GetMapping("/mahasiswa")
+    @RequiredRole("mahasiswa")
     public String viewBerandaMahasiswa(Model model,
                                    HttpSession session) {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
@@ -55,6 +57,7 @@ public class BerandaController {
     }
 
     @GetMapping("/dosen")
+    @RequiredRole("dosen")
     public String viewBerandaDosen(Model model,
                                HttpSession session) {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
@@ -68,6 +71,7 @@ public class BerandaController {
     }
 
     @GetMapping("/admin")
+    @RequiredRole("admin")
     public String viewBerandaAdmin(Model model) {
         return "redirect:/admin/mahasiswa";
     }

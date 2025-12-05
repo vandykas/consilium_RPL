@@ -34,13 +34,11 @@
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(11, 60px);
-    width: 100%;
+    flex: 1;
 }
 
 #slot > div {
-    border: 1px solid black;
-    width: 95%;
-    height: 95%;
+    border: .75px solid rgb(204, 204, 204);
 }
 
 .blocked {
