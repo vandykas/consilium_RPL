@@ -5,11 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.unpar.project.model.Mahasiswa;
+import org.unpar.project.aspect.RequiredRole;
 import org.unpar.project.service.DosenService;
 import org.unpar.project.service.MahasiswaService;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("admin")
@@ -22,6 +21,7 @@ public class BerandaAdminController {
     private DosenService dosenService;
 
     @GetMapping("/mahasiswa")
+    @RequiredRole("admin")
     public String viewDaftarMahasiswa(Model model) {
         addCommonAttributes(model, "adminMahasiswa");
         addMahasiswaTableColumn(model);
@@ -29,6 +29,7 @@ public class BerandaAdminController {
     }
 
     @GetMapping("/dosen")
+    @RequiredRole("admin")
     public String viewDaftarDosen(Model model) {
         addCommonAttributes(model, "adminDosen");
         addDosenTableColumn(model);

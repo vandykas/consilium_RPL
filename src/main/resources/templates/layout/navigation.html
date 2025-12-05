@@ -2,15 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <nav th:fragment="navBar">
     <div>
-        <a th:href="@{/beranda/{role}(role=${currentRole})}">
+        <a th:href="@{/beranda/{role}(role=${pengguna.role})}">
             <h1>Consilium</h1>
         </a>
     </div>
     
-    <ul th:if="${currentRole!='admin'}">
+    <ul th:if="${pengguna.role != 'admin'}">
         <li th:classappend="${currentPage == 'beranda'} ? 'nav-bg-active'">
             <span>
-                <a th:href="@{/beranda/{role}(role=${currentRole})}"
+                <a th:href="@{/beranda/{role}(role=${pengguna.role})}"
                    th:classappend="${currentPage == 'beranda'} ? 'nav-text-active'"
                    aria-current="${currentPage == 'beranda'} ? 'page' : null">
                     Beranda
@@ -23,7 +23,7 @@
         
         <li th:classappend="${currentPage == 'jadwal'} ? 'nav-bg-active'">
             <span>
-                <a th:href="@{/jadwal/{role}(role=${currentRole})}" 
+                <a th:href="@{/jadwal/{role}(role=${pengguna.role})}"
                    th:classappend="${currentPage == 'jadwal'} ? 'nav-text-active'"
                    aria-current="${currentPage == 'jadwal'} ? 'page' : null">
                     Jadwal Bimbingan
@@ -36,7 +36,7 @@
         
         <li th:classappend="${currentPage == 'notifikasi'} ? 'nav-bg-active'">
             <span>
-                <a th:href="@{/notifikasi/{role}(role=${currentRole})}" 
+                <a th:href="@{/notifikasi/{role}(role=${pengguna.role})}"
                    th:classappend="${currentPage == 'notifikasi'} ? 'nav-text-active'"
                    aria-current="${currentPage == 'notifikasi'} ? 'page' : null">
                     Notifikasi
@@ -49,7 +49,7 @@
         
         <li th:classappend="${currentPage == 'pengumuman'} ? 'nav-bg-active'">
             <span>
-                <a th:href="@{/pengumuman/{role}(role=${currentRole})}" 
+                <a th:href="@{/pengumuman/{role}(role=${pengguna.role})}"
                    th:classappend="${currentPage == 'pengumuman'} ? 'nav-text-active'"
                    aria-current="${currentPage == 'pengumuman'} ? 'page' : null">
                     Pengumuman Bimbingan
@@ -60,7 +60,7 @@
                  aria-hidden="true"></div>
         </li>
     </ul>
-    <ul th:if="${currentRole=='admin'}">
+    <ul th:if="${pengguna.role == 'admin'}">
         <li th:classappend="${currentPage == 'adminMahasiswa'} ? 'nav-bg-active'">
             <span>
                 <a th:href="@{/admin/mahasiswa}" 

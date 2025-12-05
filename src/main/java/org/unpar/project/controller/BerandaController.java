@@ -6,9 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.unpar.project.aspect.RequiredRole;
 import org.unpar.project.model.Bimbingan;
 import org.unpar.project.model.Dosen;
 import org.unpar.project.model.Mahasiswa;
+import org.unpar.project.model.Pengguna;
 import org.unpar.project.service.BimbinganService;
 import org.unpar.project.service.DosenService;
 import org.unpar.project.service.MahasiswaService;
@@ -37,27 +39,31 @@ public class BerandaController {
     private BimbinganService bimbinganService;
 
     @GetMapping("/mahasiswa")
+    @RequiredRole("mahasiswa")
     public String viewBerandaMahasiswa(Model model,
                                    HttpSession session) {
-        String idPengguna = (String) session.getAttribute("id");
+        Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
+        String idPengguna = pengguna.getIdPengguna();
 
-        addCommonAttributes(model, "mahasiswa");
+        addCommonAttributes(model, "mahasiswa", pengguna.getNama());
         addUpcomingBimbingan(model, idPengguna);
         addCompletedBimbingan(model, idPengguna);
         addProgressBimbingan(model, idPengguna);
 
-        model.addAttribute("name", session.getAttribute("name"));
+        model.addAttribute("name", pengguna.getNama());
         addMahasiswaSpecificAttributes(model, session, idPengguna);
 
         return "beranda/mahasiswa";
     }
 
     @GetMapping("/dosen")
+    @RequiredRole("dosen")
     public String viewBerandaDosen(Model model,
                                HttpSession session) {
-        String idPengguna = (String) session.getAttribute("id");
+        Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
+        String idPengguna = pengguna.getIdPengguna();
 
-        addCommonAttributes(model, "dosen");
+        addCommonAttributes(model, "dosen", pengguna.getNama());
 
         model.addAttribute("name", session.getAttribute("name"));
         addDosenSpecificAttributes(model, idPengguna);
@@ -65,6 +71,7 @@ public class BerandaController {
     }
 
     @GetMapping("/admin")
+    @RequiredRole("admin")
     public String viewBerandaAdmin(Model model) {
         return "redirect:/admin/mahasiswa";
     }
@@ -154,7 +161,8 @@ public class BerandaController {
         return new Bimbingan();
     }
 
-    private void addCommonAttributes(Model model, String role) {
+    private void addCommonAttributes(Model model, String role, String nama) {
+        model.addAttribute("name", nama);
         model.addAttribute("currentPage", "beranda");
         model.addAttribute("currentRole", role);
     }

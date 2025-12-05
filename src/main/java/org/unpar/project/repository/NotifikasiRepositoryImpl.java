@@ -39,9 +39,16 @@ public class NotifikasiRepositoryImpl implements NotifikasiRepository {
                 JOIN jadwal j ON n.idjadwal = j.idjadwal
                 JOIN bimbingan b ON j.idjadwal = b.idjadwal
                 JOIN ruangan r ON j.nomorruangan = r.nomorruangan
-                JOIN pengguna p ON k.idpengirim = p.idpengguna;
+                JOIN pengguna p ON k.idpengirim = p.idpengguna
+                ORDER BY n.idnotifikasi DESC
                 """;
         return jdbcTemplate.query(sql, this::mapRowToNotifikasi, id);
+    }
+
+    @Override
+    public void updateStatusNotifikasi(int id, boolean status) {
+        String sql = "UPDATE notifikasi SET statusPersetujuan = ? WHERE idnotifikasi = ?";
+        jdbcTemplate.update(sql, status, id);
     }
 
     private Notifikasi mapRowToNotifikasi(ResultSet rs, int rowNum) throws SQLException {
