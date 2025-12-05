@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="id"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="pengumuman (title, content)">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="${title}">Pengumuman Bimbingan</title>
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/navigation.css}">
+    <link rel="stylesheet" th:href="@{/css/pengumuman.css}">
+</head>
+
+<body>
+<th:block th:replace="~{layout/navigation :: navBar}"></th:block>
+
+<main id="pengumuman-container">
+    <header>
+        <h1>Pengumuman Hasil Bimbingan</h1>
+    </header>
+
+    <th:block th:replace="${content}"></th:block>
+</main>
+
+</body>
+</html>
