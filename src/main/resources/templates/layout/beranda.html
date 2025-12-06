@@ -12,7 +12,7 @@
 </head>
 <body>
     <th:block th:replace="~{layout/navigation :: navBar}"></th:block>
-    <main th:attr="id=${currentRole == 'mahasiswa'} ? 'grid-mahasiswa' : 'grid-dosen'">
+    <main th:attr="id=${pengguna.role == 'mahasiswa'} ? 'grid-mahasiswa' : 'grid-dosen'">
         <header th:replace="${card_profile}"></header>
         <section th:replace="${card_reminder}"></section>
         <section th:replace="${card_history}"></section>

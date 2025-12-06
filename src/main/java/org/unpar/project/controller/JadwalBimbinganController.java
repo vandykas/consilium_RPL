@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.unpar.project.model.Pengguna;
 import org.unpar.project.service.MahasiswaService;
 
 import java.time.LocalDate;
@@ -22,33 +23,35 @@ public class JadwalBimbinganController {
     @GetMapping("/mahasiswa")
     public String viewJadwalMahasiswa(Model model,
                                       HttpSession session) {
-        addCommonAttributes(model, "mahasiswa");
-        checkBeforeOrAfterUTS(model, LocalDate.now(), (String) session.getAttribute("id"));
-        model.addAttribute("name",  session.getAttribute("name"));
+        Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
+
+        addCommonAttributes(model, pengguna);
+        checkBeforeOrAfterUTS(model, LocalDate.now(), pengguna.getIdPengguna());
         return "jadwal/mahasiswa";
     }
 
     @GetMapping("/dosen")
     public String viewJadwalDosen(Model model,
                                   HttpSession session) {
-        addCommonAttributes(model, "dosen");
-        model.addAttribute("name",  session.getAttribute("name"));
+        Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
+
+        addCommonAttributes(model, pengguna);
         return "jadwal/dosen";
     }
 
-    private void addCommonAttributes(Model model, String role) {
+    private void addCommonAttributes(Model model, Pengguna pengguna) {
         model.addAttribute("currentPage", "jadwal");
-        model.addAttribute("currentRole", role);
+        model.addAttribute("pengguna", pengguna);
     }
 
     private void checkBeforeOrAfterUTS(Model model, LocalDate now, String id) {
         long week = ChronoUnit.WEEKS.between(awalKuliah, now) + 1;
         if (week <= 7) {
-            model.addAttribute("uts", "sebelum");
+            model.addAttribute("isSebelumUts", true);
             model.addAttribute("countBimbingan", mahasiswaService.getCounterBimbinganBeforeUTS(id));
         }
         else {
-            model.addAttribute("uts", "setelah");
+            model.addAttribute("isSebelumUts", false);
             model.addAttribute("countBimbingan", mahasiswaService.getCounterBimbinganAfterUTS(id));
         }
     }

@@ -21,35 +21,28 @@ public class PenggunaRepositoryImpl implements PenggunaRepository {
     public Optional<Pengguna> findByEmail(String email) {
         String sql = "SELECT idpengguna, nama, password, email FROM Pengguna WHERE email = ?";
         List<Pengguna> results = jdbcTemplate.query(sql, this::mapRowToUser, email);
-        return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
+        return results.isEmpty() ? Optional.empty() : Optional.of(results.getFirst());
     }
 
     @Override
     public Optional<Pengguna> findById(String id) {
         String sql = "SELECT idpengguna, nama, password, email FROM Pengguna WHERE idpengguna = ?";
         List<Pengguna> results = jdbcTemplate.query(sql, this::mapRowToUser, id);
-        return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
+        return results.isEmpty() ? Optional.empty() : Optional.of(results.getFirst());
     }
 
     @Override
-    public boolean isFirstLogin(String id) {
-        String sql = """
-        SELECT pernahlogin FROM mahasiswa WHERE idmahasiswa = ?
-        UNION
-        SELECT pernahlogin FROM dosenpembimbing WHERE iddosen = ?
-    """;
+    public Boolean isFirstLogin(String id) {
+        String sql = "SELECT p.pernahLogin FROM Pengguna p WHERE p.idpengguna = ?";
 
-        Boolean result = jdbcTemplate.queryForObject(sql, Boolean.class, id, id);
-        return result == null || !result;
+        return jdbcTemplate.queryForObject(sql, Boolean.class, id);
     }
 
     @Override
     public void updateLoginStatus(String id) {
-        String sqlM = "UPDATE mahasiswa SET pernahlogin = true WHERE idmahasiswa = ?";
-        String sqlD = "UPDATE dosenpembimbing SET pernahlogin = true WHERE iddosen = ?";
+        String sql = "UPDATE Pengguna SET pernahlogin = true WHERE idpengguna = ?";
 
-        jdbcTemplate.update(sqlM, id);
-        jdbcTemplate.update(sqlD, id);
+        jdbcTemplate.update(sql, id);
     }
 
     @Override

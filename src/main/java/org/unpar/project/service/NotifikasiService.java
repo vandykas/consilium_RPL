@@ -15,4 +15,8 @@ public class NotifikasiService {
     public List<Notifikasi> getAllNotifikasiById(String id) {
         return notifikasiRepository.findAllNotifikasiById(id);
     }
+
+    public void updateStatusNotifikasi(int id, boolean status) {
+        notifikasiRepository.updateStatusNotifikasi(id, status);
+    }
 }

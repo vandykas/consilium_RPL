@@ -8,10 +8,10 @@
 
 function openPengajuanForm() {
     const form = document.querySelector('#overlay-pengajuan');
-    form.style.display = 'flex';
+    form.classList.remove('hidden');
 }
 
 function closePengajuanForm() {
     const form = document.querySelector('#overlay-pengajuan');
-    form.style.display = 'none';
+    form.classList.add('hidden');
 }
