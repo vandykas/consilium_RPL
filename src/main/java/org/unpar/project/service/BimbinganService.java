@@ -40,10 +40,16 @@ public class BimbinganService {
         );
     }
 
-    public List<BimbinganKalender> findAllBimbingan(String id, int weekOffset) {
+    public List<BimbinganKalender> findBimbinganWeekMahasiswa(String id, int weekOffset) {
         LocalDate today = LocalDate.now();
         LocalDate monday = today.with(DayOfWeek.MONDAY).plusWeeks(weekOffset);
-        return bimbinganRepository.findAllBimbingan(id, monday, monday.plusDays(4));
+        return bimbinganRepository.findBimbinganWeekByMahasiswa(id, monday, monday.plusDays(4));
+    }
+
+    public List<BimbinganKalender> findBimbinganWeekDosen(String id, int weekOffset) {
+        LocalDate today = LocalDate.now();
+        LocalDate monday = today.with(DayOfWeek.MONDAY).plusWeeks(weekOffset);
+        return bimbinganRepository.findBimbinganWeekByDosen(id, monday, monday.plusDays(4));
     }
 
     public boolean hasMetMinimumSebelumUTS(int bimbinganSebelumUTS) {

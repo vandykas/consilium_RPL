@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface BimbinganRepository {
     List<Bimbingan> findCompletedBimbinganByMahasiswa(String id);
-    List<BimbinganKalender> findAllBimbingan(String id, LocalDate mingguMulai, LocalDate mingguAkhir);
+    List<BimbinganKalender> findBimbinganWeekByMahasiswa(String id, LocalDate mingguMulai, LocalDate mingguAkhir);
+    List<BimbinganKalender> findBimbinganWeekByDosen(String id, LocalDate mingguMulai, LocalDate mingguAkhir);
     Optional<Bimbingan> findUpcomingBimbinganByMahasiswa(String id);
 }
