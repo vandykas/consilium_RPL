@@ -36,16 +36,32 @@
         </div>
             <div id="right-container">
                 <div class="calendar">
+                    <div id="calendar-control">
+                            <a class="arrow-btn" th:href="@{/jadwal/{role}(role=${pengguna.role}, weekOffset=${weekOffset - 1})}">‹</a>
+                            <a class="arrow-btn" th:href="@{/jadwal/{role}(role=${pengguna.role}, weekOffset=${weekOffset + 1})}">›</a>
+                    </div>
                     <div id="calendar-header">
                         <div></div>
                     </div>
                     <div id="calendar-main">
                         <div id="time"></div>
-                        <div id="slot"></div>
+                        <div id="slot">
+                            <div th:each="bimbingan : ${bimbinganList}"
+                                 class="event"
+                                 th:style="'grid-column: ' + (${bimbingan.indexHari}) + '; grid-row: ' + (${bimbingan.jamMulai} - 6) + ' / span ' + (${bimbingan.jamSelesai} - ${bimbingan.jamMulai}) + ';'">
+                                <h3>
+                                    Bimbingan
+                                </h3>
+                                <p th:text="${bimbingan.ruangan}"></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
         <th:block th:replace="~{pop-up/pengajuan_bimbingan :: pop-up-pengajuan}"></th:block>
     </body>
-    </html>
+    <script th:inline="javascript">
+        const tanggalMingguIni = /*[[${tanggalMingguIni}]]*/ [];
+    </script>
+</html>
