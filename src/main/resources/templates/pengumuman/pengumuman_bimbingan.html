@@ -35,14 +35,14 @@
 
             <tbody>
             <tr th:each="p, iter : ${pengumumanList}"
-                th:classappend="${p.memenuhi == false} ? 'row-danger'">
+                th:classappend="${!p.memenuhiMinimal} ? 'row-danger' : ''">
                 <td th:text="${iter.index + 1}"></td>
                 <td th:text="${p.npm}"></td>
                 <td th:text="${p.nama}"></td>
                 <td th:text="${p.topik}"></td>
-                <td th:text="${p.sebelumUTS}"></td>
-                <td th:text="${p.setelahUTS}"></td>
-                <td th:text="${p.memenuhi ? '✔' : 'X'}"></td>
+                <td th:text="${p.sebelumUts}"></td>
+                <td th:text="${p.setelahUts}"></td>
+                <td th:text="${p.memenuhiMinimal ? '✔' : 'X'}"></td>
             </tr>
             </tbody>
         </table>

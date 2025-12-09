@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class PengumumanBimbingan {
 
     private String idMahasiswa;
-    private String npm;
+    private String npm; 
     private String nama;
     private String topik;
     private int sebelumUts;
