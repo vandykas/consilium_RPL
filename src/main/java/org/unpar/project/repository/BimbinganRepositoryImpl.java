@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.unpar.project.dto.BimbinganKalender;
 import org.unpar.project.model.Bimbingan;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -47,6 +49,24 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
                             WHERE b.tanggal <= ?
                         """;
         return jdbcTemplate.query(sql, this::mapRowToBimbingan, id,LocalDate.now());
+    }
+
+    @Override
+    public List<BimbinganKalender> findAllBimbingan(String id,
+                                                    LocalDate mingguMulai,
+                                                    LocalDate mingguAkhir) {
+        String sql = """
+                SELECT
+                    v.idJadwal,
+                    v.tanggal,
+                    v.jamMulai,
+                    v.jamSelesai,
+                    v.namaRuangan
+                FROM
+                    ViewBimbinganLengkap v
+                WHERE v.tanggal BETWEEN ? AND ? AND v.idMahasiswa = ?
+                """;
+        return jdbcTemplate.query(sql, this::mapRowToBimbinganKalender, mingguMulai, mingguAkhir, id);
     }
 
     @Override
@@ -98,5 +118,44 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
         bimbingan.setTugas(rs.getString("tugas"));
         bimbingan.setInti(rs.getString("inti"));
         return bimbingan;
+    }
+
+    private BimbinganKalender mapRowToBimbinganKalender(ResultSet rs, int rowNum) throws SQLException {
+        BimbinganKalender kalender = new BimbinganKalender();
+
+        // Set ID
+        kalender.setIdJadwal(rs.getInt("idjadwal"));
+
+        // Get tanggal dari database
+        LocalDate tanggal = rs.getObject("tanggal", LocalDate.class);
+        kalender.setTanggal(tanggal);
+
+        // Calculate index hari (0 = Senin, 4 = Jumat)
+        kalender.setIndexHari(calculateDayIndex(tanggal));
+
+        // Get waktu dari database
+        LocalTime waktuMulai = rs.getObject("jammulai", LocalTime.class);
+        LocalTime waktuSelesai = rs.getObject("jamselesai", LocalTime.class);
+
+        kalender.setWaktuMulai(waktuMulai);
+        kalender.setWaktuSelesai(waktuSelesai);
+
+        // Extract jam (hour) untuk grid positioning
+        kalender.setJamMulai(waktuMulai.getHour());
+        kalender.setJamSelesai(waktuSelesai.getHour());
+
+        // Set ruangan
+        kalender.setRuangan(rs.getString("namaruangan"));
+
+        return kalender;
+    }
+
+    private int calculateDayIndex(LocalDate date) {
+        if (date == null) {
+            return 0;
+        }
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+        // Monday = 1, so subtract 1 to get 0-based index
+        return dayOfWeek.getValue();
     }
 }
