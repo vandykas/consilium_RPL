@@ -11,7 +11,9 @@ import org.unpar.project.dto.BimbinganKalender;
 import org.unpar.project.model.Bimbingan;
 import org.unpar.project.model.Pengguna;
 import org.unpar.project.service.BimbinganService;
+import org.unpar.project.service.KuliahService;
 import org.unpar.project.service.MahasiswaService;
+import org.unpar.project.service.PenggunaService;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -26,6 +28,8 @@ public class JadwalBimbinganController {
     private MahasiswaService mahasiswaService;
     @Autowired
     private BimbinganService bimbinganService;
+    @Autowired
+    private KuliahService kuliahService;
 
     @GetMapping("/mahasiswa")
     public String viewJadwalMahasiswa(@RequestParam(defaultValue = "0") int weekOffset,
@@ -34,9 +38,11 @@ public class JadwalBimbinganController {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
 
         model.addAttribute("weekOffset", weekOffset);
+        model.addAttribute("currentDate", LocalDate.now().plusWeeks(weekOffset));
         addCommonAttributes(model, pengguna);
         addDaysLabel(model, weekOffset);
         addUpcomingBimbingan(model, weekOffset, pengguna.getIdPengguna());
+        addBlockedJadwal(model, pengguna.getIdPengguna(), weekOffset);
         checkBeforeOrAfterUTS(model, LocalDate.now(), pengguna.getIdPengguna());
         return "jadwal/mahasiswa";
     }
@@ -66,6 +72,10 @@ public class JadwalBimbinganController {
         System.out.println("Jumlah: " + bimbinganList.size());
         System.out.println("Kosong? " + bimbinganList.isEmpty());
         model.addAttribute("bimbinganList", bimbinganList);
+    }
+
+    private void addBlockedJadwal(Model model, String idPengguna, int weekOffset) {
+        model.addAttribute("blockedList", kuliahService.getKuliahListMahasiswa(idPengguna, weekOffset));
     }
 
     private void checkBeforeOrAfterUTS(Model model, LocalDate now, String id) {
