@@ -91,6 +91,26 @@ public class BerandaController {
 
         model.addAttribute("name", session.getAttribute("name"));
         addDosenSpecificAttributes(model, idPengguna);
+
+        // ============================
+        // ✅ DATA DUMMY UNTUK POPUP
+        // TODO:
+        // - hapus map dummy 
+        // - ambil tanggal,jam mulai , jam selesai,namaruangan,nomorruangan,dosen,inti dan tugas dari database
+        // - masukkan ke model dengan nama attribute "detailRiwayat"
+        // ============================
+        Map<String, Object> dummy = new HashMap<>();
+        dummy.put("tanggal", LocalDate.of(2025, 10, 7));
+        dummy.put("jamMulai", LocalTime.of(10, 0));
+        dummy.put("jamSelesai", LocalTime.of(11, 0));
+        dummy.put("namaRuangan", "Lab 4");
+        dummy.put("nomorRuangan", "9015");
+        dummy.put("dosen", "Vania Natali");
+        dummy.put("inti", "Mengerjakan cover");
+        dummy.put("tugas", "Buat latar belakang 20 halaman");
+
+        model.addAttribute("detailRiwayat", dummy);
+        // ============================
         return "beranda/dosen";
     }
 
