@@ -358,5 +358,22 @@ insert into DosToStud values
 
 --SELECT * FROM notifikasi;
 
+INSERT INTO Ruangan (nomorRuangan, namaRuangan, statusRuangan, jenisRuangan)
+VALUES
+(101, 'Ruang Bimbingan 101', true, false),
+(102, 'Ruang Bimbingan 102', true, false),
+(201, 'Ruang Riset 201', true, true),
+(301, 'Ruang Konsultasi 301', false, false), -- tidak aktif
+(401, 'Ruang Dosen 401', true, true);
 
+INSERT INTO Jadwal (hari, tanggal, jamMulai, jamSelesai, nomorRuangan)
+VALUES
+('Rabu', '2025-01-15', '09:00', '11:00', 101),
+('Rabu', '2025-01-15', '13:00', '15:00', 101),
+
+('Rabu', '2025-01-15', '10:00', '12:00', 102),
+
+('Rabu', '2025-01-15', '08:00', '10:00', 201),
+
+('Rabu', '2025-01-15', '14:00', '16:00', 401);
 
