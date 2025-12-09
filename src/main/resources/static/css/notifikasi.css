@@ -70,7 +70,7 @@ section {
     color: #666;
 }
 
-.notification-item-right > button {
+.notification-item-right  button {
     border: none;
     border-radius: var(--radius-sm);
     color: var(--text-content-color-light);

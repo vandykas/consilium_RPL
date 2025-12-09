@@ -9,15 +9,15 @@
         <h1>Selamat Datang Kembali</h1>
         <hr>
     </header>
-    <form method="post" th:action="@{/login}">
+    <form method="post" th:action="@{/login}" th:object="${loginRequest}">
         <label for="email">
             Email
-            <input type="email" 
+            <input type="text"
                    id="email"
                    name="email" 
                    placeholder="Masukkan email anda" 
-                   class="input_text_outline"
-                   required>
+                   class="input_text_outline">
+            <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
         </label>
         <label for="password">
             Password
@@ -25,8 +25,8 @@
                    id="password"
                    name="password" 
                    placeholder="Masukkan password anda" 
-                   class="input_text_outline"
-                   required>
+                   class="input_text_outline">
+            <span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
             <span>
                 <a th:href="@{/forgot_password}" class="forgot_password">
                     Lupa password?

@@ -5,13 +5,13 @@ CREATE SCHEMA public;
 CREATE TABLE Pengguna (
 	idPengguna char(6) primary key not null,
 	nama varchar (60) not null,
-	password varchar (20) not  null,
-	email varchar (60) not null
+	password varchar (100) not  null,
+	email varchar (60) not null,
+	pernahLogin boolean
 );
 	
 CREATE TABLE DosenPembimbing (
 	idDosen char(6) primary key not null,
-	pernahLogin boolean,
 	foreign key (idDosen) references Pengguna (idPengguna)
 );
 
@@ -34,7 +34,6 @@ CREATE TABLE Topik (
 
 CREATE TABLE Mahasiswa (
 	idMahasiswa char(6) primary key not null,
-	pernahLogin boolean,
 	foreign key (idMahasiswa) references Pengguna (idPengguna),
 	sebelumUTS int not null,
 	setelahUTS int not null,
@@ -196,20 +195,20 @@ LEFT JOIN Notifikasi n      -- gunakan LEFT JOIN karena notifikasi tidak selalu 
 
 ----------------------------Insert data dummy----------------------------------------
 INSERT INTO Pengguna VALUES
-('D12135','Raymond Chandra Putra','UnparDosen123','raymond.chandra@unpar.ac.id'),
-('D09005','Vania Natali','DosenUnpar321','vania.natali@unpar.ac.id'),
-('M23023','Vandyka Suryadi','KecapABC','6182301023@student.unpar.ac.id'),
-('M23031','Alexander Constantijn','KecapABC','6182301031@student.unpar.ac.id'),
-('M23075','Keane Edbert Candra','KecapABC','6182301075@student.unpar.ac.id'),
-('M23079','Alfonsus Nugraha Adi Prakosa','KecapABC','6182301079@student.unpar.ac.id'),
-('M23084','Justin Farrel Kristianto','KecapABC','6182301084@student.unpar.ac.id'),
-('A23001','Kenneth Nathanael','Adminboy','Kenken@unpar.ac.id'),
-('A23002','Gregorius Jason Maresi','Adminboy','Greg@unpar.ac.id'),
-('A23003','Andrew Kevin Alexander','Adminboy','Endru@.unpar.ac.id');
+('D12135','Raymond Chandra Putra','UnparDosen123','raymond.chandra@unpar.ac.id', false),
+('D09005','Vania Natali','DosenUnpar321','vania.natali@unpar.ac.id', false),
+('M23023','Vandyka Suryadi','KecapABC','6182301023@student.unpar.ac.id', false),
+('M23031','Alexander Constantijn','KecapABC','6182301031@student.unpar.ac.id', false),
+('M23075','Keane Edbert Candra','KecapABC','6182301075@student.unpar.ac.id', false),
+('M23079','Alfonsus Nugraha Adi Prakosa','KecapABC','6182301079@student.unpar.ac.id', false),
+('M23084','Justin Farrel Kristianto','KecapABC','6182301084@student.unpar.ac.id', false),
+('A23001','Kenneth Nathanael','Adminboy','Kenken@unpar.ac.id', true),
+('A23002','Gregorius Jason Maresi','Adminboy','Greg@unpar.ac.id', true),
+('A23003','Andrew Kevin Alexander','Adminboy','Endru@.unpar.ac.id', true);
 
 INSERT INTO DosenPembimbing VALUES
-('D12135',true),
-('D09005',false);
+('D12135'),
+('D09005');
 
 INSERT INTO Admin VALUES
 ('A23001'),
@@ -229,11 +228,11 @@ INSERT INTO Topik VALUES
 ('VAN6005BDS','Pengembangan Sistem Intelijen Bisnis untuk Penilaian Kinerja Bidang Pastoral di Keuskupan Bandung');
 
 INSERT INTO Mahasiswa VALUES
-('M23023',true,2, 2, 'RCP6001ACS'),
-('M23031',true,2, 1, 'RCP6002ACS'),
-('M23075',false,2, 1, 'VAN6005BDS'),
-('M23079',false,2, 0, 'VAN6004CDS'),
-('M23084',false,2, 0, 'RCP6003BCS');
+('M23023',2, 2, 'RCP6001ACS'),
+('M23031',2, 1, 'RCP6002ACS'),
+('M23075',2, 1, 'VAN6005BDS'),
+('M23079',2, 0, 'VAN6004CDS'),
+('M23084',2, 0, 'RCP6003BCS');
 
 INSERT INTO Ruangan VALUES
 (9001,'Ruang Skripsi',true,false),
