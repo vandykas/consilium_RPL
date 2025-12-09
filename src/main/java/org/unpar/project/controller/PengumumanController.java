@@ -16,7 +16,7 @@ import org.unpar.project.model.PengumumanBimbingan;
 @Controller
 @RequestMapping("/pengumuman")
 public class PengumumanController {
-    
+
     @Autowired
     private PengumumanService pengumumanService;
 
@@ -35,14 +35,14 @@ public class PengumumanController {
         model.addAttribute("pengumumanList", pengumumanList);
     }
 
-
     @GetMapping("/dosen")
     public String viewPengumumanDosen(Model model,
             HttpSession session) {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
         addCommonAttributes(model, pengguna);
         model.addAttribute("name", session.getAttribute("name"));
-        return "pengumuman/pengumuman";
+        addAllPengumumanBimbingan(model);
+        return "pengumuman/pengumuman_bimbingan";
     }
 
     private void addCommonAttributes(Model model, Pengguna pengguna) {
