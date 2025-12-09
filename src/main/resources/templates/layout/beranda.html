@@ -8,7 +8,9 @@
     <title th:replace="${title}">Beranda</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/beranda.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/popup.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/navigation.css}"/>
+    <script th:src="@{/js/popup.js}" defer></script>
 </head>
 <body>
     <th:block th:replace="~{layout/navigation :: navBar}"></th:block>
@@ -18,5 +20,6 @@
         <section th:replace="${card_history}"></section>
         <section th:replace="${card_progress}"></section>
     </main>
+    <th:block th:replace="~{pop-up/Detail_Riwayat_Bimbingan :: detail-riwayat-bimbingan}"></th:block>
 </body>
 </html>

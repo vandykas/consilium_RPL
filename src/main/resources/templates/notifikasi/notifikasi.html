@@ -81,8 +81,11 @@
                                 Catatan mengenai bimbingan pada
                                 <span th:text="${#temporals.format(notif.tanggal, 'EEEE, dd MMMM yyyy')}">tanggal</span>
                                 di <span th:text="${notif.ruangan}">ruangan</span>
-                                sudah dimasukkan
+                                sudah dimasukkan.<br>
+                                Catatan :
+                                <span th:text="${notif.catatanDosen}">temp</span>
                             </p>
+                            
                         </div>
                         <div class="notification-item-right">
                             <p>

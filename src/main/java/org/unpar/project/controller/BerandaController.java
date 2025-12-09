@@ -1,6 +1,14 @@
 package org.unpar.project.controller;
 
-import jakarta.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +24,7 @@ import org.unpar.project.service.DosenService;
 import org.unpar.project.service.MahasiswaService;
 import org.unpar.project.service.TopikService;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("beranda")
@@ -41,7 +45,7 @@ public class BerandaController {
     @GetMapping("/mahasiswa")
     @RequiredRole("mahasiswa")
     public String viewBerandaMahasiswa(Model model,
-                                   HttpSession session) {
+            HttpSession session) {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
         String idPengguna = pengguna.getIdPengguna();
 
@@ -53,13 +57,33 @@ public class BerandaController {
         model.addAttribute("name", pengguna.getNama());
         addMahasiswaSpecificAttributes(model, session, idPengguna);
 
+        // ============================
+        // ✅ DATA DUMMY UNTUK POPUP
+        // TODO:
+        // - hapus map dummy 
+        // - ambil tanggal,jam mulai , jam selesai,namaruangan,nomorruangan,dosen,inti dan tugas dari database
+        // - masukkan ke model dengan nama attribute "detailRiwayat"
+        // ============================
+        Map<String, Object> dummy = new HashMap<>();
+        dummy.put("tanggal", LocalDate.of(2025, 10, 7));
+        dummy.put("jamMulai", LocalTime.of(10, 0));
+        dummy.put("jamSelesai", LocalTime.of(11, 0));
+        dummy.put("namaRuangan", "Lab 4");
+        dummy.put("nomorRuangan", "9015");
+        dummy.put("dosen", "Vania Natali");
+        dummy.put("inti", "Mengerjakan cover");
+        dummy.put("tugas", "Buat latar belakang 20 halaman");
+
+        model.addAttribute("detailRiwayat", dummy);
+        // ============================
+
         return "beranda/mahasiswa";
     }
 
     @GetMapping("/dosen")
     @RequiredRole("dosen")
     public String viewBerandaDosen(Model model,
-                               HttpSession session) {
+            HttpSession session) {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
         String idPengguna = pengguna.getIdPengguna();
 
@@ -67,6 +91,26 @@ public class BerandaController {
 
         model.addAttribute("name", session.getAttribute("name"));
         addDosenSpecificAttributes(model, idPengguna);
+
+        // ============================
+        // ✅ DATA DUMMY UNTUK POPUP
+        // TODO:
+        // - hapus map dummy 
+        // - ambil tanggal,jam mulai , jam selesai,namaruangan,nomorruangan,dosen,inti dan tugas dari database
+        // - masukkan ke model dengan nama attribute "detailRiwayat"
+        // ============================
+        Map<String, Object> dummy = new HashMap<>();
+        dummy.put("tanggal", LocalDate.of(2025, 10, 7));
+        dummy.put("jamMulai", LocalTime.of(10, 0));
+        dummy.put("jamSelesai", LocalTime.of(11, 0));
+        dummy.put("namaRuangan", "Lab 4");
+        dummy.put("nomorRuangan", "9015");
+        dummy.put("dosen", "Vania Natali");
+        dummy.put("inti", "Mengerjakan cover");
+        dummy.put("tugas", "Buat latar belakang 20 halaman");
+
+        model.addAttribute("detailRiwayat", dummy);
+        // ============================
         return "beranda/dosen";
     }
 
@@ -134,8 +178,7 @@ public class BerandaController {
 
         if (upcomingBimbingan.isPresent()) {
             model.addAttribute("bimbingan", upcomingBimbingan.get());
-        }
-        else {
+        } else {
             model.addAttribute("bimbingan", createEmptyBimbingan());
         }
     }
@@ -151,10 +194,10 @@ public class BerandaController {
         boolean isMemenuhiSebelumUTS = bimbinganService.hasMetMinimumSebelumUTS(countBimbinganSebelumUTS);
         boolean isMemenuhiSetelahUTS = bimbinganService.hasMetMinimumSetelahUTS(countBimbinganSetelahUTS);
 
-        model.addAttribute("isMemenuhiSebelumUTS",  isMemenuhiSebelumUTS);
-        model.addAttribute("isMemenuhiSetelahUTS",  isMemenuhiSetelahUTS);
-        model.addAttribute("sebelumUTS",  countBimbinganSebelumUTS);
-        model.addAttribute("setelahUTS",  countBimbinganSetelahUTS);
+        model.addAttribute("isMemenuhiSebelumUTS", isMemenuhiSebelumUTS);
+        model.addAttribute("isMemenuhiSetelahUTS", isMemenuhiSetelahUTS);
+        model.addAttribute("sebelumUTS", countBimbinganSebelumUTS);
+        model.addAttribute("setelahUTS", countBimbinganSetelahUTS);
     }
 
     private Bimbingan createEmptyBimbingan() {

@@ -192,6 +192,9 @@ header {
 
 .progress-circle-yellow {
     background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
     font-weight: bold;
     font-size: 1.3em;
@@ -202,6 +205,9 @@ header {
 .progress-circle-red {
     border: 5px solid var(--danger-color);
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-weight: bold;
     font-size: 1.3em;
     width: 140px;
