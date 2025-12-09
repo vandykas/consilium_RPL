@@ -1,10 +1,10 @@
-        
+
 (() => {
     const buttPengajuan = document.querySelector('#button-container > button:nth-child(2)');
     if (buttPengajuan) {
         buttPengajuan.addEventListener('click', openPengajuanForm);
     }
-    const txtCekDetail = document.querySelectorAll('.detail');
+    const txtCekDetail = document.querySelectorAll('.riwayat');
     if (txtCekDetail) {
         txtCekDetail.forEach(btn => {
             btn.addEventListener('click', openPengajuanForm);
@@ -14,6 +14,10 @@
     const closeButton = document.querySelector('.button-group > button:nth-child(2)');
     if (closeButton) {
         closeButton.addEventListener('click', closePengajuanForm);
+    }
+    const xbutt = document.querySelector('.pop-up-headerR >p');
+    if (xbutt) {
+        xbutt.addEventListener('click', closePengajuanForm);
     }
 
 })();
