@@ -1,9 +1,6 @@
 package org.unpar.project.repository;
 
 import java.util.List;
-import java.util.Optional;
-
-import org.unpar.project.model.Ruangan;
 
 public interface RuanganRepository {
     List<Ruangan> getAllRuangan();
