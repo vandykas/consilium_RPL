@@ -18,7 +18,7 @@ public class KuliahRepositoryImpl implements KuliahRepository {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<Kuliah> getKuliahListMahasiswa(String id, LocalDate mingguMulai, LocalDate mingguAkhir) {
+    public List<Kuliah> getKuliahList(String id, LocalDate mingguMulai, LocalDate mingguAkhir) {
         String sql = """
                 SELECT
                     j.idJadwal,
@@ -27,24 +27,8 @@ public class KuliahRepositoryImpl implements KuliahRepository {
                     j.jamSelesai
                 FROM
                     Jadwal j
-                INNER JOIN KuliahMaha k ON k.idJadwal = j.idJadwal
+                INNER JOIN KuliahMahaDosen k ON k.idJadwal = j.idJadwal
                 WHERE k.idMaha = ? AND j.tanggal BETWEEN ? AND ?
-                """;
-        return jdbcTemplate.query(sql, this::mapRowToKuliah, id, mingguMulai, mingguAkhir);
-    }
-
-    @Override
-    public List<Kuliah> getKuliahListDosen(String id, LocalDate mingguMulai, LocalDate mingguAkhir) {
-        String sql = """
-                SELECT
-                    j.idJadwal,
-                    j.tanggal,
-                    j.jamMulai,
-                    j.jamSelesai
-                FROM
-                    Jadwal j
-                INNER JOIN kuliahdosen k ON k.idJadwal = j.idJadwal
-                WHERE k.idDosen = ? AND j.tanggal BETWEEN ? AND ?
                 """;
         return jdbcTemplate.query(sql, this::mapRowToKuliah, id, mingguMulai, mingguAkhir);
     }

@@ -28,10 +28,10 @@ public class KuliahService {
         LocalDate today = LocalDate.now();
         LocalDate monday = today.with(DayOfWeek.MONDAY).plusWeeks(weekOffset);
 
-        List<Kuliah> kuliahGabungan = kuliahRepository.getKuliahListMahasiswa(id, monday, monday.plusDays(4));
+        List<Kuliah> kuliahGabungan = kuliahRepository.getKuliahList(id, monday, monday.plusDays(4));
         List<Dosen> dosenPembimbing = mahasiswaRepository.getListDosenPembimbing(id);
         for (Dosen dosen : dosenPembimbing) {
-            kuliahGabungan.addAll(kuliahRepository.getKuliahListDosen(dosen.getId(), monday, monday.plusDays(4)));
+            kuliahGabungan.addAll(kuliahRepository.getKuliahList(dosen.getId(), monday, monday.plusDays(4)));
         }
         return kuliahGabungan;
     }
