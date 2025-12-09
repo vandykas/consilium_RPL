@@ -202,9 +202,9 @@ INSERT INTO Pengguna VALUES
 ('M23075','Keane Edbert Candra','KecapABC','6182301075@student.unpar.ac.id', false),
 ('M23079','Alfonsus Nugraha Adi Prakosa','KecapABC','6182301079@student.unpar.ac.id', false),
 ('M23084','Justin Farrel Kristianto','KecapABC','6182301084@student.unpar.ac.id', false),
-('A23001','Kenneth Nathanael','Adminboy','Kenken@unpar.ac.id', true),
-('A23002','Gregorius Jason Maresi','Adminboy','Greg@unpar.ac.id', true),
-('A23003','Andrew Kevin Alexander','Adminboy','Endru@.unpar.ac.id', true);
+('A23001','Kenneth Nathanael','Adminboy','Kenken@unpar.ac.id', false),
+('A23002','Gregorius Jason Maresi','Adminboy','Greg@unpar.ac.id', false),
+('A23003','Andrew Kevin Alexander','Adminboy','Endru@.unpar.ac.id', false);
 
 INSERT INTO DosenPembimbing VALUES
 ('D12135'),
