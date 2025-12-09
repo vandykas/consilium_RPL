@@ -59,7 +59,10 @@
                 <div class="student-info">
                     <h2 th:text="${mahasiswa.nama}">Nama Mahasiswa</h2>
                     <p>Topik: <span th:text="${mahasiswa.namaTopik}">Topik TA</span></p>
-                    <p>Bimbingan terakhir: <span th:text="${#temporals.format(mahasiswa.bimbinganTerakhir, 'dd MMMM yyyy')}">Tanggal</span></p>
+                    <p>Bimbingan terakhir:
+                        <span th:if="${mahasiswa.bimbinganTerakhir != null}" th:text="${#temporals.format(mahasiswa.bimbinganTerakhir, 'dd MMMM yyyy')}">Tanggal</span>
+                        <span th:if="${mahasiswa.bimbinganTerakhir == null}">Belum bimbingan</span>
+                    </p>
                 </div>
                 <div class="progress-section">
                     <div class="progress-group">
