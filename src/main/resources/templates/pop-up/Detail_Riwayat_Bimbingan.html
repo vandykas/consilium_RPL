@@ -1,0 +1,46 @@
+<div class="overlay hidden"
+     id="overlay-pengajuan"
+     th:fragment="detail-riwayat-bimbingan">
+
+    <div class="pop-up-containerR">
+        <div class="pop-up-headerR">
+            <h1>Detail Bimbingan</h1>
+            <p><b>X</b></p>
+        </div>
+
+        <div class="pop-up-bodyR" th:object="${detailRiwayat}">
+            <p class="detail-bimbingan">
+                Tanggal : <span th:text="*{#temporals.format(tanggal,'dd MMMM yyyy')}">7 Oktober 2025</span>
+            </p>
+
+            <p class="detail-bimbingan">
+                Jam :
+                <span th:text="*{#temporals.format(jamMulai,'HH:mm')}">10:00</span> -
+                <span th:text="*{#temporals.format(jamSelesai,'HH:mm')}">11:00</span> WIB
+            </p>
+
+            <p class="detail-bimbingan">
+                Ruang :
+                <span th:text="*{namaRuangan}">Lab 4</span>
+                <span th:text="*{nomorRuangan}">9015</span>
+            </p>
+
+            <p class="detail-bimbingan">
+                Dosen :
+                <span th:text="*{dosen}">Vania Natali</span>
+            </p>
+
+            <p class="detail-bimbingan">
+                Inti : <br>
+                <span th:text="*{inti}">Mengerjakan cover</span>
+                <br>
+            </p>
+
+            <p class="detail-bimbingan">
+                Tugas : <br>
+                <span th:text="*{tugas}">Buat latar belakang 20 halaman</span>
+            </p>
+        </div>
+
+    </div>
+</div>
