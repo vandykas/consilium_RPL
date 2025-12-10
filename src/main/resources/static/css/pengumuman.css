@@ -43,6 +43,6 @@ tbody tr:nth-child(even) {
     background-color: #fafafa;
 }
 
-.row-danger {
+tbody tr.row-danger {
     background-color: #ffdddd;
 }

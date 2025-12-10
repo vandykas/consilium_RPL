@@ -17,7 +17,7 @@ public class PengumumanRepositoryImpl implements PengumumanRepository {
     private JdbcTemplate jdbcTemplate;
 
     private PengumumanBimbingan mapRow(ResultSet rs, int rowNum) throws SQLException {
-        boolean memenuhi = (rs.getInt("sebelumUts") + rs.getInt("setelahUts")) >= 5;
+        boolean memenuhi = ((rs.getInt("sebelumUts") >= 2) && (rs.getInt("setelahUts") >= 2));
 
         return new PengumumanBimbingan(
                 rs.getString("idMahasiswa"),

@@ -132,7 +132,8 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
         bimbingan.setTanggal(rs.getObject("tanggal", LocalDate.class));
         bimbingan.setWaktuMulai(rs.getObject("jammulai", LocalTime.class));
         bimbingan.setWaktuSelesai(rs.getObject("jamselesai", LocalTime.class));
-        bimbingan.setRuang(rs.getString("namaruangan"));
+        bimbingan.setNomorRuangan(rs.getString("nomorruangan"));
+        bimbingan.setNamaRuangan(rs.getString("namaruangan"));
         bimbingan.setTugas(rs.getString("tugas"));
         bimbingan.setInti(rs.getString("inti"));
         return bimbingan;

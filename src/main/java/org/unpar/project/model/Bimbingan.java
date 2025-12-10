@@ -15,7 +15,8 @@ public class Bimbingan {
     private LocalDate tanggal;
     private LocalTime waktuMulai;
     private LocalTime waktuSelesai;
-    private String ruang;
+    private String nomorRuangan;
+    private String namaRuangan;
     private String tugas;
     private String inti;
 }
