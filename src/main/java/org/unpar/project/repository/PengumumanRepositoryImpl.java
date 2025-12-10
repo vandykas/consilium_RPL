@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-
 @Repository
 public class PengumumanRepositoryImpl implements PengumumanRepository {
 
@@ -23,28 +22,28 @@ public class PengumumanRepositoryImpl implements PengumumanRepository {
         return new PengumumanBimbingan(
                 rs.getString("idMahasiswa"),
                 rs.getString("npm"),
-                rs.getString("namaMahasiswa"),
+                rs.getString("nama"),
                 rs.getString("judulTopik"),
                 rs.getInt("sebelumUts"),
                 rs.getInt("setelahUts"),
-                memenuhi
-        );
+                memenuhi);
     }
 
     @Override
     public List<PengumumanBimbingan> getAllPengumuman() {
 
         String sql = """
-            SELECT 
-                m.idMahasiswa,
-                m.npm,
-                m.namaMahasiswa,
-                t.judulTopik,
-                m.sebelumUts,
-                m.setelahUts
-            FROM Mahasiswa m
-            LEFT JOIN Topik t ON t.kodeTopik = m.kodeTopik
-        """;
+                    SELECT
+                        m.idMahasiswa,
+                        split_part(p.email, '@', 1) AS npm,
+                        p.nama,
+                        t.judulTopik,
+                        m.sebelumUts,
+                        m.setelahUts
+                    FROM Mahasiswa m
+                    LEFT JOIN Topik t ON t.kodeTopik = m.kodeTopik
+                    LEFT JOIN Pengguna p ON m.idMahasiswa = p.idPengguna
+                """;
 
         return jdbcTemplate.query(sql, this::mapRow);
     }
