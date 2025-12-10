@@ -11,6 +11,16 @@
         });
     }
 
+    document.querySelectorAll('.deny-button').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const id = this.dataset.id;
+
+        document.getElementById('popupId').value = id;
+
+        document.getElementById('overlay-pengajuan').classList.remove('hidden');
+    });
+});
+
     const closeButton = document.querySelector('.button-group > button:nth-child(2)');
     if (closeButton) {
         closeButton.addEventListener('click', closePengajuanForm);

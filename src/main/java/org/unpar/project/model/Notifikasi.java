@@ -1,11 +1,11 @@
 package org.unpar.project.model;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
@@ -16,6 +16,7 @@ public class Notifikasi {
     private String ruangan;
     private String pengirim;
     private String catatanDosen;
+    private String alasanPenolakan;
     private LocalDate tanggal;
     private LocalTime waktuMulai;
     private LocalTime waktuSelesai;
