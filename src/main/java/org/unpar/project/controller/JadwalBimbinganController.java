@@ -36,27 +36,33 @@ public class JadwalBimbinganController {
                                       Model model,
                                       HttpSession session) {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
+        String idPengguna = pengguna.getIdPengguna();
 
-        model.addAttribute("weekOffset", weekOffset);
-        model.addAttribute("currentDate", LocalDate.now().plusWeeks(weekOffset));
-        addCommonAttributes(model, pengguna);
+        addCommonAttributes(model, pengguna, weekOffset);
         addDaysLabel(model, weekOffset);
-        addUpcomingBimbingan(model, weekOffset, pengguna.getIdPengguna());
-        addBlockedJadwal(model, pengguna.getIdPengguna(), weekOffset);
-        checkBeforeOrAfterUTS(model, LocalDate.now(), pengguna.getIdPengguna());
+        addBimbinganToCalendarMahasiswa(model, weekOffset, idPengguna);
+        addBlockedJadwal(model, idPengguna, weekOffset);
+        checkBeforeOrAfterUTS(model, LocalDate.now(), idPengguna);
         return "jadwal/mahasiswa";
     }
 
     @GetMapping("/dosen")
-    public String viewJadwalDosen(Model model,
+    public String viewJadwalDosen(@RequestParam(defaultValue = "0") int weekOffset,
+                                  Model model,
                                   HttpSession session) {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
+        String idPengguna = pengguna.getIdPengguna();
 
-        addCommonAttributes(model, pengguna);
+        addCommonAttributes(model, pengguna, weekOffset);
+        addDaysLabel(model, weekOffset);
+        addBimbinganToCalendarDosen(model, weekOffset, idPengguna);
+        addBlockedJadwal(model, idPengguna, weekOffset);
         return "jadwal/dosen";
     }
 
-    private void addCommonAttributes(Model model, Pengguna pengguna) {
+    private void addCommonAttributes(Model model, Pengguna pengguna, int weekOffset) {
+        model.addAttribute("weekOffset", weekOffset);
+        model.addAttribute("currentDate", LocalDate.now().plusWeeks(weekOffset));
         model.addAttribute("currentPage", "jadwal");
         model.addAttribute("pengguna", pengguna);
     }
@@ -66,11 +72,13 @@ public class JadwalBimbinganController {
         model.addAttribute("tanggalMingguIni", tanggalList);
     }
 
-    private void addUpcomingBimbingan(Model model, int weekOffset, String idPengguna) {
-        List<BimbinganKalender> bimbinganList = bimbinganService.findAllBimbingan(idPengguna, weekOffset);
-        System.out.println("Isi bimbinganList: " + bimbinganList);
-        System.out.println("Jumlah: " + bimbinganList.size());
-        System.out.println("Kosong? " + bimbinganList.isEmpty());
+    private void addBimbinganToCalendarMahasiswa(Model model, int weekOffset, String idPengguna) {
+        List<BimbinganKalender> bimbinganList = bimbinganService.findBimbinganWeekMahasiswa(idPengguna, weekOffset);
+        model.addAttribute("bimbinganList", bimbinganList);
+    }
+
+    private void addBimbinganToCalendarDosen(Model model, int weekOffset, String idPengguna) {
+        List<BimbinganKalender> bimbinganList = bimbinganService.findBimbinganWeekDosen(idPengguna, weekOffset);
         model.addAttribute("bimbinganList", bimbinganList);
     }
 

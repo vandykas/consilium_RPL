@@ -90,23 +90,13 @@ CREATE TABLE Notifikasi (
 
 --many to many
 
-CREATE TABLE KuliahMaha (
+CREATE TABLE KuliahMahaDosen (
     idMaha char(6) NOT NULL,
     idJadwal INT NOT NULL,
 
     PRIMARY KEY (idMaha, idJadwal),
 
-    FOREIGN KEY (idMaha) REFERENCES Mahasiswa(idMahasiswa),
-    FOREIGN KEY (idJadwal) REFERENCES Kuliah(idJadwal)
-);
-
-CREATE TABLE KuliahDosen(
-	idDosen char(6) NOT NULL,
-    idJadwal INT NOT NULL,
-
-    PRIMARY KEY (idDosen, idJadwal),
-
-    FOREIGN KEY (idDosen) REFERENCES DosenPembimbing(idDosen),
+    FOREIGN KEY (idMaha) REFERENCES Pengguna(idPengguna),
     FOREIGN KEY (idJadwal) REFERENCES Kuliah(idJadwal)
 );
 
@@ -251,7 +241,7 @@ INSERT INTO Jadwal (hari, tanggal, jamMulai, jamSelesai, nomorRuangan) VALUES
 ('Senin','2025-09-10','10:00','12:00',9016),--2
 ('Senin','2025-09-10','13:00','15:00',9015),--3
 ('Senin','2025-09-10','16:00','17:00',9018),--4
-('Selasa','2026-10-11','08:00','10:00',9015),--5 ------
+('Selasa','2025-10-11','08:00','10:00',9015),--5 ------
 ('Selasa','2025-10-11','10:00','12:00',9017),--6
 ('Selasa','2025-10-11','13:00','15:00',9016),--7
 ('Selasa','2025-10-11','16:00','17:00',9017),--8
@@ -308,7 +298,7 @@ INSERT INTO Notifikasi (statusPersetujuan, alasanPenolakan, waktuKirim, tanggalK
 (false,'Mahasiswa Sakit','09:00','2025-12-13',16), --9
 (True,NULL,'11:00','2025-09-14',18); --10
 
-INSERT INTO KuliahMaha VALUES
+INSERT INTO KuliahMahaDosen VALUES
 ('M23031',1),
 ('M23031',17),
 ('M23023',3),
@@ -316,16 +306,18 @@ INSERT INTO KuliahMaha VALUES
 ('M23075',19),
 ('M23079',11),
 ('M23084',14),
-('M23084',20);
-
-INSERT INTO KuliahDosen VALUES
+('M23084',20),
 ('D12135',7),
 ('D09005',9);
 
 INSERT INTO Melakukan VALUES
+('D12135','M23023',2),
 ('D12135','M23023',5),
+('D12135','M23023',6),
 ('D09005','M23023',8),
+('D09005','M23023',10),
 ('D12135','M23023',12),
+('D12135','M23023',16),
 ('D09005','M23023',18);
 
 

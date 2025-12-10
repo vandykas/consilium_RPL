@@ -52,7 +52,7 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
     }
 
     @Override
-    public List<BimbinganKalender> findAllBimbingan(String id,
+    public List<BimbinganKalender> findBimbinganWeekByMahasiswa(String id,
                                                     LocalDate mingguMulai,
                                                     LocalDate mingguAkhir) {
         String sql = """
@@ -69,6 +69,24 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
         return jdbcTemplate.query(sql, this::mapRowToBimbinganKalender, mingguMulai, mingguAkhir, id);
     }
 
+
+    @Override
+    public List<BimbinganKalender> findBimbinganWeekByDosen(String id,
+                                                               LocalDate mingguMulai,
+                                                               LocalDate mingguAkhir) {
+        String sql = """
+                SELECT
+                    v.idJadwal,
+                    v.tanggal,
+                    v.jamMulai,
+                    v.jamSelesai,
+                    v.namaRuangan
+                FROM
+                    ViewBimbinganLengkap v
+                WHERE v.tanggal BETWEEN ? AND ? AND v.iddosen = ?
+                """;
+        return jdbcTemplate.query(sql, this::mapRowToBimbinganKalender, mingguMulai, mingguAkhir, id);
+    }
     @Override
     public Optional<Bimbingan> findUpcomingBimbinganByMahasiswa(String id) {
         String sql = """
