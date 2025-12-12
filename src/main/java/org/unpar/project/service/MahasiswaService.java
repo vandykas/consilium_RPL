@@ -22,7 +22,7 @@ public class MahasiswaService {
     private MahasiswaRepository mahasiswaRepository;
 
     @Autowired
-    private TopikRepository topikRepository; // Inject TopikRepo
+    private TopikRepository topikRepository;
 
     public String getKodeTopikMahasiswa(String idMahasiswa) {
         return mahasiswaRepository.getKodeTopikMahasiswa(idMahasiswa);

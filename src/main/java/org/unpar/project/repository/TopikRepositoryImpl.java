@@ -40,6 +40,7 @@ public class TopikRepositoryImpl implements TopikRepository {
     public List<Topik> findAllTopikByDosen(String id) {
         String sql = """
                 SELECT
+                    t.kodeTopik,
                     t.judulTopik
                 FROM
                     (SELECT

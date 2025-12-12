@@ -261,3 +261,10 @@ tbody td p {
     font-size: 16px;
     height: auto; 
 }
+
+.file-input-custom {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}

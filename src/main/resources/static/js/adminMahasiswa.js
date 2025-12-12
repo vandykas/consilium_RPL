@@ -1,12 +1,9 @@
-// adminMahasiswa.js
-// Base URL untuk Rest Controller (Harap diperhatikan: karena ini JS eksternal, URL harus hardcoded atau diambil dari atribut HTML)
 const API_URL = '/api/admin/mahasiswa';
 
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('editModal');
     const form = document.getElementById('formEditMahasiswa');
 
-    // --- 1. Fungsi Buka Modal & Fetch Data ---
     window.openEditModal = function (idMahasiswa) {
         modal.style.display = 'block';
 
@@ -18,15 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.json();
             })
             .then(data => {
-                // Isi form dengan data DTO dari Backend
                 document.getElementById('editIdMahasiswa').value = data.idMahasiswa;
                 document.getElementById('editEmail').value = data.email;
                 document.getElementById('editNama').value = data.nama;
-
-                // Set Topik yang sedang dipilih
                 document.getElementById('editTopik').value = data.kodeTopik;
-
-                // Tampilkan Dosen Pembimbing (read-only)
                 document.getElementById('editNamaDosenDisplay').innerText = data.namaDosen || 'N/A';
             })
             .catch(error => {
@@ -36,12 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // --- 2. Fungsi Tutup Modal ---
     window.closeEditModal = function () {
         modal.style.display = 'none';
     }
 
-    // --- 3. SUBMIT FORM (UPDATE DATA) ---
     form.addEventListener('submit', function (e) {
         e.preventDefault();
 
@@ -74,14 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 
-    // --- 4. ATTACH HANDLER KE TOMBOL EDIT DI TABEL ---
     document.querySelectorAll('.edit-button').forEach(button => {
-
-        // Ambil ID Mahasiswa langsung dari atribut data-id
         const idMahasiswa = button.getAttribute('data-id');
 
         button.addEventListener('click', () => {
-            // Pastikan ID berhasil didapat sebelum memanggil modal
             if (idMahasiswa) {
                 openEditModal(idMahasiswa);
             } else {
@@ -90,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 5. Tutup modal jika user klik di luar kotak modal ---
     window.onclick = function (event) {
         if (event.target == modal) {
             closeEditModal();

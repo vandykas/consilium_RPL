@@ -25,6 +25,15 @@ public class DosenService {
         return dosenRepository.getKodeTopikDosen(idDosen);
     }
 
+    public Dosen getDosenById(String idDosen) {
+        Dosen dosen = dosenRepository.findDosenById(idDosen); 
+        
+        if (dosen != null) {
+            dosen.setMahasiswaList(getListMahasiswaBimbingan(dosen.getId()));
+        }
+        return dosen;
+    }
+
     public List<Dosen> getAllDosen() {
         List<Dosen> dosenList = dosenRepository.findAllDosen();
         for (Dosen dosen : dosenList) {
@@ -36,5 +45,11 @@ public class DosenService {
 
     public List<Mahasiswa> getListMahasiswaBimbingan(String idDosen) {
         return dosenRepository.getListMahasiswaBimbingan(idDosen);
+    }
+
+    public Dosen updateDosenData(Dosen dosen) {
+        dosenRepository.updateDosen(dosen); 
+
+        return dosen;
     }
 }
