@@ -1,0 +1,17 @@
+<div class="overlay hidden" id="overlay-pengajuan" th:fragment="alasan-menolak-bimbingan">
+    <div class="pop-up-containerR">
+        <div class="pop-up-headerR">
+            <h1>Alasan Menolak</h1>
+            <p><b>X</b></p>
+        </div>
+        <div class="pop-up-bodyR">
+            
+            <form method="POST" th:action="@{/notifikasi/updateNotifikasi}">
+                <p>Alasan</p>
+                <input type="text" id="textbox" name="alasan" width="100px" height="100px"><br>
+                <input type="hidden" name="id" id="popupId">
+                <input type="hidden" name="status" value="NO">
+                <button type="submit" class="send-butt">Kirim</button>
+            </form>
+        </div>
+    </div>

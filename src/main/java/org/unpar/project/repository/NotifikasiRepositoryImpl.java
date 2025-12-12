@@ -1,15 +1,15 @@
 package org.unpar.project.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
-import org.unpar.project.model.Notifikasi;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+import org.unpar.project.model.Notifikasi;
 
 @Repository
 public class NotifikasiRepositoryImpl implements NotifikasiRepository {
@@ -24,6 +24,7 @@ public class NotifikasiRepositoryImpl implements NotifikasiRepository {
                     n.statuspersetujuan,
                     n.tanggalkirim,
                     n.waktukirim,
+                    n.alasanPenolakan,
                     b.inti,
                     r.namaruangan,
                     j.tanggal,
@@ -46,9 +47,9 @@ public class NotifikasiRepositoryImpl implements NotifikasiRepository {
     }
 
     @Override
-    public void updateStatusNotifikasi(int id, boolean status) {
-        String sql = "UPDATE notifikasi SET statusPersetujuan = ? WHERE idnotifikasi = ?";
-        jdbcTemplate.update(sql, status, id);
+    public void updateStatusNotifikasi(int id, boolean status,String alasanPenolakan) {
+        String sql = "UPDATE notifikasi SET statusPersetujuan = ?,alasanPenolakan=? WHERE idnotifikasi = ?";
+        jdbcTemplate.update(sql, status, alasanPenolakan,id);
     }
 
     private Notifikasi mapRowToNotifikasi(ResultSet rs, int rowNum) throws SQLException {
@@ -57,6 +58,7 @@ public class NotifikasiRepositoryImpl implements NotifikasiRepository {
         notifikasi.setStatus(rs.getObject("statuspersetujuan", Boolean.class));
         notifikasi.setRuangan(rs.getString("namaruangan"));
         notifikasi.setPengirim(rs.getString("pengirim"));
+        notifikasi.setAlasanPenolakan(rs.getString("alasanPenolakan"));
         notifikasi.setCatatanDosen(rs.getString("inti"));
         notifikasi.setTanggal(rs.getObject("tanggal", LocalDate.class));
         notifikasi.setWaktuMulai(rs.getObject("jammulai", LocalTime.class));

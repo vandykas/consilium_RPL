@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id" 
       xmlns:th="http://www.thymeleaf.org"
-      th:fragment="beranda (title, header, table)">
+      th:fragment="beranda (title, header, table, scripts)">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +12,7 @@
 </head>
 <body>
     <th:block th:replace="~{layout/navigation :: navBar}"></th:block>
+    <th:block th:replace="${scripts} ?: ~{}"></th:block>
     <div class="content-container">
         <header th:replace="${header}"></header>
         <div class="content-controls">

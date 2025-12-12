@@ -1,11 +1,11 @@
 package org.unpar.project.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.unpar.project.model.Notifikasi;
 import org.unpar.project.repository.NotifikasiRepository;
-
-import java.util.List;
 
 @Service
 public class NotifikasiService {
@@ -16,7 +16,7 @@ public class NotifikasiService {
         return notifikasiRepository.findAllNotifikasiById(id);
     }
 
-    public void updateStatusNotifikasi(int id, boolean status) {
-        notifikasiRepository.updateStatusNotifikasi(id, status);
+    public void updateStatusNotifikasi(int id, boolean status,String alasanPenolakan) {
+        notifikasiRepository.updateStatusNotifikasi(id, status,alasanPenolakan);
     }
 }

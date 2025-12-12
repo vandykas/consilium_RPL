@@ -1,13 +1,16 @@
 package org.unpar.project.controller.api;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.*;
-import org.unpar.project.service.JadwalService;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.unpar.project.service.JadwalService;
 
 @RestController
 @RequestMapping("/api/jadwal")
@@ -16,9 +19,6 @@ public class JadwalApiController {
     @Autowired
     private JadwalService jadwalService;
 
-    // -------------------------------------------------------------
-    // 1. DAPATKAN JAM MULAI YANG BISA DIPILIH
-    // -------------------------------------------------------------
     @GetMapping("/available-start")
     public List<LocalTime> getAvailableStartTimes(
             @RequestParam("tanggal")
@@ -28,9 +28,6 @@ public class JadwalApiController {
         return jadwalService.getAvailableStartTimes(tanggal);
     }
 
-    // -------------------------------------------------------------
-    // 2. DAPATKAN JAM SELESAI (DARI JAM MULAI)
-    // -------------------------------------------------------------
     @GetMapping("/available-end")
     public List<LocalTime> getAvailableEndTimes(
             @RequestParam("tanggal")
@@ -44,9 +41,6 @@ public class JadwalApiController {
     }
 
 
-    // -------------------------------------------------------------
-    // 3. DAPATKAN RUANGAN YANG TERSEDIA
-    // -------------------------------------------------------------
     @GetMapping("/available-ruangan")
     public List<String> getAvailableRooms(
             @RequestParam("tanggal")

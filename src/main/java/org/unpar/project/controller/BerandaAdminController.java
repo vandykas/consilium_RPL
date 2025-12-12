@@ -1,6 +1,5 @@
 package org.unpar.project.controller;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +9,8 @@ import org.unpar.project.aspect.RequiredRole;
 import org.unpar.project.model.Pengguna;
 import org.unpar.project.service.DosenService;
 import org.unpar.project.service.MahasiswaService;
+
+import jakarta.servlet.http.HttpSession;
 
 
 @Controller
@@ -28,6 +29,7 @@ public class BerandaAdminController {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
         addCommonAttributes(model, "adminMahasiswa", pengguna);
         addMahasiswaTableColumn(model);
+        model.addAttribute("listTopik", mahasiswaService.getAllTopikForDropdown());
         return "admin/adminMahasiswa";
     }
 

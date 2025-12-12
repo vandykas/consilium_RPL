@@ -1,14 +1,14 @@
 package org.unpar.project.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
-
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class JadwalRepositoryImpl implements JadwalRepository {
@@ -16,17 +16,12 @@ public class JadwalRepositoryImpl implements JadwalRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    // ---------------------------------------------------------
-    // 1. GET AVAILABLE START TIMES
-    // ---------------------------------------------------------
     @Override
     public List<LocalTime> findAvailableStartTimes(LocalDate tanggal) {
 
-        // Jam operasional bimbingan → bisa disesuaikan
         LocalTime jamBuka = LocalTime.of(8, 0);
         LocalTime jamTutup = LocalTime.of(17, 0);
 
-        // Ambil semua jadwal pada tanggal tsb
         String sql = """
             SELECT jamMulai, jamSelesai 
             FROM Jadwal
@@ -44,7 +39,6 @@ public class JadwalRepositoryImpl implements JadwalRepository {
 
         List<LocalTime> available = new ArrayList<>();
 
-        // Cek setiap 30 menit
         for (LocalTime check = jamBuka;
              check.isBefore(jamTutup);
              check = check.plusMinutes(30)) {
@@ -66,19 +60,14 @@ public class JadwalRepositoryImpl implements JadwalRepository {
         return available;
     }
 
-    // ---------------------------------------------------------
-    // 2. GET AVAILABLE END TIMES (max 3 hours)
-    // ---------------------------------------------------------
     @Override
     public List<LocalTime> findAvailableEndTimes(LocalDate tanggal, LocalTime mulai) {
 
         List<LocalTime> ends = new ArrayList<>();
 
-        // Durasi maksimal 3 jam
         for (int i = 1; i <= 3; i++) {
             LocalTime selesai = mulai.plusHours(i);
 
-            // Cek bentrok
             if (!isTimeConflict(tanggal, mulai, selesai)) {
                 ends.add(selesai);
             }
@@ -87,18 +76,13 @@ public class JadwalRepositoryImpl implements JadwalRepository {
         return ends;
     }
 
-    // ---------------------------------------------------------
-    // 3. GET AVAILABLE ROOMS
-    // ---------------------------------------------------------
     @Override
     public List<String> findAvailableRooms(LocalDate tanggal, LocalTime mulai, LocalTime selesai) {
-
-        // Ambil ruangan yang tidak bentrok
         String sql = """
             SELECT r.namaRuangan
             FROM Ruangan r
             WHERE r.statusRuangan = TRUE
-            AND r.nomorRuangan NOT IN (
+            AND r.nomorRuangan NOT IN (W
                 SELECT nomorRuangan
                 FROM Jadwal
                 WHERE tanggal = ?
@@ -116,9 +100,6 @@ public class JadwalRepositoryImpl implements JadwalRepository {
         );
     }
 
-    // ---------------------------------------------------------
-    // HELPER: CEK BENTROK
-    // ---------------------------------------------------------
     private boolean isTimeConflict(LocalDate tanggal, LocalTime mulai, LocalTime selesai) {
 
         String sql = """
@@ -139,10 +120,6 @@ public class JadwalRepositoryImpl implements JadwalRepository {
         return count != null && count > 0;
     }
 
-
-    // ---------------------------------------------------------
-    // INTERNAL CLASS UNTUK SLOT JADWAL
-    // ---------------------------------------------------------
     private record JadwalSlot(LocalTime jamMulai, LocalTime jamSelesai) {}
 
 }

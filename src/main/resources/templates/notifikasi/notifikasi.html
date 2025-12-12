@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,15 +8,18 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/navigation.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/notifikasi.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/popup.css}">
+    <script th:src="@{/js/popup.js}" defer></script>
 </head>
+
 <body>
     <th:block th:replace="~{layout/navigation :: navBar}"></th:block>
-    
+
     <main>
         <header>
             <h1>Notifikasi</h1>
         </header>
-        
+
         <div id="notification-container">
             <!-- Pengajuan Bimbingan -->
             <section aria-labelledby="pengajuan-heading">
@@ -23,18 +27,16 @@
                     <h4 id="pengajuan-heading">Pengajuan Bimbingan</h4>
                 </div>
                 <div class="notification-body-container">
-                    <div class="notification-item" 
-                         th:each="notif : ${notifications}"
-                         th:if="${notif.status == null}">
+                    <div class="notification-item" th:each="notif : ${notifications}" th:if="${notif.status == null}">
                         <div class="notification-item-left">
                             <p>
-                                Penjadwalan Bimbingan pada 
+                                Penjadwalan Bimbingan pada
                                 <span th:text="${#temporals.format(notif.tanggal, 'EEEE, dd MMMM yyyy')}">tanggal</span>
                                 di <span th:text="${notif.ruangan}">ruangan</span>
                             </p>
                             <p>
-                                Jam: 
-                                <span th:text="${notif.waktuMulai}">mulai</span> - 
+                                Jam:
+                                <span th:text="${notif.waktuMulai}">mulai</span> -
                                 <span th:text="${notif.waktuSelesai}">selesai</span>
                             </p>
                             <p>
@@ -55,13 +57,12 @@
                                     Setuju
                                 </button>
                             </form>
-                            <form method="POST" th:action="@{/notifikasi/updateNotifikasi}">
-                                <input type="hidden" name="id" th:value="${notif.id}">
-                                <input type="hidden" name="status" value="NO">
-                                <button type="submit" class="deny-button">
-                                    Tolak
-                                </button>
-                            </form>
+                            <button 
+    type="button" 
+    class="deny-button"
+    th:attr="data-id=${notif.id}">
+    Tolak
+</button>
                         </div>
                     </div>
                 </div>
@@ -73,9 +74,8 @@
                     <h4 id="catatan-heading">Catatan Bimbingan</h4>
                 </div>
                 <div class="notification-body-container">
-                    <div class="notification-item"
-                         th:each="notif : ${notifications}"
-                         th:if="${notif.catatanDosen != null and notif.catatanDosen != ''}">
+                    <div class="notification-item" th:each="notif : ${notifications}"
+                        th:if="${notif.catatanDosen != null and notif.catatanDosen != ''}">
                         <div class="notification-item-left">
                             <p>
                                 Catatan mengenai bimbingan pada
@@ -85,7 +85,7 @@
                                 Catatan :
                                 <span th:text="${notif.catatanDosen}">temp</span>
                             </p>
-                            
+
                         </div>
                         <div class="notification-item-right">
                             <p>
@@ -104,18 +104,16 @@
                     <h4 id="sistem-heading">Sistem</h4>
                 </div>
                 <div class="notification-body-container">
-                    <div class="notification-item" 
-                         th:each="notif : ${notifications}"
-                         th:if="${notif.status != null}">
+                    <div class="notification-item" th:each="notif : ${notifications}" th:if="${notif.status != null}">
                         <div class="notification-item-left">
                             <p>
-                                Penjadwalan Bimbingan pada 
+                                Penjadwalan Bimbingan pada
                                 <span th:text="${#temporals.format(notif.tanggal, 'EEEE, dd MMMM yyyy')}">tanggal</span>
                                 di <span th:text="${notif.ruangan}">ruangan</span>
                             </p>
                             <p>
-                                Jam: 
-                                <span th:text="${notif.waktuMulai}">mulai</span> - 
+                                Jam:
+                                <span th:text="${notif.waktuMulai}">mulai</span> -
                                 <span th:text="${notif.waktuSelesai}">selesai</span>
                             </p>
                             <p>
@@ -129,16 +127,10 @@
                                 </time>
                             </p>
                             <p><span th:text="${notif.waktuKirim}">waktu</span></p>
-                            <button type="button"
-                                    th:if="${notif.status}"
-                                    class="accept-button"
-                                    disabled>
+                            <button type="button" th:if="${notif.status}" class="accept-button" disabled>
                                 Disetujui
                             </button>
-                            <button type="button"
-                                    th:if="${notif.status == false}"
-                                    class="deny-button"
-                                    disabled>
+                            <button type="button" th:if="${notif.status == false}" class="deny-button" disabled>
                                 Ditolak
                             </button>
                         </div>
@@ -147,5 +139,7 @@
             </section>
         </div>
     </main>
+    <th:block th:replace="~{pop-up/Alasan_Menolak_Bimbingan :: alasan-menolak-bimbingan}"></th:block>
 </body>
+
 </html>

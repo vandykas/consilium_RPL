@@ -1,9 +1,15 @@
 package org.unpar.project.repository;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.unpar.project.model.Ruangan;
 
-import java.util.List;
-
 public interface RuanganRepository {
-    List<Ruangan> findAll();
+    List<Ruangan> getAllRuangan();
+    Optional<Ruangan> getRuanganByNomor(String nomor);
+    List<Ruangan> getAllRuanganKosong();
+    List<Ruangan> getAllRuanganTerisi();
+    List<Ruangan> getAllRuanganResmi();
+    List<Ruangan> getAllRuanganNonResmi();
 }

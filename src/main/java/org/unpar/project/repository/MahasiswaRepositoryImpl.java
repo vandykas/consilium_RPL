@@ -2,6 +2,7 @@ package org.unpar.project.repository;
 
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.unpar.project.dto.MahasiswaEditDTO;
 import org.unpar.project.model.Dosen;
 import org.unpar.project.model.Mahasiswa;
 import org.springframework.stereotype.Repository;
@@ -104,5 +105,41 @@ public class MahasiswaRepositoryImpl implements MahasiswaRepository {
         m.setSebelumUts(rs.getInt("sebelumUTS"));
         m.setSetelahUts(rs.getInt("setelahUTS"));
         return m;
+    }
+
+    @Override
+    public MahasiswaEditDTO findMahasiswaDetailForEdit(String idMahasiswa) {
+        String sql = """
+            SELECT 
+                m.idMahasiswa, 
+                p.nama, 
+                p.email, 
+                m.kodeTopik 
+            FROM Mahasiswa m
+            JOIN Pengguna p ON m.idMahasiswa = p.idPengguna
+            WHERE m.idMahasiswa = ?
+        """;
+        
+        try {
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+                MahasiswaEditDTO dto = new MahasiswaEditDTO();
+                dto.setIdMahasiswa(rs.getString("idMahasiswa"));
+                dto.setNama(rs.getString("nama"));
+                dto.setEmail(rs.getString("email"));
+                dto.setKodeTopik(rs.getString("kodeTopik"));
+                return dto;
+            }, idMahasiswa);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public void updateMahasiswaData(String idMahasiswa, String nama, String email, String kodeTopik) {
+        String sqlPengguna = "UPDATE Pengguna SET nama = ?, email = ? WHERE idPengguna = ?";
+        jdbcTemplate.update(sqlPengguna, nama, email, idMahasiswa);
+
+        String sqlMahasiswa = "UPDATE Mahasiswa SET kodeTopik = ? WHERE idMahasiswa = ?";
+        jdbcTemplate.update(sqlMahasiswa, kodeTopik, idMahasiswa);
     }
 }
