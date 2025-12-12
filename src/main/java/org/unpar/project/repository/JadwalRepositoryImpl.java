@@ -2,15 +2,15 @@ package org.unpar.project.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.unpar.project.model.Jadwal;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -32,6 +32,28 @@ public class JadwalRepositoryImpl implements JadwalRepository {
                 WHERE k.idPengguna = ? AND j.hari = ?;
                 """;
         return jdbcTemplate.query(sql, this::mapRowToJadwalBasic, idPengguna, hari);
+    }
+
+    @Override
+    public Integer saveJadwal(String hariBimbingan, LocalTime jamMulai, LocalTime jamSelesai, Integer ruangan) {
+        String sql = "INSERT INTO Jadwal (hari, jammulai, jamselesai, nomorruangan) VALUES (?, ?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            String[] keyColumn = {"idjadwal"};
+            PreparedStatement ps = connection.prepareStatement(sql, keyColumn);
+
+            // Isi parameter
+            ps.setString(1, hariBimbingan);
+            ps.setObject(2, jamMulai);
+            ps.setObject(3, jamSelesai);
+            ps.setInt(4, ruangan);
+
+            return ps;
+        }, keyHolder);
+
+        // Ambil ID yang dihasilkan
+        return keyHolder.getKey() != null ? keyHolder.getKey().intValue() : null;
     }
 
     private Jadwal mapRowToJadwalBasic(ResultSet rs, int rowNum) throws SQLException {

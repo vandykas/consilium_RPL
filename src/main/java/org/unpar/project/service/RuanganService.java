@@ -1,5 +1,7 @@
 package org.unpar.project.service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,5 +38,9 @@ public class RuanganService {
 
     public List<Ruangan> getAllRuanganNonResmi() {
         return ruanganRepository.getAllRuanganNonResmi();
+    }
+
+    public List<Ruangan> getRuanganTersedia(LocalDate tanggal, LocalTime mulai, LocalTime selesai) {
+        return ruanganRepository.findRuanganTersedia(tanggal, mulai, selesai);
     }
 }

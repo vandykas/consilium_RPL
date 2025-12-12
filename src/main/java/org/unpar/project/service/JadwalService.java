@@ -19,30 +19,44 @@ public class JadwalService {
     @Autowired
     private JadwalRepository jadwalRepository;
 
-    public List<LocalTime> getAvailableStartTimes(LocalDate tanggal, String idPengguna) {
-        List<Jadwal> jadwal = jadwalRepository.findJadwalByTanggal(getHariIndonesia(tanggal), idPengguna);
-        Collections.sort(jadwal);
+    public List<LocalTime> getAvailableStartTimes(LocalDate tanggal, String idPengguna, List<String> dosenIds) {
+        String hari = getHariIndonesia(tanggal);
+
+        List<Jadwal> jadwalGabungan = new ArrayList<>(jadwalRepository.findJadwalByTanggal(hari, idPengguna));
+
+        if (dosenIds != null) {
+            for (String idDosen : dosenIds) {
+                jadwalGabungan.addAll(jadwalRepository.findJadwalByTanggal(hari, String.valueOf(idDosen)));
+            }
+        }
+
+        Collections.sort(jadwalGabungan);
 
         LocalTime current = LocalTime.of(7, 0);
         LocalTime endDay = LocalTime.of(17, 0);
-
         List<LocalTime> jamKosong = new ArrayList<>();
 
         int idx = 0;
-        while (current.isBefore(endDay) && idx < jadwal.size()) {
-            if (current.isBefore(jadwal.get(idx).getJamMulai())) {
+        while (current.isBefore(endDay) && idx < jadwalGabungan.size()) {
+            Jadwal j = jadwalGabungan.get(idx);
+
+            if (current.isBefore(j.getJamMulai())) {
                 jamKosong.add(current);
                 current = current.plusHours(1);
             }
             else {
-                current = jadwal.get(idx).getJamSelesai();
+                if (j.getJamSelesai().isAfter(current)) {
+                    current = j.getJamSelesai();
+                }
                 idx++;
             }
         }
+
         while (current.isBefore(endDay)) {
             jamKosong.add(current);
             current = current.plusHours(1);
         }
+
         return jamKosong;
     }
 

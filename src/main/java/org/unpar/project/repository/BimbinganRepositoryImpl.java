@@ -125,6 +125,12 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
         }
     }
 
+    @Override
+    public void saveBimbingan(Integer idJadwal, LocalDate tanggalBimbingan) {
+        String sql = "INSERT INTO Bimbingan (idjadwal, tanggal) VALUES (?, ?)";
+        jdbcTemplate.update(sql, idJadwal, tanggalBimbingan);
+    }
+
     private Bimbingan mapRowToBimbingan(ResultSet rs, int rowNum) throws SQLException {
         Bimbingan bimbingan = new Bimbingan();
         // Menggunakan id_baru karena di-SELECT oleh query Upcoming
@@ -132,8 +138,7 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
         bimbingan.setTanggal(rs.getObject("tanggal", LocalDate.class));
         bimbingan.setWaktuMulai(rs.getObject("jammulai", LocalTime.class));
         bimbingan.setWaktuSelesai(rs.getObject("jamselesai", LocalTime.class));
-        bimbingan.setNomorRuangan(rs.getString("nomorruangan"));
-        bimbingan.setNamaRuangan(rs.getString("namaruangan"));
+        bimbingan.setRuang(rs.getString("namaruangan"));
         bimbingan.setTugas(rs.getString("tugas"));
         bimbingan.setInti(rs.getString("inti"));
         return bimbingan;

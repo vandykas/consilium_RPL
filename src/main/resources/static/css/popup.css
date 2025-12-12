@@ -109,11 +109,11 @@
     font-weight: 500;
 }
 
-.mahasiswa-list-checkbox {
-    border: 1px solid var(--outline-color);
+.list-checkbox {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
     border-radius: var(--radius-sm);
-    padding: var(--spacing-sm);
-    max-height: 200px;
     overflow-y: auto;
 }
 

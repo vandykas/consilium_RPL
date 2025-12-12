@@ -7,7 +7,10 @@ import org.unpar.project.model.Ruangan;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class RuanganRepositoryImpl implements RuanganRepository {
@@ -49,6 +52,23 @@ public class RuanganRepositoryImpl implements RuanganRepository {
     public List<Ruangan> getAllRuanganNonResmi() {
         String sql = "SELECT * FROM ruangan WHERE jenisRuangan = ?";
         return jdbcTemplate.query(sql, this::mapRowToRuangan, true);
+    }
+
+    @Override
+    public List<Ruangan> findRuanganTersedia(LocalDate tanggal, LocalTime mulai, LocalTime selesai) {
+        String sql = """
+                SELECT *
+                FROM Ruangan r
+                WHERE r.nomorRuangan NOT IN (
+                    SELECT j.nomorRuangan
+                    FROM Jadwal j
+                    JOIN Bimbingan b ON b.idJadwal = j.idJadwal
+                    WHERE b.tanggal = ?
+                    AND j.jamMulai < ?
+                    AND j.jamSelesai > ?
+                )
+                """;
+        return jdbcTemplate.query(sql, this::mapRowToRuangan, tanggal, selesai, mulai);
     }
 
     private Ruangan mapRowToRuangan(ResultSet rs, int rowNum) throws SQLException {

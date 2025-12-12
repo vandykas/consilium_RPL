@@ -8,9 +8,46 @@
         
         <form class="form-pengajuan" 
               method="post" 
-              th:action="@{/bimbingan/ajukan}"
+              th:action="@{/jadwal/ajukan-bimbingan}"
               id="form-pengajuan-bimbingan">
-            
+
+            <div th:if="${pengguna.role == 'mahasiswa'}">
+                <label for="dosen-list">
+                    Pilih Dosen Pembimbing
+                    <div id="dosen-list"
+                         class="list-checkbox"
+                         role="group"
+                         aria-labelledby="dosen-list">
+                        <div th:each="dosen : ${dosenList}">
+                            <input type="checkbox" name="penerima" th:text="${dosen.nama}" th:value="${dosen.id}">
+                        </div>
+                    </div>
+                </label>
+            </div>
+
+            <div th:if="${pengguna.role == 'dosen'}">
+                <label for="mahasiswa-list">
+                    Pilih mahasiswa (bisa lebih dari 1)
+                    <div id="mahasiswa-list"
+                         class="list-checkbox"
+                         role="group"
+                         aria-labelledby="mahasiswa-list">
+                    </div>
+                </label>
+
+                <label for="jadwal-rutin">
+                    Penjadwalan rutin
+                    <select id="jadwal-rutin"
+                            name="jadwalRutin"
+                            class="input_text_outline">
+                        <option value="">Tidak ada</option>
+                        <option value="mingguan">Mingguan</option>
+                        <option value="dua-mingguan">Dua Minggu Sekali</option>
+                        <option value="bulanan">Bulanan</option>
+                    </select>
+                </label>
+            </div>
+
             <label for="tanggal-bimbingan">
                 Pilih tanggal
                 <input type="date" 
@@ -49,31 +86,8 @@
                     <option selected disabled>Pilih ruangan</option>
                 </select>
             </label>
-            
-            <!-- Hanya untuk dosen -->
-            <div th:if="${currentRole == 'dosen'}">
-                <label for="mahasiswa-list">
-                    Pilih mahasiswa (bisa lebih dari 1)
-                    <div id="mahasiswa-list" 
-                         class="mahasiswa-list-checkbox"
-                         role="group"
-                         aria-labelledby="mahasiswa-list">
-                    </div>
-                </label>
-                
-                <label for="jadwal-rutin">
-                    Penjadwalan rutin
-                    <select id="jadwal-rutin"
-                            name="jadwalRutin" 
-                            class="input_text_outline">
-                        <option value="">Tidak ada</option>
-                        <option value="mingguan">Mingguan</option>
-                        <option value="dua-mingguan">Dua Minggu Sekali</option>
-                        <option value="bulanan">Bulanan</option>
-                    </select>
-                </label>
-            </div>
-            
+
+
             <div class="button-group">
                 <button type="submit" class="button_yellow">
                     Ajukan Bimbingan

@@ -5,15 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.unpar.project.dto.BimbinganKalender;
-import org.unpar.project.model.Bimbingan;
+import org.unpar.project.dto.BimbinganRequest;
 import org.unpar.project.model.Pengguna;
 import org.unpar.project.service.BimbinganService;
 import org.unpar.project.service.KuliahService;
 import org.unpar.project.service.MahasiswaService;
-import org.unpar.project.service.PenggunaService;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -43,6 +43,7 @@ public class JadwalBimbinganController {
         addBimbinganToCalendarMahasiswa(model, weekOffset, idPengguna);
         addBlockedJadwal(model, idPengguna);
         checkBeforeOrAfterUTS(model, LocalDate.now(), idPengguna);
+        model.addAttribute("dosenList", mahasiswaService.getListDosenPembimbing(idPengguna));
         return "jadwal/mahasiswa";
     }
 
@@ -58,6 +59,14 @@ public class JadwalBimbinganController {
         addBimbinganToCalendarDosen(model, weekOffset, idPengguna);
         addBlockedJadwal(model, idPengguna);
         return "jadwal/dosen";
+    }
+
+    @PostMapping("/ajukan-bimbingan")
+    public String saveBimbingan(BimbinganRequest bimbinganRequest,
+                              HttpSession httpSession) {
+        Pengguna pengguna = (Pengguna) httpSession.getAttribute("pengguna");
+        bimbinganService.makeBimbingan(bimbinganRequest, pengguna.getIdPengguna());
+        return "redirect:/jadwal/mahasiswa";
     }
 
     private void addCommonAttributes(Model model, Pengguna pengguna, int weekOffset) {
