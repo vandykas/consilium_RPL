@@ -41,7 +41,7 @@ public class JadwalBimbinganController {
         addCommonAttributes(model, pengguna, weekOffset);
         addDaysLabel(model, weekOffset);
         addBimbinganToCalendarMahasiswa(model, weekOffset, idPengguna);
-        addBlockedJadwal(model, idPengguna, weekOffset);
+        addBlockedJadwal(model, idPengguna);
         checkBeforeOrAfterUTS(model, LocalDate.now(), idPengguna);
         return "jadwal/mahasiswa";
     }
@@ -56,7 +56,7 @@ public class JadwalBimbinganController {
         addCommonAttributes(model, pengguna, weekOffset);
         addDaysLabel(model, weekOffset);
         addBimbinganToCalendarDosen(model, weekOffset, idPengguna);
-        addBlockedJadwal(model, idPengguna, weekOffset);
+        addBlockedJadwal(model, idPengguna);
         return "jadwal/dosen";
     }
 
@@ -82,8 +82,8 @@ public class JadwalBimbinganController {
         model.addAttribute("bimbinganList", bimbinganList);
     }
 
-    private void addBlockedJadwal(Model model, String idPengguna, int weekOffset) {
-        model.addAttribute("blockedList", kuliahService.getKuliahListMahasiswa(idPengguna, weekOffset));
+    private void addBlockedJadwal(Model model, String idPengguna) {
+        model.addAttribute("blockedList", kuliahService.getKuliahListMahasiswa(idPengguna));
     }
 
     private void checkBeforeOrAfterUTS(Model model, LocalDate now, String id) {

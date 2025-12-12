@@ -91,12 +91,12 @@ CREATE TABLE Notifikasi (
 --many to many
 
 CREATE TABLE KuliahMahaDosen (
-    idMaha char(6) NOT NULL,
+    idPengguna char(6) NOT NULL,
     idJadwal INT NOT NULL,
 
-    PRIMARY KEY (idMaha, idJadwal),
+    PRIMARY KEY (idPengguna, idJadwal),
 
-    FOREIGN KEY (idMaha) REFERENCES Pengguna(idPengguna),
+    FOREIGN KEY (idPengguna) REFERENCES Pengguna(idPengguna),
     FOREIGN KEY (idJadwal) REFERENCES Kuliah(idJadwal)
 );
 

@@ -1,7 +1,6 @@
 (() => {
     generateTimeLabels();
     generateDayLabels();
-    generateTimeSlots();
 })();
 
 function generateTimeLabels() {
