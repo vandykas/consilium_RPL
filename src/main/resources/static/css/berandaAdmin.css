@@ -254,6 +254,7 @@ tbody td p {
 }
 
 .primary-action-btn {
+    background-color: var(--primary-color);
     width: auto;
     border-radius: 5px;
     padding: 10px 20px;
