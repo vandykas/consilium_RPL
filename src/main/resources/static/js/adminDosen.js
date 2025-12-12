@@ -1,6 +1,8 @@
 const API_BASE_URL = '/api/admin/dosen'; 
 const editModal = document.getElementById('editModalDosen');
 
+// ---- Logika Edit Data Dosen ----
+
 function fillDosenData(data) {
     document.getElementById('editIdDosen').value = data.id;
     document.getElementById('editEmailDosen').value = data.email;
@@ -87,4 +89,69 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const tambahDosenButton = document.getElementById('tambahDosenButton');
+    const formTambahDosen = document.getElementById('formTambahDosen');
+
+    if (tambahDosenButton) {
+        tambahDosenButton.addEventListener('click', showTambahDosenModal);
+    }
+    
+    if (formTambahDosen) {
+        formTambahDosen.addEventListener('submit', function(event) {
+        });
+    }
+
+});
+
+// --- LOGIKA MODAL TAMBAH DOSEN ---
+
+const tambahDosenModal = document.getElementById('tambahDosenModal');
+const tambahDosenButton = document.getElementById('tambahDosenButton');
+
+function showTambahDosenModal() {
+    if (tambahDosenModal) {
+        tambahDosenModal.style.display = 'block';
+    }
+}
+
+function closeTambahDosenModal() {
+    if (tambahDosenModal) {
+        tambahDosenModal.style.display = 'none';
+        document.getElementById('formTambahDosen').reset();
+    }
+}
+
+if (tambahDosenButton) {
+    tambahDosenButton.addEventListener('click', showTambahDosenModal);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const formTambahDosen = document.getElementById('formTambahDosen');
+    if (formTambahDosen) {
+        formTambahDosen.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(formTambahDosen);
+            
+            fetch(`${API_BASE_URL}/upload`, {
+                method: 'POST',
+                body: formData 
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Gagal mengunggah data. Status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(message => {
+                alert("Sukses: " + message);
+                closeTambahDosenModal();
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error saat mengunggah data Dosen:', error);
+                alert(`Gagal mengunggah data Dosen: ${error.message}`);
+            });
+        });
+    }
 });

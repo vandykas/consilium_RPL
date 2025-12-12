@@ -1,68 +1,31 @@
 const API_URL = '/api/admin/mahasiswa';
 
+const modalEdit = document.getElementById('editModal');
+const formEdit = document.getElementById('formEditMahasiswa');
+
+window.openEditModal = function (idMahasiswa) {
+};
+
+window.closeEditModal = function () {
+    modalEdit.style.display = 'none';
+};
+
+const tambahMahasiswaModal = document.getElementById('tambahMahasiswaModal');
+
+function showTambahMahasiswaModal() {
+    if (tambahMahasiswaModal) {
+        tambahMahasiswaModal.style.display = 'block';
+    }
+}
+
+function closeTambahMahasiswaModal() {
+    if (tambahMahasiswaModal) {
+        tambahMahasiswaModal.style.display = 'none';
+        document.getElementById('formTambahMahasiswa').reset();
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('editModal');
-    const form = document.getElementById('formEditMahasiswa');
-
-    window.openEditModal = function (idMahasiswa) {
-        modal.style.display = 'block';
-
-        fetch(`${API_URL}/${idMahasiswa}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch data');
-                }
-                return response.json();
-            })
-            .then(data => {
-                document.getElementById('editIdMahasiswa').value = data.idMahasiswa;
-                document.getElementById('editEmail').value = data.email;
-                document.getElementById('editNama').value = data.nama;
-                document.getElementById('editTopik').value = data.kodeTopik;
-                document.getElementById('editNamaDosenDisplay').innerText = data.namaDosen || 'N/A';
-            })
-            .catch(error => {
-                alert("Gagal mengambil data mahasiswa: " + error.message);
-                console.error('Error:', error);
-                closeEditModal();
-            });
-    }
-
-    window.closeEditModal = function () {
-        modal.style.display = 'none';
-    }
-
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const formData = {
-            idMahasiswa: document.getElementById('editIdMahasiswa').value,
-            email: document.getElementById('editEmail').value,
-            nama: document.getElementById('editNama').value,
-            kodeTopik: document.getElementById('editTopik').value
-        };
-
-        fetch(`${API_URL}/update`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-            .then(response => {
-                if (response.ok) {
-                    alert("Data Mahasiswa berhasil diperbarui!");
-                    closeEditModal();
-                    location.reload();
-                } else {
-                    return response.text().then(text => Promise.reject(text));
-                }
-            })
-            .catch(error => {
-                alert("Gagal memperbarui data. Cek console untuk detail.");
-                console.error('Error update:', error);
-            });
-    });
 
     document.querySelectorAll('.edit-button').forEach(button => {
         const idMahasiswa = button.getAttribute('data-id');
@@ -76,9 +39,54 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    if (formEdit) {
+        formEdit.addEventListener('submit', function (e) {
+        });
+    }
+
     window.onclick = function (event) {
-        if (event.target == modal) {
+        if (event.target == modalEdit) {
             closeEditModal();
         }
+        if (event.target == tambahMahasiswaModal) {
+            closeTambahMahasiswaModal();
+        }
+    }
+
+    const tambahMahasiswaButton = document.getElementById('tambahMahasiswaButton');
+    const formTambahMahasiswa = document.getElementById('formTambahMahasiswa');
+
+    if (tambahMahasiswaButton) {
+        tambahMahasiswaButton.addEventListener('click', showTambahMahasiswaModal);
+    }
+
+    if (formTambahMahasiswa) {
+        formTambahMahasiswa.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(formTambahMahasiswa);
+
+            fetch(`${API_URL}/upload`, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            throw new Error(`Gagal mengunggah data. Detail: ${text}`);
+                        });
+                    }
+                    return response.text();
+                })
+                .then(message => {
+                    alert("Sukses: " + message);
+                    closeTambahMahasiswaModal();
+                    window.location.reload();
+                })
+                .catch(error => {
+                    console.error('Error saat mengunggah data Mahasiswa:', error);
+                    alert(`Gagal mengunggah data Mahasiswa: ${error.message}`);
+                });
+        });
     }
 });

@@ -2,6 +2,7 @@ package org.unpar.project.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -51,37 +52,40 @@ public class MahasiswaService {
     public LocalDate getBimbinganTerakhir(String idMahasiswa) {
         try {
             return mahasiswaRepository.getBimbinganTerakhir(idMahasiswa);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return null;
         }
     }
 
     public MahasiswaEditDTO getDataForEdit(String idMahasiswa) {
         MahasiswaEditDTO dto = mahasiswaRepository.findMahasiswaDetailForEdit(idMahasiswa);
-        
+
         if (dto != null) {
             List<Dosen> listDosen = getListDosenPembimbing(idMahasiswa);
             String namaDosenStr = listDosen.stream()
-                .map(Dosen::getNama)
-                .collect(Collectors.joining(", "));
-            
+                    .map(Dosen::getNama)
+                    .collect(Collectors.joining(", "));
+
             dto.setNamaDosen(namaDosenStr);
         }
         return dto;
     }
 
-    @Transactional 
+    @Transactional
     public void updateMahasiswa(MahasiswaEditDTO dto) {
         mahasiswaRepository.updateMahasiswaData(
-            dto.getIdMahasiswa(),
-            dto.getNama(),
-            dto.getEmail(),
-            dto.getKodeTopik()
+                dto.getIdMahasiswa(),
+                dto.getNama(),
+                dto.getEmail(),
+                dto.getKodeTopik()
         );
     }
 
     public List<Topik> getAllTopikForDropdown() {
         return topikRepository.findAllTopik();
+    }
+
+    public void processMahasiswaUpload(MultipartFile fileDataMahasiswa) {
+
     }
 }

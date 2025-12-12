@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="tambahMahasiswaModal" id="tambahMahasiswaModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header-banner yellow-bg">
+            <span class="close-button-banner" onclick="closeTambahMahasiswaModal()">&times;</span>
+            <h2 class="modal-title-banner">Tambah Mahasiswa</h2>
+        </div>
+
+        <form id="formTambahMahasiswa" class="modal-body-form">
+            
+            <div class="form-group">
+                <label for="fileDataMahasiswa">File Data Mahasiswa</label>
+                <div class="file-input-container">
+                    <input type="file" id="fileDataMahasiswa" name="fileDataMahasiswa" accept=".csv" required class="file-input-custom">
+                    <label for="fileDataMahasiswa" class="file-input-label">Pilih Berkas (.csv)</label>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="button-center-group">
+                <button type="submit" class="action-btn primary-action-btn">Tambah Mahasiswa</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="tambahDosenModal" id="tambahDosenModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header-banner yellow-bg">
+            <span class="close-button-banner" onclick="closeTambahDosenModal()">&times;</span>
+            <h2 class="modal-title-banner">Tambah Dosen</h2>
+        </div>
+
+        <form id="formTambahDosen" class="modal-body-form">
+            
+            <div class="form-group">
+                <label for="fileDataDosen">File Data Dosen</label>
+                <div class="file-input-container">
+                    <input type="file" id="fileDataDosen" name="fileDataDosen" accept=".csv" required class="file-input-custom">
+                    <label for="fileDataDosen" class="file-input-label">Pilih Berkas (.csv)</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="fileJadwalDosen">File Jadwal Dosen</label>
+                <div class="file-input-container">
+                    <input type="file" id="fileJadwalDosen" name="fileJadwalDosen" accept=".csv" required class="file-input-custom">
+                    <label for="fileJadwalDosen" class="file-input-label">Pilih Berkas (.csv)</label>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="button-center-group">
+                <button type="submit" class="action-btn primary-action-btn">Tambah Dosen</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</html>

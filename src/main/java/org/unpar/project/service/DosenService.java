@@ -1,6 +1,7 @@
 package org.unpar.project.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.unpar.project.repository.TopikRepository;
 
 @Service
 public class DosenService {
+
     @Autowired
     private DosenRepository dosenRepository;
 
@@ -26,8 +28,8 @@ public class DosenService {
     }
 
     public Dosen getDosenById(String idDosen) {
-        Dosen dosen = dosenRepository.findDosenById(idDosen); 
-        
+        Dosen dosen = dosenRepository.findDosenById(idDosen);
+
         if (dosen != null) {
             dosen.setMahasiswaList(getListMahasiswaBimbingan(dosen.getId()));
         }
@@ -48,8 +50,12 @@ public class DosenService {
     }
 
     public Dosen updateDosenData(Dosen dosen) {
-        dosenRepository.updateDosen(dosen); 
+        dosenRepository.updateDosen(dosen);
 
         return dosen;
+    }
+
+    public void processDosenUpload(MultipartFile fileDataDosen, MultipartFile fileJadwalDosen) {
+
     }
 }

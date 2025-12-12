@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id" 
       xmlns:th="http://www.thymeleaf.org"
-      th:fragment="beranda (title, header, table, scripts)">
+      th:fragment="beranda (title, header, table, scripts, actionButtons)">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,12 +21,7 @@
             </div>
 
             <div class="action-buttons">
-                <button class="action-btn add-btn" title="Tambah Dosen">
-                    +
-                </button>
-                <button class="action-btn delete-btn" title="Hapus yang Dipilih">
-                    -
-                </button>
+                <th:block th:replace="${actionButtons} ?: ~{/layout/actionButtonsPlaceholder}"></th:block>
             </div>
         </div>
         <main class="table-wrapper">
