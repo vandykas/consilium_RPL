@@ -125,17 +125,8 @@ public class BerandaController {
     }
 
     private void addDosenSpecificAttributes(Model model, String idPengguna) {
-        model.addAttribute("topikTA", getTopikTAForDosen(idPengguna));
-
-        List<Mahasiswa> mahasiswaList = getMahasiswaNames(idPengguna);
-        for (Mahasiswa m : mahasiswaList) {
-            m.setNamaTopik(getTopikTA(m.getId()));
-            m.setSebelumUts(mahasiswaService.getCounterBimbinganBeforeUTS(m.getId()));
-            m.setSetelahUts(mahasiswaService.getCounterBimbinganAfterUTS(m.getId()));
-            m.setBimbinganTerakhir(getBimbinganTerakhirMahasiswa(m.getId()));
-        }
-        model.addAttribute("mahasiswaList", mahasiswaList);
-
+        Dosen dosen = dosenService.getDosenInformation(idPengguna);
+        model.addAttribute("dosen", dosen);
     }
 
     private String getTopikTA(String idMahasiswa) {
@@ -152,13 +143,6 @@ public class BerandaController {
         }
 
         return judulTopik;
-    }
-
-    private List<String> getDosenNames(String idMahasiswa) {
-        return mahasiswaService.getListDosenPembimbing(idMahasiswa)
-                .stream()
-                .map(Dosen::getNama)
-                .collect(Collectors.toList());
     }
 
     private List<Mahasiswa> getMahasiswaNames(String idDosen) {
