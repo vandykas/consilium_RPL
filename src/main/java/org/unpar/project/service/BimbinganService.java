@@ -6,10 +6,7 @@ import org.springframework.ui.Model;
 import org.unpar.project.dto.BimbinganKalender;
 import org.unpar.project.dto.BimbinganRequest;
 import org.unpar.project.model.Bimbingan;
-import org.unpar.project.repository.BimbinganRepository;
-import org.unpar.project.repository.DosenRepository;
-import org.unpar.project.repository.JadwalRepository;
-import org.unpar.project.repository.NotifikasiRepository;
+import org.unpar.project.repository.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -30,10 +27,15 @@ public class BimbinganService {
     private DosenRepository dosenRepository;
 
     @Autowired
+    private MahasiswaRepository mahasiswaRepository;
+
+    @Autowired
     private JadwalRepository jadwalRepository;
 
     private final int MINIMUM_BIMBINGAN_SEBELUM_UTS = 2;
     private final int MINIMUM_BIMBINGAN_SETELAH_UTS = 2;
+    @Autowired
+    private MahasiswaService mahasiswaService;
 
     public Optional<Bimbingan> findUpcomingBimbinganByMahasiswa(String id) {
         Optional<Bimbingan> bimbinganOpt = bimbinganRepository.findUpcomingBimbinganByMahasiswa(id);
@@ -43,6 +45,17 @@ public class BimbinganService {
 
         Bimbingan bimbingan = bimbinganOpt.get();
         bimbingan.setDosen(dosenRepository.getDosenPembimbingByBimbingan(bimbingan.getId()));
+        return Optional.of(bimbingan);
+    }
+
+    public Optional<Bimbingan> findUpcomingBimbinganByDosen(String id) {
+        Optional<Bimbingan> bimbinganOpt = bimbinganRepository.findUpcomingBimbinganByDosen(id);
+        if (bimbinganOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Bimbingan bimbingan = bimbinganOpt.get();
+        bimbingan.setMahasiswa(mahasiswaRepository.getMahasiswaBimbinganByBimbingan(bimbingan.getId()));
         return Optional.of(bimbingan);
     }
 

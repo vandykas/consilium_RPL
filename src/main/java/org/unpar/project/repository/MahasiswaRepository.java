@@ -16,4 +16,6 @@ public interface MahasiswaRepository {
     LocalDate getBimbinganTerakhir(String idMahasiswa);
 
     Mahasiswa getMahasiswaById(String id);
+
+    List<Mahasiswa> getMahasiswaBimbinganByBimbingan(int id);
 }

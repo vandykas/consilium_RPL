@@ -37,9 +37,6 @@ public class BerandaController {
     private DosenService dosenService;
 
     @Autowired
-    private TopikService topikService;
-
-    @Autowired
     private BimbinganService bimbinganService;
 
     @GetMapping("/mahasiswa")
@@ -51,7 +48,7 @@ public class BerandaController {
 
         addCommonAttributes(model, pengguna);
         addMahasiswaSpecificAttributes(model, idPengguna);
-        addUpcomingBimbingan(model, idPengguna);
+        addUpcomingBimbinganMahasiswa(model, idPengguna);
         addCompletedBimbingan(model, idPengguna);
 
 
@@ -86,9 +83,8 @@ public class BerandaController {
         String idPengguna = pengguna.getIdPengguna();
 
         addCommonAttributes(model, pengguna);
-
-        model.addAttribute("name", session.getAttribute("name"));
         addDosenSpecificAttributes(model, idPengguna);
+        addUpcomingBimbinganDosen(model, idPengguna);
 
         // ============================
         // ✅ DATA DUMMY UNTUK POPUP
@@ -129,32 +125,18 @@ public class BerandaController {
         model.addAttribute("dosen", dosen);
     }
 
-    private String getTopikTA(String idMahasiswa) {
-        String kodeTopik = mahasiswaService.getKodeTopikMahasiswa(idMahasiswa);
-        return topikService.getJudul(kodeTopik);
-    }
-
-    private List<String> getTopikTAForDosen(String idDosen) {
-        List<String> kodeTopik = dosenService.getKodeTopikDosen(idDosen);
-
-        List<String> judulTopik = new ArrayList<>();
-        for (String kode : kodeTopik) {
-            judulTopik.add(topikService.getJudul(kode));
-        }
-
-        return judulTopik;
-    }
-
-    private List<Mahasiswa> getMahasiswaNames(String idDosen) {
-        return dosenService.getListMahasiswaBimbingan(idDosen);
-    }
-
-    private LocalDate getBimbinganTerakhirMahasiswa(String idMahasiswa) {
-        return mahasiswaService.getBimbinganTerakhir(idMahasiswa);
-    }
-
-    private void addUpcomingBimbingan(Model model, String id) {
+    private void addUpcomingBimbinganMahasiswa(Model model, String id) {
         Optional<Bimbingan> upcomingBimbingan = bimbinganService.findUpcomingBimbinganByMahasiswa(id);
+
+        if (upcomingBimbingan.isPresent()) {
+            model.addAttribute("bimbinganMendatang", upcomingBimbingan.get());
+        } else {
+            model.addAttribute("bimbinganMendatang", createEmptyBimbingan());
+        }
+    }
+
+    private void addUpcomingBimbinganDosen(Model model, String id) {
+        Optional<Bimbingan> upcomingBimbingan = bimbinganService.findUpcomingBimbinganByDosen(id);
 
         if (upcomingBimbingan.isPresent()) {
             model.addAttribute("bimbinganMendatang", upcomingBimbingan.get());
@@ -167,16 +149,17 @@ public class BerandaController {
         model.addAttribute("riwayat", bimbinganService.findCompletedBimbinganByMahasiswa(id));
     }
 
+    private Bimbingan createEmptyBimbingan() {
+        return new Bimbingan();
+    }
+
+
     private void addProgressBimbingan(Model model, int countBimbinganSebelumUTS, int countBimbinganSetelahUTS) {
         boolean isMemenuhiSebelumUTS = bimbinganService.hasMetMinimumSebelumUTS(countBimbinganSebelumUTS);
         boolean isMemenuhiSetelahUTS = bimbinganService.hasMetMinimumSetelahUTS(countBimbinganSetelahUTS);
 
         model.addAttribute("isMemenuhiSebelumUTS", isMemenuhiSebelumUTS);
         model.addAttribute("isMemenuhiSetelahUTS", isMemenuhiSetelahUTS);
-    }
-
-    private Bimbingan createEmptyBimbingan() {
-        return new Bimbingan();
     }
 
     private void addCommonAttributes(Model model, Pengguna pengguna) {
