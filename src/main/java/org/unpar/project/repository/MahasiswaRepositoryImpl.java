@@ -65,6 +65,7 @@ public class MahasiswaRepositoryImpl implements MahasiswaRepository {
             FROM DosToStud dts
             JOIN Pengguna p ON p.idPengguna = dts.idDosen
             WHERE dts.idMahasiswa = ?
+            ORDER BY p.nama
         """;
 
         return jdbcTemplate.query(sql, this::mapRowToDosen, idMahasiswa);

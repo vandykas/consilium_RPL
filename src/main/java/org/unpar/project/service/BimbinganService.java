@@ -82,6 +82,7 @@ public class BimbinganService {
 
         List<String> penerima = bimbinganRequest.getPenerima();
         for (String idPenerima :  penerima) {
+            bimbinganRepository.savePesertaBimbinganMahasiswa(idPengguna, idPenerima, idJadwal);
             notifikasiRepository.saveNotifikasi(idJadwal, idPengguna, idPenerima);
         }
     }

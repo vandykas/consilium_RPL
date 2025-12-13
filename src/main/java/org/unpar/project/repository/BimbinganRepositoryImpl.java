@@ -64,7 +64,7 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
                     v.namaRuangan
                 FROM
                     ViewBimbinganLengkap v
-                WHERE v.tanggal BETWEEN ? AND ? AND v.idMahasiswa = ?
+                WHERE v.tanggal BETWEEN ? AND ? AND v.idMahasiswa = ? AND v.statuspersetujuan = true
                 """;
         return jdbcTemplate.query(sql, this::mapRowToBimbinganKalender, mingguMulai, mingguAkhir, id);
     }
@@ -83,7 +83,7 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
                     v.namaRuangan
                 FROM
                     ViewBimbinganLengkap v
-                WHERE v.tanggal BETWEEN ? AND ? AND v.iddosen = ?
+                WHERE v.tanggal BETWEEN ? AND ? AND v.iddosen = ? AND v.statuspersetujuan = true
                 """;
         return jdbcTemplate.query(sql, this::mapRowToBimbinganKalender, mingguMulai, mingguAkhir, id);
     }
@@ -129,6 +129,12 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
     public void saveBimbingan(Integer idJadwal, LocalDate tanggalBimbingan) {
         String sql = "INSERT INTO Bimbingan (idjadwal, tanggal) VALUES (?, ?)";
         jdbcTemplate.update(sql, idJadwal, tanggalBimbingan);
+    }
+
+    @Override
+    public void savePesertaBimbinganMahasiswa(String idPengguna, String idPenerima, Integer idJadwal) {
+        String sql = "INSERT INTO Melakukan VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, idPenerima, idPengguna, idJadwal);
     }
 
     private Bimbingan mapRowToBimbingan(ResultSet rs, int rowNum) throws SQLException {

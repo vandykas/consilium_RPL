@@ -148,7 +148,7 @@ CREATE TABLE KirimDanTerima (
 
 ---Tabel View---
 CREATE OR REPLACE VIEW ViewBimbinganLengkap AS
-SELECT 
+SELECT
 	ROW_NUMBER() OVER (
         PARTITION BY m.idMahasiswa
         ORDER BY b.tanggal
