@@ -50,6 +50,32 @@ public class DosenRepositoryImpl implements DosenRepository {
         return jdbcTemplate.query(sql, this::mapRowToMahasiswa, idDosen);
     }
 
+    @Override
+    public List<Dosen> getDosenPembimbingByMahasiswa(String id) {
+        String sql = """
+                SELECT
+                    dts.idDosen,
+                    p.nama
+                FROM DosToStud dts
+                JOIN Pengguna p ON p.idPengguna = dts.idDosen
+                WHERE dts.idMahasiswa = ?
+                """;
+        return jdbcTemplate.query(sql, this::mapRowToDosen, id);
+    }
+
+    @Override
+    public List<Dosen> getDosenPembimbingByBimbingan(int id) {
+        String sql = """
+                SELECT
+                    m.idDosen,
+                    p.nama
+                FROM Pengguna p
+                JOIN Melakukan m ON p.idPengguna = m.idDosen
+                WHERE m.idJadwal = ?
+                """;
+        return jdbcTemplate.query(sql, this::mapRowToDosen, id);
+    }
+
     private Dosen mapRowToDosen(ResultSet rs, int rowNum) throws SQLException {
         Dosen dosen = new Dosen();
         dosen.setId(rs.getString("idDosen"));

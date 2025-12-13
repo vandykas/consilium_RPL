@@ -90,6 +90,23 @@ public class MahasiswaRepositoryImpl implements MahasiswaRepository {
 
     }
 
+    @Override
+    public Mahasiswa getMahasiswaById(String id) {
+        String sql = """
+                SELECT
+                    m.idMahasiswa,
+                    p.nama,
+                    t.judulTopik,
+                    m.sebelumUTS,
+                    m.setelahUTS
+                FROM Mahasiswa m
+                JOIN Pengguna p  ON p.idPengguna = m.idMahasiswa
+                JOIN Topik t ON m.kodeTopik = t.kodeTopik
+                WHERE m.idMahasiswa = ?
+                """;
+        return jdbcTemplate.queryForObject(sql, this::mapRowToMahasiswa, id);
+    }
+
     private Dosen mapRowToDosen(ResultSet rs, int rowNum) throws SQLException {
         Dosen d = new Dosen();
         d.setId(rs.getString("idPengguna"));

@@ -50,12 +50,10 @@ public class BerandaController {
         String idPengguna = pengguna.getIdPengguna();
 
         addCommonAttributes(model, pengguna);
+        addMahasiswaSpecificAttributes(model, idPengguna);
         addUpcomingBimbingan(model, idPengguna);
         addCompletedBimbingan(model, idPengguna);
-        addProgressBimbingan(model, idPengguna);
 
-        model.addAttribute("name", pengguna.getNama());
-        addMahasiswaSpecificAttributes(model, session, idPengguna);
 
         // ============================
         // ✅ DATA DUMMY UNTUK POPUP
@@ -120,12 +118,10 @@ public class BerandaController {
         return "redirect:/admin/mahasiswa";
     }
 
-    private void addMahasiswaSpecificAttributes(Model model, HttpSession session, String idPengguna) {
-        model.addAttribute("topikTA", getTopikTA(idPengguna));
-
-        List<String> dosenNames = getDosenNames(idPengguna);
-        model.addAttribute("dosenPembimbing", dosenNames);
-        model.addAttribute("dosenNextBimbingan", dosenNames);
+    private void addMahasiswaSpecificAttributes(Model model, String idPengguna) {
+        Mahasiswa mahasiswa = mahasiswaService.getMahasiswaInformation(idPengguna);
+        model.addAttribute("mahasiswa", mahasiswa);
+        addProgressBimbingan(model, mahasiswa.getSebelumUts(), mahasiswa.getSetelahUts());
     }
 
     private void addDosenSpecificAttributes(Model model, String idPengguna) {
@@ -177,9 +173,9 @@ public class BerandaController {
         Optional<Bimbingan> upcomingBimbingan = bimbinganService.findUpcomingBimbinganByMahasiswa(id);
 
         if (upcomingBimbingan.isPresent()) {
-            model.addAttribute("bimbingan", upcomingBimbingan.get());
+            model.addAttribute("bimbinganMendatang", upcomingBimbingan.get());
         } else {
-            model.addAttribute("bimbingan", createEmptyBimbingan());
+            model.addAttribute("bimbinganMendatang", createEmptyBimbingan());
         }
     }
 
@@ -187,17 +183,12 @@ public class BerandaController {
         model.addAttribute("riwayat", bimbinganService.findCompletedBimbinganByMahasiswa(id));
     }
 
-    private void addProgressBimbingan(Model model, String id) {
-        int countBimbinganSebelumUTS = mahasiswaService.getCounterBimbinganBeforeUTS(id);
-        int countBimbinganSetelahUTS = mahasiswaService.getCounterBimbinganAfterUTS(id);
-
+    private void addProgressBimbingan(Model model, int countBimbinganSebelumUTS, int countBimbinganSetelahUTS) {
         boolean isMemenuhiSebelumUTS = bimbinganService.hasMetMinimumSebelumUTS(countBimbinganSebelumUTS);
         boolean isMemenuhiSetelahUTS = bimbinganService.hasMetMinimumSetelahUTS(countBimbinganSetelahUTS);
 
         model.addAttribute("isMemenuhiSebelumUTS", isMemenuhiSebelumUTS);
         model.addAttribute("isMemenuhiSetelahUTS", isMemenuhiSetelahUTS);
-        model.addAttribute("sebelumUTS", countBimbinganSebelumUTS);
-        model.addAttribute("setelahUTS", countBimbinganSetelahUTS);
     }
 
     private Bimbingan createEmptyBimbingan() {

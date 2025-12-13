@@ -140,7 +140,7 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
     private Bimbingan mapRowToBimbingan(ResultSet rs, int rowNum) throws SQLException {
         Bimbingan bimbingan = new Bimbingan();
         // Menggunakan id_baru karena di-SELECT oleh query Upcoming
-        bimbingan.setNomor(rs.getInt("id_baru"));
+        bimbingan.setId(rs.getInt("id_baru"));
         bimbingan.setTanggal(rs.getObject("tanggal", LocalDate.class));
         bimbingan.setWaktuMulai(rs.getObject("jammulai", LocalTime.class));
         bimbingan.setWaktuSelesai(rs.getObject("jamselesai", LocalTime.class));

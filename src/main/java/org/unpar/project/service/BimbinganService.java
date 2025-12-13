@@ -7,6 +7,7 @@ import org.unpar.project.dto.BimbinganKalender;
 import org.unpar.project.dto.BimbinganRequest;
 import org.unpar.project.model.Bimbingan;
 import org.unpar.project.repository.BimbinganRepository;
+import org.unpar.project.repository.DosenRepository;
 import org.unpar.project.repository.JadwalRepository;
 import org.unpar.project.repository.NotifikasiRepository;
 
@@ -26,13 +27,23 @@ public class BimbinganService {
     private NotifikasiRepository notifikasiRepository;
 
     @Autowired
+    private DosenRepository dosenRepository;
+
+    @Autowired
     private JadwalRepository jadwalRepository;
 
     private final int MINIMUM_BIMBINGAN_SEBELUM_UTS = 2;
     private final int MINIMUM_BIMBINGAN_SETELAH_UTS = 2;
 
     public Optional<Bimbingan> findUpcomingBimbinganByMahasiswa(String id) {
-        return bimbinganRepository.findUpcomingBimbinganByMahasiswa(id);
+        Optional<Bimbingan> bimbinganOpt = bimbinganRepository.findUpcomingBimbinganByMahasiswa(id);
+        if (bimbinganOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Bimbingan bimbingan = bimbinganOpt.get();
+        bimbingan.setDosen(dosenRepository.getDosenPembimbingByBimbingan(bimbingan.getId()));
+        return Optional.of(bimbingan);
     }
 
     public List<Bimbingan> findCompletedBimbinganByMahasiswa(String id) {

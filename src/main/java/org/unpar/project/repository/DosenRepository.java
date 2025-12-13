@@ -11,4 +11,8 @@ public interface DosenRepository {
     List<String> getKodeTopikDosen(String idDosen);
     List<Dosen> findAllDosen();
     List<Mahasiswa> getListMahasiswaBimbingan(String idDosen);
+
+    List<Dosen> getDosenPembimbingByMahasiswa(String id);
+
+    List<Dosen> getDosenPembimbingByBimbingan(int id);
 }

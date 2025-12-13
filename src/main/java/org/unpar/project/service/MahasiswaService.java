@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.unpar.project.model.Dosen;
 import org.unpar.project.model.Mahasiswa;
+import org.unpar.project.repository.DosenRepository;
 import org.unpar.project.repository.MahasiswaRepository;
 
 @Service
@@ -16,6 +17,15 @@ public class MahasiswaService {
 
     @Autowired
     private MahasiswaRepository mahasiswaRepository;
+
+    @Autowired
+    private DosenRepository dosenRepository;
+
+    public Mahasiswa getMahasiswaInformation(String id) {
+        Mahasiswa mahasiswa = mahasiswaRepository.getMahasiswaById(id);
+        mahasiswa.setDosenPembimbing(dosenRepository.getDosenPembimbingByMahasiswa(id));
+        return mahasiswa;
+    }
 
     public String getKodeTopikMahasiswa(String idMahasiswa) {
         return mahasiswaRepository.getKodeTopikMahasiswa(idMahasiswa);
