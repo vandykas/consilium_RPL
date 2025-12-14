@@ -2,7 +2,11 @@ package org.unpar.project.service;
 
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,12 +18,13 @@ import org.unpar.project.dto.MahasiswaEditDTO;
 import org.unpar.project.model.Dosen;
 import org.unpar.project.model.Mahasiswa;
 import org.unpar.project.model.Topik;
-import org.unpar.project.repository.DosenRepository;
-import org.unpar.project.repository.MahasiswaRepository;
-import org.unpar.project.repository.TopikRepository;
+import org.unpar.project.repository.*;
 
 @Service
 public class MahasiswaService {
+
+    @Autowired
+    private PenggunaRepository penggunaRepository;
 
     @Autowired
     private MahasiswaRepository mahasiswaRepository;
@@ -29,6 +34,9 @@ public class MahasiswaService {
 
     @Autowired
     private TopikRepository topikRepository;
+
+    @Autowired
+    private DosToStudRepository dosToStudRepository;
 
     public Mahasiswa getMahasiswaInformation(String id) {
         Mahasiswa mahasiswa = mahasiswaRepository.getMahasiswaById(id);
@@ -86,5 +94,42 @@ public class MahasiswaService {
 
     public void processMahasiswaUpload(MultipartFile fileDataMahasiswa) {
 
+    }
+
+    public boolean uploadMahasiswaData(MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new IllegalArgumentException("File yang diunggah kosong.");
+        }
+
+        try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+
+            String line;
+            boolean isHeader = true;
+
+            while ((line = fileReader.readLine()) != null) {
+
+                if (isHeader) {
+                    isHeader = false;
+                    continue;
+                }
+
+                String[] data = line.split(",");
+                if (data.length >= 6) {
+                    Mahasiswa mahasiswa = new Mahasiswa();
+
+                    // csv:   idMahasiswa,nama,email,password,kodetopik,dosen1,dosen2
+                    penggunaRepository.savePengguna(data[0], data[1], data[2], data[3]);
+                    mahasiswaRepository.saveMahasiswa(data[0], data[4]);
+                    dosToStudRepository.saveMahasiswaAndDosen(data[0], data[5]);
+                }
+                if (data.length >= 7) {
+                    dosToStudRepository.saveMahasiswaAndDosen(data[0], data[6]);
+                }
+            }
+        }
+        catch (IOException e) {
+            return false;
+        }
+        return true;
     }
 }

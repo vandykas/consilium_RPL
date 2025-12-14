@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="id" xmlns:th="http://www.thymeleaf.org">
 
-<div th:fragment="tambahMahasiswaModal" id="tambahMahasiswaModal" class="modal-overlay">
+<div th:fragment="tambahMahasiswaModal" id="tambahMahasiswaModal" class="modal-overlay" >
     <div class="modal-content">
         <div class="modal-header-banner yellow-bg">
             <span class="close-button-banner" onclick="closeTambahMahasiswaModal()">&times;</span>
             <h2 class="modal-title-banner">Tambah Mahasiswa</h2>
         </div>
 
-        <form id="formTambahMahasiswa" class="modal-body-form">
+        <form method="POST" id="formTambahMahasiswa" class="modal-body-form" enctype="multipart/form-data" th:action="@{/upload/mahasiswa}">
             
             <div class="form-group">
                 <label for="fileDataMahasiswa">File Data Mahasiswa</label>

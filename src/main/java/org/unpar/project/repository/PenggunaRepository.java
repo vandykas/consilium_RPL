@@ -9,4 +9,6 @@ public interface PenggunaRepository {
     Boolean isFirstLogin(String id);
     void updateLoginStatus(String id);
     void updatePassword(String id, String newPassword);
+
+    void savePengguna(String id, String nama, String email, String password);
 }

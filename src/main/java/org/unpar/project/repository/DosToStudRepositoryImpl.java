@@ -24,5 +24,11 @@ public class DosToStudRepositoryImpl implements DosToStudRepository {
         return jdbc.queryForList(sql, String.class, idMhs);
     }
 
+    @Override
+    public void saveMahasiswaAndDosen(String mahasiswa, String dosen) {
+        String sql = "INSERT INTO DosToStud VALUES (?, ?)";
+        jdbc.update(sql, dosen, mahasiswa);
+    }
+
 
 }
