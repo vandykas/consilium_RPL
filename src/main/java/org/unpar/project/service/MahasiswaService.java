@@ -1,17 +1,19 @@
 package org.unpar.project.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.unpar.project.dto.MahasiswaEditDTO;
 import org.unpar.project.model.Dosen;
 import org.unpar.project.model.Mahasiswa;
+import org.unpar.project.model.Topik;
 import org.unpar.project.repository.DosenRepository;
 import org.unpar.project.repository.MahasiswaRepository;
 import org.unpar.project.repository.TopikRepository;
@@ -25,14 +27,13 @@ public class MahasiswaService {
     @Autowired
     private DosenRepository dosenRepository;
 
+    @Autowired
+    private TopikRepository topikRepository;
+
     public Mahasiswa getMahasiswaInformation(String id) {
         Mahasiswa mahasiswa = mahasiswaRepository.getMahasiswaById(id);
         mahasiswa.setDosenPembimbing(dosenRepository.getDosenPembimbingByMahasiswa(id));
         return mahasiswa;
-    }
-
-    public String getKodeTopikMahasiswa(String idMahasiswa) {
-        return mahasiswaRepository.getKodeTopikMahasiswa(idMahasiswa);
     }
 
     public List<Mahasiswa> getAllMahasiswa() {
@@ -53,14 +54,6 @@ public class MahasiswaService {
 
     public int getCounterBimbinganAfterUTS(String idPengguna) {
         return mahasiswaRepository.findCounterBimbinganAfterUTS(idPengguna);
-    }
-
-    public LocalDate getBimbinganTerakhir(String idMahasiswa) {
-        try {
-            return mahasiswaRepository.getBimbinganTerakhir(idMahasiswa);
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     public MahasiswaEditDTO getDataForEdit(String idMahasiswa) {

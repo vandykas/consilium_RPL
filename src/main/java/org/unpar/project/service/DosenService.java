@@ -23,10 +23,6 @@ public class DosenService {
     @Autowired
     private TopikRepository topikRepository;
 
-    public List<String> getKodeTopikDosen(String idDosen) {
-        return dosenRepository.getKodeTopikDosen(idDosen);
-    }
-
     public Dosen getDosenById(String idDosen) {
         Dosen dosen = dosenRepository.findDosenById(idDosen);
 

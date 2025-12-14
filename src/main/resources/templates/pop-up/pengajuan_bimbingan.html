@@ -11,42 +11,41 @@
               th:action="@{/jadwal/ajukan-bimbingan}"
               id="form-pengajuan-bimbingan">
 
-            <div th:if="${pengguna.role == 'mahasiswa'}">
-                <label for="dosen-list">
-                    Pilih Dosen Pembimbing
-                    <div id="dosen-list"
-                         class="list-checkbox"
-                         role="group"
-                         aria-labelledby="dosen-list">
-                        <div th:each="dosen : ${dosenList}">
-                            <input type="checkbox" name="penerima" th:text="${dosen.nama}" th:value="${dosen.id}">
-                        </div>
+            <label for="dosen-list" th:if="${pengguna.role == 'mahasiswa'}">
+                Pilih Dosen Pembimbing
+                <div id="dosen-list"
+                     class="list-checkbox"
+                     role="group"
+                     aria-labelledby="dosen-list">
+                    <div th:each="dosen : ${dosenList}">
+                        <input type="checkbox" name="penerima" th:text="${dosen.nama}" th:value="${dosen.id}">
                     </div>
-                </label>
-            </div>
+                </div>
+            </label>
 
-            <div th:if="${pengguna.role == 'dosen'}">
-                <label for="mahasiswa-list">
-                    Pilih mahasiswa (bisa lebih dari 1)
-                    <div id="mahasiswa-list"
-                         class="list-checkbox"
-                         role="group"
-                         aria-labelledby="mahasiswa-list">
+            <label for="mahasiswa-list" th:if="${pengguna.role == 'dosen'}">
+                Pilih mahasiswa (bisa lebih dari 1)
+                <div id="mahasiswa-list"
+                     class="list-checkbox"
+                     role="group"
+                     aria-labelledby="mahasiswa-list">
+                    <div th:each="mahasiswa : ${mahasiswaList}">
+                        <input type="checkbox" name="penerima" th:text="${mahasiswa.nama}" th:value="${mahasiswa.id}">
                     </div>
-                </label>
+                </div>
+            </label>
 
-                <label for="jadwal-rutin">
-                    Penjadwalan rutin
-                    <select id="jadwal-rutin"
-                            name="jadwalRutin"
-                            class="input_text_outline">
-                        <option value="">Tidak ada</option>
-                        <option value="mingguan">Mingguan</option>
-                        <option value="dua-mingguan">Dua Minggu Sekali</option>
-                        <option value="bulanan">Bulanan</option>
-                    </select>
-                </label>
-            </div>
+            <label for="jadwal-rutin" th:if="${pengguna.role == 'dosen'}">
+                Penjadwalan rutin
+                <select id="jadwal-rutin"
+                        name="jadwalRutin"
+                        class="input_text_outline">
+                    <option value="">Tidak ada</option>
+                    <option value="mingguan">Mingguan</option>
+                    <option value="dua-mingguan">Dua Minggu Sekali</option>
+                    <option value="bulanan">Bulanan</option>
+                </select>
+            </label>
 
             <label for="tanggal-bimbingan">
                 Pilih tanggal

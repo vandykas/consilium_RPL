@@ -12,6 +12,7 @@ import org.unpar.project.dto.BimbinganKalender;
 import org.unpar.project.dto.BimbinganRequest;
 import org.unpar.project.model.Pengguna;
 import org.unpar.project.service.BimbinganService;
+import org.unpar.project.service.DosenService;
 import org.unpar.project.service.KuliahService;
 import org.unpar.project.service.MahasiswaService;
 
@@ -30,6 +31,8 @@ public class JadwalBimbinganController {
     private BimbinganService bimbinganService;
     @Autowired
     private KuliahService kuliahService;
+    @Autowired
+    private DosenService dosenService;
 
     @GetMapping("/mahasiswa")
     public String viewJadwalMahasiswa(@RequestParam(defaultValue = "0") int weekOffset,
@@ -58,6 +61,7 @@ public class JadwalBimbinganController {
         addDaysLabel(model, weekOffset);
         addBimbinganToCalendarDosen(model, weekOffset, idPengguna);
         addBlockedJadwal(model, idPengguna);
+        model.addAttribute("mahasiswaList", dosenService.getListMahasiswaBimbingan(idPengguna));
         return "jadwal/dosen";
     }
 
@@ -66,7 +70,13 @@ public class JadwalBimbinganController {
                               HttpSession httpSession) {
         Pengguna pengguna = (Pengguna) httpSession.getAttribute("pengguna");
         bimbinganService.makeBimbingan(bimbinganRequest, pengguna.getIdPengguna());
-        return "redirect:/jadwal/mahasiswa";
+
+        if (pengguna.getRole().equals("mahasiswa")) {
+            return "redirect:/jadwal/mahasiswa";
+        }
+        else {
+            return "redirect:/jadwal/dosen";
+        }
     }
 
     private void addCommonAttributes(Model model, Pengguna pengguna, int weekOffset) {

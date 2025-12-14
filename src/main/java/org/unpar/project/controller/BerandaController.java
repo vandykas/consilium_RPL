@@ -2,12 +2,9 @@ package org.unpar.project.controller;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +19,6 @@ import org.unpar.project.model.Pengguna;
 import org.unpar.project.service.BimbinganService;
 import org.unpar.project.service.DosenService;
 import org.unpar.project.service.MahasiswaService;
-import org.unpar.project.service.TopikService;
 
 import jakarta.servlet.http.HttpSession;
 

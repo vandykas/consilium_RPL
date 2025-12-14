@@ -16,7 +16,7 @@ public interface BimbinganRepository {
     void saveBimbingan(Integer idJadwal, LocalDate tanggalBimbingan);
 
 
-    void savePesertaBimbinganMahasiswa(String idPengguna, String idPenerima, Integer idJadwal);
+    void savePesertaBimbingan(String idPengguna, String idPenerima, Integer idJadwal);
 
     Optional<Bimbingan> findUpcomingBimbinganByDosen(String id);
 }
