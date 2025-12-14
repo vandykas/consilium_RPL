@@ -12,4 +12,11 @@ public interface BimbinganRepository {
     List<BimbinganKalender> findBimbinganWeekByMahasiswa(String id, LocalDate mingguMulai, LocalDate mingguAkhir);
     List<BimbinganKalender> findBimbinganWeekByDosen(String id, LocalDate mingguMulai, LocalDate mingguAkhir);
     Optional<Bimbingan> findUpcomingBimbinganByMahasiswa(String id);
+
+    void saveBimbingan(Integer idJadwal, LocalDate tanggalBimbingan);
+
+
+    void savePesertaBimbinganMahasiswa(String idPengguna, String idPenerima, Integer idJadwal);
+
+    Optional<Bimbingan> findUpcomingBimbinganByDosen(String id);
 }

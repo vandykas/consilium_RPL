@@ -4,12 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Ruangan {
-    private String nomorRuangan;
+    private int nomorRuangan;
     private String namaRuangan;
     private boolean statusRuangan;
     private boolean jenisRuangan;

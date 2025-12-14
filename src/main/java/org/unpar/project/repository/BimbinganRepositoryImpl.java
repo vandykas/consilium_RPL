@@ -24,29 +24,17 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
     public List<Bimbingan> findCompletedBimbinganByMahasiswa(String id) {
         String sql = """
                         SELECT
-                            b.id_baru,
+                            b.idJadwal,
                             b.tanggal,
                             b.jammulai,
                             b.jamselesai,
                             b.namaruangan,
                             b.tugas,
                             b.inti
-                        FROM (
-                            SELECT
-                                ROW_NUMBER() OVER (ORDER BY b.nomorBimbingan) AS id_baru,
-                                b.nomorBimbingan AS id_asli,
-                                b.tanggal,
-                                b.jammulai,
-                                b.jamselesai,
-                                b.namaruangan,
-                                b.tugas,
-                                b.inti
-                            FROM
-                                viewBimbinganLengkap b
-                            WHERE b.idmahasiswa = ?
-                            AND b.statuspersetujuan = true
-                            ORDER BY id_asli DESC) AS b
-                            WHERE b.tanggal <= ?
+                        FROM
+                            viewBimbinganLengkap b
+                        WHERE b.idmahasiswa = ? AND b.tanggal <= ?
+                        AND b.statuspersetujuan = true
                         """;
         return jdbcTemplate.query(sql, this::mapRowToBimbingan, id,LocalDate.now());
     }
@@ -64,7 +52,7 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
                     v.namaRuangan
                 FROM
                     ViewBimbinganLengkap v
-                WHERE v.tanggal BETWEEN ? AND ? AND v.idMahasiswa = ?
+                WHERE v.tanggal BETWEEN ? AND ? AND v.idMahasiswa = ? AND v.statuspersetujuan = true
                 """;
         return jdbcTemplate.query(sql, this::mapRowToBimbinganKalender, mingguMulai, mingguAkhir, id);
     }
@@ -83,39 +71,65 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
                     v.namaRuangan
                 FROM
                     ViewBimbinganLengkap v
-                WHERE v.tanggal BETWEEN ? AND ? AND v.iddosen = ?
+                WHERE v.tanggal BETWEEN ? AND ? AND v.iddosen = ? AND v.statuspersetujuan = true
                 """;
         return jdbcTemplate.query(sql, this::mapRowToBimbinganKalender, mingguMulai, mingguAkhir, id);
     }
     @Override
     public Optional<Bimbingan> findUpcomingBimbinganByMahasiswa(String id) {
         String sql = """
-                        SELECT
-                	        b.id_baru,
-                	        b.tanggal,
-                	        b.jammulai,
-                	        b.jamselesai,
-                	        b.namaruangan,
-                	        b.tugas,
-                	        b.inti
-                        FROM (
-                	        SELECT
-                		        ROW_NUMBER() OVER (ORDER BY b.nomorBimbingan) AS id_baru,
-                    	        b.nomorBimbingan AS id_asli,
-                    	        b.tanggal,
-                		        b.jammulai,
-                		        b.jamselesai,
-                		        b.namaruangan,
-                		        b.tugas,
-                		        b.inti
-                	        FROM
-                		        viewBimbinganLengkap b
-                	        WHERE b.idmahasiswa = ?
-                	        AND b.statuspersetujuan = true
-                	        ORDER BY id_asli) AS b
-                        WHERE b.tanggal >= ?
-                        LIMIT 1
-                    """;
+                SELECT
+                    b.idjadwal,
+                    b.tanggal,
+                    b.jammulai,
+                    b.jamselesai,
+                    b.namaruangan,
+                    b.tugas,
+                    b.inti
+                FROM
+                    viewBimbinganLengkap b
+                WHERE b.idmahasiswa = ? AND b.tanggal > ?
+                AND b.statuspersetujuan = true
+                LIMIT 1
+                """;
+        try {
+            Bimbingan bimbingan = jdbcTemplate.queryForObject(sql, this::mapRowToBimbingan, id,
+                    LocalDate.now());
+            return Optional.ofNullable(bimbingan);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public void saveBimbingan(Integer idJadwal, LocalDate tanggalBimbingan) {
+        String sql = "INSERT INTO Bimbingan (idjadwal, tanggal) VALUES (?, ?)";
+        jdbcTemplate.update(sql, idJadwal, tanggalBimbingan);
+    }
+
+    @Override
+    public void savePesertaBimbinganMahasiswa(String idPengguna, String idPenerima, Integer idJadwal) {
+        String sql = "INSERT INTO Melakukan VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, idPenerima, idPengguna, idJadwal);
+    }
+
+    @Override
+    public Optional<Bimbingan> findUpcomingBimbinganByDosen(String id) {
+        String sql = """
+                SELECT
+                    b.idJadwal,
+                    b.tanggal,
+                    b.jammulai,
+                    b.jamselesai,
+                    b.namaruangan,
+                    b.tugas,
+                    b.inti
+                FROM
+                    viewBimbinganLengkap b
+                WHERE b.iddosen = ? AND b.tanggal > ?
+                AND b.statuspersetujuan = true
+                LIMIT 1
+                """;
         try {
             Bimbingan bimbingan = jdbcTemplate.queryForObject(sql, this::mapRowToBimbingan, id,
                     LocalDate.now());
@@ -127,13 +141,11 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
 
     private Bimbingan mapRowToBimbingan(ResultSet rs, int rowNum) throws SQLException {
         Bimbingan bimbingan = new Bimbingan();
-        // Menggunakan id_baru karena di-SELECT oleh query Upcoming
-        bimbingan.setNomor(rs.getInt("id_baru"));
+        bimbingan.setId(rs.getInt("idJadwal"));
         bimbingan.setTanggal(rs.getObject("tanggal", LocalDate.class));
         bimbingan.setWaktuMulai(rs.getObject("jammulai", LocalTime.class));
         bimbingan.setWaktuSelesai(rs.getObject("jamselesai", LocalTime.class));
-        bimbingan.setNomorRuangan(rs.getString("nomorruangan"));
-        bimbingan.setNamaRuangan(rs.getString("namaruangan"));
+        bimbingan.setRuang(rs.getString("namaruangan"));
         bimbingan.setTugas(rs.getString("tugas"));
         bimbingan.setInti(rs.getString("inti"));
         return bimbingan;

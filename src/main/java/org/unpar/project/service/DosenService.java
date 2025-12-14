@@ -58,4 +58,10 @@ public class DosenService {
     public void processDosenUpload(MultipartFile fileDataDosen, MultipartFile fileJadwalDosen) {
 
     }
+    public Dosen getDosenInformation(String idPengguna) {
+        Dosen dosen = dosenRepository.getDosenPembimbingById(idPengguna);
+        dosen.setTopikList(topikRepository.findAllTopikByDosen(idPengguna));
+        dosen.setMahasiswaList(dosenRepository.getListMahasiswaBimbingan(idPengguna));
+        return dosen;
+    }
 }

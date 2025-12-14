@@ -16,4 +16,8 @@ public interface MahasiswaRepository {
     LocalDate getBimbinganTerakhir(String idMahasiswa);
     MahasiswaEditDTO findMahasiswaDetailForEdit(String idMahasiswa);
     void updateMahasiswaData(String idMahasiswa, String nama, String email, String kodeTopik);
+
+    Mahasiswa getMahasiswaById(String id);
+
+    List<Mahasiswa> getMahasiswaBimbinganByBimbingan(int id);
 }

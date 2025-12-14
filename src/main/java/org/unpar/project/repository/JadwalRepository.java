@@ -1,11 +1,12 @@
 package org.unpar.project.repository;
 
-import java.time.LocalDate;
+import org.unpar.project.model.Jadwal;
+
 import java.time.LocalTime;
 import java.util.List;
 
 public interface JadwalRepository {
-    List<LocalTime> findAvailableStartTimes(LocalDate tanggal);
-    List<LocalTime> findAvailableEndTimes(LocalDate tanggal, LocalTime mulai);
-    List<String> findAvailableRooms(LocalDate tanggal, LocalTime mulai, LocalTime selesai);
+    List<Jadwal> findJadwalByTanggal(String hari, String idPengguna);
+
+    Integer saveJadwal(String hariBimbingan, LocalTime jamMulai, LocalTime jamSelesai, Integer ruangan);
 }

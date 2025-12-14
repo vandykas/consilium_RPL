@@ -1,14 +1,16 @@
 package org.unpar.project.repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.unpar.project.model.Ruangan;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class RuanganRepositoryImpl implements RuanganRepository {
@@ -52,14 +54,31 @@ public class RuanganRepositoryImpl implements RuanganRepository {
         return jdbcTemplate.query(sql, this::mapRowToRuangan, true);
     }
 
+    @Override
+    public List<Ruangan> findRuanganTersedia(LocalDate tanggal, LocalTime mulai, LocalTime selesai) {
+        String sql = """
+                SELECT *
+                FROM Ruangan r
+                WHERE r.nomorRuangan NOT IN (
+                    SELECT j.nomorRuangan
+                    FROM Jadwal j
+                    JOIN Bimbingan b ON b.idJadwal = j.idJadwal
+                    WHERE b.tanggal = ?
+                    AND j.jamMulai < ?
+                    AND j.jamSelesai > ?
+                )
+                """;
+        return jdbcTemplate.query(sql, this::mapRowToRuangan, tanggal, selesai, mulai);
+    }
+
     private Ruangan mapRowToRuangan(ResultSet rs, int rowNum) throws SQLException {
         Ruangan ruangan = new Ruangan();
-        ruangan.setNomorRuangan(rs.getString("nomorRuangan"));
+        ruangan.setNomorRuangan(rs.getInt("nomorRuangan"));
         ruangan.setNamaRuangan(rs.getString("namaRuangan"));
         ruangan.setStatusRuangan(rs.getBoolean("statusRuangan"));
         ruangan.setJenisRuangan(rs.getBoolean("jenisRuangan"));
         return ruangan;
     }
 
-    
+
 }

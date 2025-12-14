@@ -12,4 +12,10 @@ public interface DosenRepository {
     List<Mahasiswa> getListMahasiswaBimbingan(String idDosen);
     Dosen findDosenById(String idDosen);
     void updateDosen(Dosen dosen);
+
+    List<Dosen> getDosenPembimbingByMahasiswa(String id);
+
+    List<Dosen> getDosenPembimbingByBimbingan(int id);
+
+    Dosen getDosenPembimbingById(String idPengguna);
 }

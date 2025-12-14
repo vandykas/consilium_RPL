@@ -4,12 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.unpar.project.dto.BimbinganKalender;
+import org.unpar.project.dto.BimbinganRequest;
 import org.unpar.project.model.Bimbingan;
-import org.unpar.project.repository.BimbinganRepository;
+import org.unpar.project.repository.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -17,11 +20,43 @@ public class BimbinganService {
     @Autowired
     private BimbinganRepository bimbinganRepository;
 
+    @Autowired
+    private NotifikasiRepository notifikasiRepository;
+
+    @Autowired
+    private DosenRepository dosenRepository;
+
+    @Autowired
+    private MahasiswaRepository mahasiswaRepository;
+
+    @Autowired
+    private JadwalRepository jadwalRepository;
+
     private final int MINIMUM_BIMBINGAN_SEBELUM_UTS = 2;
     private final int MINIMUM_BIMBINGAN_SETELAH_UTS = 2;
+    @Autowired
+    private MahasiswaService mahasiswaService;
 
     public Optional<Bimbingan> findUpcomingBimbinganByMahasiswa(String id) {
-        return bimbinganRepository.findUpcomingBimbinganByMahasiswa(id);
+        Optional<Bimbingan> bimbinganOpt = bimbinganRepository.findUpcomingBimbinganByMahasiswa(id);
+        if (bimbinganOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Bimbingan bimbingan = bimbinganOpt.get();
+        bimbingan.setDosen(dosenRepository.getDosenPembimbingByBimbingan(bimbingan.getId()));
+        return Optional.of(bimbingan);
+    }
+
+    public Optional<Bimbingan> findUpcomingBimbinganByDosen(String id) {
+        Optional<Bimbingan> bimbinganOpt = bimbinganRepository.findUpcomingBimbinganByDosen(id);
+        if (bimbinganOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Bimbingan bimbingan = bimbinganOpt.get();
+        bimbingan.setMahasiswa(mahasiswaRepository.getMahasiswaBimbinganByBimbingan(bimbingan.getId()));
+        return Optional.of(bimbingan);
     }
 
     public List<Bimbingan> findCompletedBimbinganByMahasiswa(String id) {
@@ -58,5 +93,21 @@ public class BimbinganService {
 
     public boolean hasMetMinimumSetelahUTS(int bimbinganSetelahUTS) {
         return bimbinganSetelahUTS >= MINIMUM_BIMBINGAN_SETELAH_UTS;
+    }
+
+    public void makeBimbingan(BimbinganRequest bimbinganRequest, String idPengguna) {
+        LocalDate tanggalBimbingan = bimbinganRequest.getTanggal();
+        String hariBimbingan = tanggalBimbingan.getDayOfWeek()
+                .getDisplayName(TextStyle.FULL, new Locale("id", "ID"));
+        Integer idJadwal = jadwalRepository.saveJadwal(hariBimbingan, bimbinganRequest.getJamMulai(),
+                bimbinganRequest.getJamSelesai(), bimbinganRequest.getRuangan());
+
+        bimbinganRepository.saveBimbingan(idJadwal, tanggalBimbingan);
+
+        List<String> penerima = bimbinganRequest.getPenerima();
+        for (String idPenerima :  penerima) {
+            bimbinganRepository.savePesertaBimbinganMahasiswa(idPengguna, idPenerima, idJadwal);
+            notifikasiRepository.saveNotifikasi(idJadwal, idPengguna, idPenerima);
+        }
     }
 }

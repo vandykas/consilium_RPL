@@ -1,14 +1,17 @@
 package org.unpar.project.repository;
 
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.unpar.project.model.Jadwal;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalTime;
+import java.util.List;
 
 @Repository
 public class JadwalRepositoryImpl implements JadwalRepository {
@@ -17,109 +20,48 @@ public class JadwalRepositoryImpl implements JadwalRepository {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<LocalTime> findAvailableStartTimes(LocalDate tanggal) {
-
-        LocalTime jamBuka = LocalTime.of(8, 0);
-        LocalTime jamTutup = LocalTime.of(17, 0);
-
+    public List<Jadwal> findJadwalByTanggal(String hari, String idPengguna) {
         String sql = """
-            SELECT jamMulai, jamSelesai 
-            FROM Jadwal
-            WHERE tanggal = ?
-            ORDER BY jamMulai ASC
-        """;
-
-        List<JadwalSlot> existing = jdbcTemplate.query(sql, (rs, rowNum) ->
-                new JadwalSlot(
-                        rs.getObject("jamMulai", LocalTime.class),
-                        rs.getObject("jamSelesai", LocalTime.class)
-                ),
-                tanggal
-        );
-
-        List<LocalTime> available = new ArrayList<>();
-
-        for (LocalTime check = jamBuka;
-             check.isBefore(jamTutup);
-             check = check.plusMinutes(30)) {
-
-            boolean bentrok = false;
-
-            for (JadwalSlot slot : existing) {
-                if (check.isBefore(slot.jamSelesai) && slot.jamMulai.isBefore(check.plusHours(1))) {
-                    bentrok = true;
-                    break;
-                }
-            }
-
-            if (!bentrok) {
-                available.add(check);
-            }
-        }
-
-        return available;
+                SELECT
+                    j.idJadwal,
+                    j.hari,
+                    j.jamMulai,
+                    j.jamSelesai
+                FROM jadwal j
+                JOIN KuliahMahaDosen k ON j.idJadwal = k.idJadwal
+                WHERE k.idPengguna = ? AND j.hari = ?;
+                """;
+        return jdbcTemplate.query(sql, this::mapRowToJadwalBasic, idPengguna, hari);
     }
 
     @Override
-    public List<LocalTime> findAvailableEndTimes(LocalDate tanggal, LocalTime mulai) {
+    public Integer saveJadwal(String hariBimbingan, LocalTime jamMulai, LocalTime jamSelesai, Integer ruangan) {
+        String sql = "INSERT INTO Jadwal (hari, jammulai, jamselesai, nomorruangan) VALUES (?, ?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        List<LocalTime> ends = new ArrayList<>();
+        jdbcTemplate.update(connection -> {
+            String[] keyColumn = {"idjadwal"};
+            PreparedStatement ps = connection.prepareStatement(sql, keyColumn);
 
-        for (int i = 1; i <= 3; i++) {
-            LocalTime selesai = mulai.plusHours(i);
+            // Isi parameter
+            ps.setString(1, hariBimbingan);
+            ps.setObject(2, jamMulai);
+            ps.setObject(3, jamSelesai);
+            ps.setInt(4, ruangan);
 
-            if (!isTimeConflict(tanggal, mulai, selesai)) {
-                ends.add(selesai);
-            }
-        }
+            return ps;
+        }, keyHolder);
 
-        return ends;
+        // Ambil ID yang dihasilkan
+        return keyHolder.getKey() != null ? keyHolder.getKey().intValue() : null;
     }
 
-    @Override
-    public List<String> findAvailableRooms(LocalDate tanggal, LocalTime mulai, LocalTime selesai) {
-        String sql = """
-            SELECT r.namaRuangan
-            FROM Ruangan r
-            WHERE r.statusRuangan = TRUE
-            AND r.nomorRuangan NOT IN (W
-                SELECT nomorRuangan
-                FROM Jadwal
-                WHERE tanggal = ?
-                AND jamMulai < ?
-                AND jamSelesai > ?
-            )
-            ORDER BY r.namaRuangan
-        """;
-
-        return jdbcTemplate.query(sql,
-                (rs, rowNum) -> rs.getString("namaRuangan"),
-                tanggal,
-                Time.valueOf(selesai),
-                Time.valueOf(mulai)
-        );
+    private Jadwal mapRowToJadwalBasic(ResultSet rs, int rowNum) throws SQLException {
+        Jadwal jadwal = new Jadwal();
+        jadwal.setIdJadwal(rs.getInt("idJadwal"));
+        jadwal.setHari(rs.getString("hari"));
+        jadwal.setJamMulai(rs.getObject("jamMulai", LocalTime.class));
+        jadwal.setJamSelesai(rs.getObject("jamSelesai", LocalTime.class));
+        return jadwal;
     }
-
-    private boolean isTimeConflict(LocalDate tanggal, LocalTime mulai, LocalTime selesai) {
-
-        String sql = """
-            SELECT COUNT(*)
-            FROM Jadwal
-            WHERE tanggal = ?
-            AND jamMulai < ?
-            AND jamSelesai > ?
-        """;
-
-        Integer count = jdbcTemplate.queryForObject(sql,
-                Integer.class,
-                tanggal,
-                Time.valueOf(selesai),
-                Time.valueOf(mulai)
-        );
-
-        return count != null && count > 0;
-    }
-
-    private record JadwalSlot(LocalTime jamMulai, LocalTime jamSelesai) {}
-
 }

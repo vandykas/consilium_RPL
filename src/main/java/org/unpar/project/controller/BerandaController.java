@@ -37,9 +37,6 @@ public class BerandaController {
     private DosenService dosenService;
 
     @Autowired
-    private TopikService topikService;
-
-    @Autowired
     private BimbinganService bimbinganService;
 
     @GetMapping("/mahasiswa")
@@ -50,12 +47,10 @@ public class BerandaController {
         String idPengguna = pengguna.getIdPengguna();
 
         addCommonAttributes(model, pengguna);
-        addUpcomingBimbingan(model, idPengguna);
+        addMahasiswaSpecificAttributes(model, idPengguna);
+        addUpcomingBimbinganMahasiswa(model, idPengguna);
         addCompletedBimbingan(model, idPengguna);
-        addProgressBimbingan(model, idPengguna);
 
-        model.addAttribute("name", pengguna.getNama());
-        addMahasiswaSpecificAttributes(model, session, idPengguna);
 
         // ============================
         // ✅ DATA DUMMY UNTUK POPUP
@@ -88,9 +83,8 @@ public class BerandaController {
         String idPengguna = pengguna.getIdPengguna();
 
         addCommonAttributes(model, pengguna);
-
-        model.addAttribute("name", session.getAttribute("name"));
         addDosenSpecificAttributes(model, idPengguna);
+        addUpcomingBimbinganDosen(model, idPengguna);
 
         // ============================
         // ✅ DATA DUMMY UNTUK POPUP
@@ -120,66 +114,34 @@ public class BerandaController {
         return "redirect:/admin/mahasiswa";
     }
 
-    private void addMahasiswaSpecificAttributes(Model model, HttpSession session, String idPengguna) {
-        model.addAttribute("topikTA", getTopikTA(idPengguna));
-
-        List<String> dosenNames = getDosenNames(idPengguna);
-        model.addAttribute("dosenPembimbing", dosenNames);
-        model.addAttribute("dosenNextBimbingan", dosenNames);
+    private void addMahasiswaSpecificAttributes(Model model, String idPengguna) {
+        Mahasiswa mahasiswa = mahasiswaService.getMahasiswaInformation(idPengguna);
+        model.addAttribute("mahasiswa", mahasiswa);
+        addProgressBimbingan(model, mahasiswa.getSebelumUts(), mahasiswa.getSetelahUts());
     }
 
     private void addDosenSpecificAttributes(Model model, String idPengguna) {
-        model.addAttribute("topikTA", getTopikTAForDosen(idPengguna));
-
-        List<Mahasiswa> mahasiswaList = getMahasiswaNames(idPengguna);
-        for (Mahasiswa m : mahasiswaList) {
-            m.setNamaTopik(getTopikTA(m.getId()));
-            m.setSebelumUts(mahasiswaService.getCounterBimbinganBeforeUTS(m.getId()));
-            m.setSetelahUts(mahasiswaService.getCounterBimbinganAfterUTS(m.getId()));
-            m.setBimbinganTerakhir(getBimbinganTerakhirMahasiswa(m.getId()));
-        }
-        model.addAttribute("mahasiswaList", mahasiswaList);
-
+        Dosen dosen = dosenService.getDosenInformation(idPengguna);
+        model.addAttribute("dosen", dosen);
     }
 
-    private String getTopikTA(String idMahasiswa) {
-        String kodeTopik = mahasiswaService.getKodeTopikMahasiswa(idMahasiswa);
-        return topikService.getJudul(kodeTopik);
-    }
-
-    private List<String> getTopikTAForDosen(String idDosen) {
-        List<String> kodeTopik = dosenService.getKodeTopikDosen(idDosen);
-
-        List<String> judulTopik = new ArrayList<>();
-        for (String kode : kodeTopik) {
-            judulTopik.add(topikService.getJudul(kode));
-        }
-
-        return judulTopik;
-    }
-
-    private List<String> getDosenNames(String idMahasiswa) {
-        return mahasiswaService.getListDosenPembimbing(idMahasiswa)
-                .stream()
-                .map(Dosen::getNama)
-                .collect(Collectors.toList());
-    }
-
-    private List<Mahasiswa> getMahasiswaNames(String idDosen) {
-        return dosenService.getListMahasiswaBimbingan(idDosen);
-    }
-
-    private LocalDate getBimbinganTerakhirMahasiswa(String idMahasiswa) {
-        return mahasiswaService.getBimbinganTerakhir(idMahasiswa);
-    }
-
-    private void addUpcomingBimbingan(Model model, String id) {
+    private void addUpcomingBimbinganMahasiswa(Model model, String id) {
         Optional<Bimbingan> upcomingBimbingan = bimbinganService.findUpcomingBimbinganByMahasiswa(id);
 
         if (upcomingBimbingan.isPresent()) {
-            model.addAttribute("bimbingan", upcomingBimbingan.get());
+            model.addAttribute("bimbinganMendatang", upcomingBimbingan.get());
         } else {
-            model.addAttribute("bimbingan", createEmptyBimbingan());
+            model.addAttribute("bimbinganMendatang", createEmptyBimbingan());
+        }
+    }
+
+    private void addUpcomingBimbinganDosen(Model model, String id) {
+        Optional<Bimbingan> upcomingBimbingan = bimbinganService.findUpcomingBimbinganByDosen(id);
+
+        if (upcomingBimbingan.isPresent()) {
+            model.addAttribute("bimbinganMendatang", upcomingBimbingan.get());
+        } else {
+            model.addAttribute("bimbinganMendatang", createEmptyBimbingan());
         }
     }
 
@@ -187,21 +149,17 @@ public class BerandaController {
         model.addAttribute("riwayat", bimbinganService.findCompletedBimbinganByMahasiswa(id));
     }
 
-    private void addProgressBimbingan(Model model, String id) {
-        int countBimbinganSebelumUTS = mahasiswaService.getCounterBimbinganBeforeUTS(id);
-        int countBimbinganSetelahUTS = mahasiswaService.getCounterBimbinganAfterUTS(id);
+    private Bimbingan createEmptyBimbingan() {
+        return new Bimbingan();
+    }
 
+
+    private void addProgressBimbingan(Model model, int countBimbinganSebelumUTS, int countBimbinganSetelahUTS) {
         boolean isMemenuhiSebelumUTS = bimbinganService.hasMetMinimumSebelumUTS(countBimbinganSebelumUTS);
         boolean isMemenuhiSetelahUTS = bimbinganService.hasMetMinimumSetelahUTS(countBimbinganSetelahUTS);
 
         model.addAttribute("isMemenuhiSebelumUTS", isMemenuhiSebelumUTS);
         model.addAttribute("isMemenuhiSetelahUTS", isMemenuhiSetelahUTS);
-        model.addAttribute("sebelumUTS", countBimbinganSebelumUTS);
-        model.addAttribute("setelahUTS", countBimbinganSetelahUTS);
-    }
-
-    private Bimbingan createEmptyBimbingan() {
-        return new Bimbingan();
     }
 
     private void addCommonAttributes(Model model, Pengguna pengguna) {

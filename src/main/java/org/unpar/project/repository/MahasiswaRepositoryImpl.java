@@ -48,7 +48,7 @@ public class MahasiswaRepositoryImpl implements MahasiswaRepository {
             JOIN Pengguna p ON p.idPengguna = m.idMahasiswa
             JOIN Topik t ON m.kodeTopik = t.kodeTopik
         """;
-        return jdbcTemplate.query(sql, this::mapRowToMahasiswa);
+        return jdbcTemplate.query(sql, this::mapRowToMahasiswaFull);
     }
 
     @Override
@@ -66,6 +66,7 @@ public class MahasiswaRepositoryImpl implements MahasiswaRepository {
             FROM DosToStud dts
             JOIN Pengguna p ON p.idPengguna = dts.idDosen
             WHERE dts.idMahasiswa = ?
+            ORDER BY p.nama
         """;
 
         return jdbcTemplate.query(sql, this::mapRowToDosen, idMahasiswa);
@@ -90,6 +91,37 @@ public class MahasiswaRepositoryImpl implements MahasiswaRepository {
 
     }
 
+    @Override
+    public Mahasiswa getMahasiswaById(String id) {
+        String sql = """
+                SELECT
+                    m.idMahasiswa,
+                    p.nama,
+                    t.judulTopik,
+                    m.sebelumUTS,
+                    m.setelahUTS
+                FROM Mahasiswa m
+                JOIN Pengguna p  ON p.idPengguna = m.idMahasiswa
+                JOIN Topik t ON m.kodeTopik = t.kodeTopik
+                WHERE m.idMahasiswa = ?
+                """;
+        return jdbcTemplate.queryForObject(sql, this::mapRowToMahasiswaFull, id);
+    }
+
+    @Override
+    public List<Mahasiswa> getMahasiswaBimbinganByBimbingan(int id) {
+        String sql = """
+                SELECT
+                    m.idmahasiswa,
+                    p.nama
+                FROM Pengguna p
+                JOIN Melakukan m ON p.idPengguna = m.idmahasiswa
+                WHERE m.idJadwal = ?
+                """;
+        return jdbcTemplate.query(sql, this::mapRowToMahasiswaMinimum, id);
+
+    }
+
     private Dosen mapRowToDosen(ResultSet rs, int rowNum) throws SQLException {
         Dosen d = new Dosen();
         d.setId(rs.getString("idPengguna"));
@@ -97,10 +129,15 @@ public class MahasiswaRepositoryImpl implements MahasiswaRepository {
         return d;
     }
 
-    private Mahasiswa mapRowToMahasiswa(ResultSet rs, int rowNum) throws SQLException {
+    private Mahasiswa mapRowToMahasiswaMinimum(ResultSet rs, int rowNum) throws SQLException {
         Mahasiswa m = new Mahasiswa();
         m.setId(rs.getString("idMahasiswa"));
         m.setNama(rs.getString("nama"));
+        return m;
+    }
+
+    private Mahasiswa mapRowToMahasiswaFull(ResultSet rs, int rowNum) throws SQLException {
+        Mahasiswa m = mapRowToMahasiswaMinimum(rs, rowNum);
         m.setNamaTopik(rs.getString("judulTopik"));
         m.setSebelumUts(rs.getInt("sebelumUTS"));
         m.setSetelahUts(rs.getInt("setelahUTS"));
