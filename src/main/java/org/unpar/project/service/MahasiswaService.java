@@ -115,8 +115,6 @@ public class MahasiswaService {
 
                 String[] data = line.split(",");
                 if (data.length >= 6) {
-                    Mahasiswa mahasiswa = new Mahasiswa();
-
                     // csv:   idMahasiswa,nama,email,password,kodetopik,dosen1,dosen2
                     penggunaRepository.savePengguna(data[0], data[1], data[2], data[3]);
                     mahasiswaRepository.saveMahasiswa(data[0], data[4]);

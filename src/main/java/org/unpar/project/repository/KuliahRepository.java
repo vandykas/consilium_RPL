@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface KuliahRepository {
     List<Kuliah> getKuliahList(String id);
+
+    void saveKuliah(int idJadwal);
+
+    void savePerkuliahan(int idJadwal, String idPengguna);
 }

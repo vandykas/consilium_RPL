@@ -18,4 +18,6 @@ public interface DosenRepository {
     List<Dosen> getDosenPembimbingByBimbingan(int id);
 
     Dosen getDosenPembimbingById(String idPengguna);
+
+    void saveDosen(String id);
 }

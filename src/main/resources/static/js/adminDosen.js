@@ -124,34 +124,3 @@ function closeTambahDosenModal() {
 if (tambahDosenButton) {
     tambahDosenButton.addEventListener('click', showTambahDosenModal);
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    const formTambahDosen = document.getElementById('formTambahDosen');
-    if (formTambahDosen) {
-        formTambahDosen.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const formData = new FormData(formTambahDosen);
-            
-            fetch(`${API_BASE_URL}/upload`, {
-                method: 'POST',
-                body: formData 
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Gagal mengunggah data. Status: ${response.status}`);
-                }
-                return response.text();
-            })
-            .then(message => {
-                alert("Sukses: " + message);
-                closeTambahDosenModal();
-                window.location.reload();
-            })
-            .catch(error => {
-                console.error('Error saat mengunggah data Dosen:', error);
-                alert(`Gagal mengunggah data Dosen: ${error.message}`);
-            });
-        });
-    }
-});

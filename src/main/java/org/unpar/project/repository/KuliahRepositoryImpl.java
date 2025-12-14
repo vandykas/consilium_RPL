@@ -34,6 +34,18 @@ public class KuliahRepositoryImpl implements KuliahRepository {
         return jdbcTemplate.query(sql, this::mapRowToKuliah, id);
     }
 
+    @Override
+    public void saveKuliah(int idJadwal) {
+        String sql = "INSERT INTO Kuliah VALUES(?)";
+        jdbcTemplate.update(sql, idJadwal);
+    }
+
+    @Override
+    public void savePerkuliahan(int idJadwal, String idPengguna) {
+        String sql = "INSERT INTO KuliahMahaDosen VALUES(?, ?)";
+        jdbcTemplate.update(sql, idPengguna, idJadwal);
+    }
+
     private Kuliah mapRowToKuliah(ResultSet rs, int rowNum) throws SQLException {
         Kuliah kuliah = new Kuliah();
         kuliah.setIdKuliah(rs.getString("idJadwal"));

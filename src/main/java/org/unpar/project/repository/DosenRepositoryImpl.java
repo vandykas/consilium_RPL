@@ -117,6 +117,12 @@ public class DosenRepositoryImpl implements DosenRepository {
         return jdbcTemplate.query(sql, this::mapRowToDosen, idPengguna).getFirst();
     }
 
+    @Override
+    public void saveDosen(String id) {
+        String sql = "INSERT INTO DosenPembimbing VALUES(?)";
+        jdbcTemplate.update(sql, id);
+    }
+
     private Dosen mapRowToDosen(ResultSet rs, int rowNum) throws SQLException {
         Dosen dosen = new Dosen();
         dosen.setId(rs.getString("idDosen"));
