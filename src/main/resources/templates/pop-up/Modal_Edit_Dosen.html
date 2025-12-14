@@ -1,0 +1,31 @@
+<div th:fragment="editModalFragmentDosen(listTopikDosen)" id="editModalDosen" class="modal-overlay">
+    <div class="modal-content">
+
+        <div class="modal-header-banner">
+            <span class="close-button-banner" onclick="closeEditModal()">&times;</span>
+            <h2 class="modal-title-banner">Edit Data Dosen</h2>
+        </div>
+
+        <form id="formEditDosen" class="modal-body-form" enctype="multipart/form-data">
+            <input type="hidden" id="editIdDosen" name="idDosen">
+
+            <div class="form-group">
+                <label for="editEmailDosen">Email</label>
+                <input type="email" id="editEmailDosen" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="editNamaDosen">Nama</label>
+                <input type="text" id="editNamaDosen" name="nama" required>
+            </div>
+
+
+            <hr>
+
+            <div class="button-center-group">
+                <button type="submit" class="action-btn primary-action-btn">Perbarui Data</button>
+            </div>
+
+        </form>
+    </div>
+</div>

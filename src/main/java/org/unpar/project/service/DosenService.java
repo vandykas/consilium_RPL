@@ -1,6 +1,7 @@
 package org.unpar.project.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.unpar.project.repository.TopikRepository;
 
 @Service
 public class DosenService {
+
     @Autowired
     private DosenRepository dosenRepository;
 
@@ -23,6 +25,15 @@ public class DosenService {
 
     public List<String> getKodeTopikDosen(String idDosen) {
         return dosenRepository.getKodeTopikDosen(idDosen);
+    }
+
+    public Dosen getDosenById(String idDosen) {
+        Dosen dosen = dosenRepository.findDosenById(idDosen);
+
+        if (dosen != null) {
+            dosen.setMahasiswaList(getListMahasiswaBimbingan(dosen.getId()));
+        }
+        return dosen;
     }
 
     public List<Dosen> getAllDosen() {
@@ -38,6 +49,15 @@ public class DosenService {
         return dosenRepository.getListMahasiswaBimbingan(idDosen);
     }
 
+    public Dosen updateDosenData(Dosen dosen) {
+        dosenRepository.updateDosen(dosen);
+
+        return dosen;
+    }
+
+    public void processDosenUpload(MultipartFile fileDataDosen, MultipartFile fileJadwalDosen) {
+
+    }
     public Dosen getDosenInformation(String idPengguna) {
         Dosen dosen = dosenRepository.getDosenPembimbingById(idPengguna);
         dosen.setTopikList(topikRepository.findAllTopikByDosen(idPengguna));

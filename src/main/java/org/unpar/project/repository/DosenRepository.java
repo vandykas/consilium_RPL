@@ -1,16 +1,17 @@
 package org.unpar.project.repository;
 
 
+import java.util.List;
+
 import org.unpar.project.model.Dosen;
 import org.unpar.project.model.Mahasiswa;
-import org.unpar.project.model.Pengguna;
-
-import java.util.List;
 
 public interface DosenRepository {
     List<String> getKodeTopikDosen(String idDosen);
     List<Dosen> findAllDosen();
     List<Mahasiswa> getListMahasiswaBimbingan(String idDosen);
+    Dosen findDosenById(String idDosen);
+    void updateDosen(Dosen dosen);
 
     List<Dosen> getDosenPembimbingByMahasiswa(String id);
 

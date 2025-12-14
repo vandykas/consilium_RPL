@@ -12,20 +12,35 @@ import java.util.List;
 
 @Repository
 public class TopikRepositoryImpl implements TopikRepository {
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
     public String getJudulTopik(String kodeTopik) {
         String sql = "select judulTopik from topik where kodeTopik = ?";
-        List<String> topik =  jdbcTemplate.query(sql, (rs, rowNum) -> rs.getString("judulTopik"), kodeTopik);
+        List<String> topik = jdbcTemplate.query(sql, (rs, rowNum) -> rs.getString("judulTopik"), kodeTopik);
         return topik.isEmpty() ? null : topik.getFirst();
+    }
+
+    @Override
+    public List<Topik> findAllTopik() {
+        String sql = "SELECT kodeTopik, judulTopik FROM Topik";
+        return jdbcTemplate.query(sql, this::mapRowToTopik);
+    }
+
+    private Topik mapRowToTopik(ResultSet rs, int rowNum) throws SQLException {
+        Topik topik = new Topik();
+        topik.setKodeTopik(rs.getString("kodeTopik"));
+        topik.setJudulTopik(rs.getString("judulTopik"));
+        return topik;
     }
 
     @Override
     public List<Topik> findAllTopikByDosen(String id) {
         String sql = """
                 SELECT
+                    t.kodeTopik,
                     t.judulTopik
                 FROM
                     (SELECT
@@ -35,11 +50,5 @@ public class TopikRepositoryImpl implements TopikRepository {
                 JOIN Topik t ON mt.kodetopik = t.kodetopik
                 """;
         return jdbcTemplate.query(sql, this::mapRowToTopik, id);
-    }
-
-    private Topik mapRowToTopik(ResultSet rs, int rowNum) throws SQLException {
-        Topik topik = new Topik();
-        topik.setJudulTopik(rs.getString("judulTopik"));
-        return topik;
     }
 }

@@ -1,6 +1,4 @@
-package org.unpar.project.model;
-
-import java.util.List;
+package org.unpar.project.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Dosen {
-    private String id;
+public class DosenEditDTO {
+    private String idDosen;
     private String nama;
     private String email;
-    private List<Topik> topikList;
-    private List<Mahasiswa> mahasiswaList;
 }

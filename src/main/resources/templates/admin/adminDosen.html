@@ -1,40 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout/berandaAdmin :: beranda(~{::title}, ~{::header}, ~{::table})}">
+    th:replace="~{layout/berandaAdmin :: beranda(~{::title}, ~{::header}, ~{::table}, ~{::pageScripts}, ~{::actionButtons})}">
+
 <head>
     <title>Beranda - Dosen</title>
 </head>
+
 <body>
+    <th:block th:fragment="actionButtons">
+        <button class="action-btn add-btn" id="tambahDosenButton" title="Tambah Dosen Jamak">
+            +
+        </button>
+    </th:block>
+
     <header class="main-header">
         <h1 class="page-title">Daftar Dosen Pembimbing</h1>
     </header>
     <table>
         <thead>
-        <tr>
-            <th>No</th>
-            <th>Kode Dosen</th>
-            <th>Nama Dosen Pembimbing</th>
-            <th>Topik yang Dibuka</th>
-            <th>Mahasiswa yang Dibimbing</th>
-            <th>Edit</th>
-        </tr>
+            <tr>
+                <th>No</th>
+                <th>Kode Dosen</th>
+                <th>Nama Dosen Pembimbing</th>
+                <th>Topik yang Dibuka</th>
+                <th>Mahasiswa yang Dibimbing</th>
+                <th>Edit</th>
+            </tr>
         </thead>
         <tbody>
-        <tr th:each="dosen, iStat : ${dosenPembimbingList}">
-            <td th:text="${iStat.index + 1}"></td>
-            <td th:text="${dosen.id}"></td>
-            <td th:text="${dosen.nama}"></td>
-            <td>
-                <p th:each="topik : ${dosen.topikList}" th:text="${topik.judulTopik}"></p>
-            </td>
-            <td>
-                <p th:each="mhs : ${dosen.mahasiswaList}" th:text="${mhs.nama}"></p>
-            </td>
-            <td class="action-cell">
-                <input id="edit"type="checkbox" class="row-checkbox">
-            </td>
-        </tr>
+            <tr th:each="dosen, iStat : ${dosenPembimbingList}">
+                <td th:text="${iStat.index + 1}"></td>
+                <td th:text="${dosen.id}"></td>
+                <td th:text="${dosen.nama}"></td>
+                <td>
+                    <p th:each="topik : ${dosen.topikList}" th:text="${topik.judulTopik}"></p>
+                </td>
+                <td>
+                    <p th:each="mhs : ${dosen.mahasiswaList}" th:text="${mhs.nama}"></p>
+                </td>
+                <td class="action-cell">
+                    <button type="button" class="edit-button-dosen" th:attr="data-id=${dosen.id}">
+                        Edit Data
+                    </button>
+                </td>
+            </tr>
         </tbody>
     </table>
+    <th:block th:fragment="pageScripts">
+        <th:block th:replace="~{pop-up/Modal_Edit_Dosen :: editModalFragmentDosen(${listTopikDosen})}"></th:block>
+        <th:block th:replace="~{pop-up/Modal_Tambah_Dosen :: tambahDosenModal}"></th:block>
+        <script type="text/javascript" th:src="@{/js/adminDosen.js}"></script>
+    </th:block>
 </body>
+
 </html>

@@ -1,0 +1,42 @@
+<div th:fragment="editModalFragment(listTopik)" id="editModal" class="modal-overlay">
+    <div class="modal-content">
+        
+        <div class="modal-header-banner">
+            <span class="close-button-banner" onclick="closeEditModal()">&times;</span>
+            <h2 class="modal-title-banner">Edit Data Mahasiswa</h2>
+        </div>
+        
+        <form id="formEditMahasiswa" class="modal-body-form">
+            <input type="hidden" id="editIdMahasiswa" name="idMahasiswa">
+
+            <div class="form-group">
+                <label for="editEmail">Email</label>
+                <input type="email" id="editEmail" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="editNama">Nama Mahasiswa</label>
+                <input type="text" id="editNama" name="nama" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="editTopik">Topik yang Dipilih</label>
+                <select id="editTopik" name="kodeTopik" required>
+                    <option th:each="topik : ${listTopik}" th:value="${topik.kodeTopik}"
+                        th:text="${topik.judulTopik}"></option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Dosen Pembimbing</label>
+                <p id="editNamaDosenDisplay" class="info-display">Data Dosen akan dimuat...</p>
+            </div>
+
+            <hr>
+
+            <div class="button-center-group">
+                <button type="submit" class="primary-action-btn">Perbarui Data</button>
+            </div>
+        </form>
+    </div>
+</div>
