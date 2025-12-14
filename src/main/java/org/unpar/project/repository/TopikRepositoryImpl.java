@@ -29,6 +29,18 @@ public class TopikRepositoryImpl implements TopikRepository {
         return jdbcTemplate.query(sql, this::mapRowToTopik);
     }
 
+    @Override
+    public void saveTopik(String idTopik, String judulTopik) {
+        String sql = "INSERT INTO Topik VALUES (?, ?)";
+        jdbcTemplate.update(sql, idTopik, judulTopik);
+    }
+
+    @Override
+    public void savePembukaTopik(String idDosen, String idTopik) {
+        String sql = "INSERT INTO membukatopik VALUES (?, ?)";
+        jdbcTemplate.update(sql, idDosen, idTopik);
+    }
+
     private Topik mapRowToTopik(ResultSet rs, int rowNum) throws SQLException {
         Topik topik = new Topik();
         topik.setKodeTopik(rs.getString("kodeTopik"));

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.unpar.project.aspect.RequiredRole;
 import org.unpar.project.model.Pengguna;
 import org.unpar.project.service.NotifikasiService;
 
@@ -19,6 +20,7 @@ public class NotifikasiController {
     private NotifikasiService notifikasiService;
 
     @GetMapping("/mahasiswa")
+    @RequiredRole("mahasiswa")
     public String viewNotifikasiMahasiswa(Model model,
             HttpSession session) {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");
@@ -27,6 +29,7 @@ public class NotifikasiController {
     }
 
     @GetMapping("/dosen")
+    @RequiredRole("dosen")
     public String viewNotifikasiDosen(Model model,
             HttpSession session) {
         Pengguna pengguna = (Pengguna) session.getAttribute("pengguna");

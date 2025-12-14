@@ -37,8 +37,7 @@ public class NotifikasiRepositoryImpl implements NotifikasiRepository {
                 FROM (
                         SELECT *
                         FROM kirimdanterima
-                        WHERE idpenerima = ? OR idpengirim = ?
-                     ) k
+                        WHERE idpenerima = ? OR idpengirim = ?) k
                 JOIN notifikasi n ON k.idnotifikasi = n.idnotifikasi
                 JOIN jadwal j ON n.idjadwal = j.idjadwal
                 JOIN bimbingan b ON j.idjadwal = b.idjadwal

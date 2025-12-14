@@ -122,6 +122,12 @@ public class MahasiswaRepositoryImpl implements MahasiswaRepository {
 
     }
 
+    @Override
+    public void saveMahasiswa(String id, String kodeTopik) {
+        String sql = "INSERT INTO Mahasiswa VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, id, 0, 0, kodeTopik);
+    }
+
     private Dosen mapRowToDosen(ResultSet rs, int rowNum) throws SQLException {
         Dosen d = new Dosen();
         d.setId(rs.getString("idPengguna"));

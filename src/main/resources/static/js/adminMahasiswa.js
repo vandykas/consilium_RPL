@@ -54,39 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const tambahMahasiswaButton = document.getElementById('tambahMahasiswaButton');
-    const formTambahMahasiswa = document.getElementById('formTambahMahasiswa');
 
     if (tambahMahasiswaButton) {
         tambahMahasiswaButton.addEventListener('click', showTambahMahasiswaModal);
-    }
-
-    if (formTambahMahasiswa) {
-        formTambahMahasiswa.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const formData = new FormData(formTambahMahasiswa);
-
-            fetch(`${API_URL}/upload`, {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.text().then(text => {
-                            throw new Error(`Gagal mengunggah data. Detail: ${text}`);
-                        });
-                    }
-                    return response.text();
-                })
-                .then(message => {
-                    alert("Sukses: " + message);
-                    closeTambahMahasiswaModal();
-                    window.location.reload();
-                })
-                .catch(error => {
-                    console.error('Error saat mengunggah data Mahasiswa:', error);
-                    alert(`Gagal mengunggah data Mahasiswa: ${error.message}`);
-                });
-        });
     }
 });

@@ -27,7 +27,7 @@
                     <h4 id="pengajuan-heading">Pengajuan Bimbingan</h4>
                 </div>
                 <div class="notification-body-container">
-                    <div class="notification-item" th:each="notif : ${notifications}" th:if="${notif.status == null}">
+                    <div class="notification-item" th:each="notif : ${notifications}" th:if="${notif.status == null && notif.pengirim != pengguna.nama}">
                         <div class="notification-item-left">
                             <p>
                                 Penjadwalan Bimbingan pada

@@ -34,8 +34,6 @@ public class BimbinganService {
 
     private final int MINIMUM_BIMBINGAN_SEBELUM_UTS = 2;
     private final int MINIMUM_BIMBINGAN_SETELAH_UTS = 2;
-    @Autowired
-    private MahasiswaService mahasiswaService;
 
     public Optional<Bimbingan> findUpcomingBimbinganByMahasiswa(String id) {
         Optional<Bimbingan> bimbinganOpt = bimbinganRepository.findUpcomingBimbinganByMahasiswa(id);
@@ -103,10 +101,16 @@ public class BimbinganService {
                 bimbinganRequest.getJamSelesai(), bimbinganRequest.getRuangan());
 
         bimbinganRepository.saveBimbingan(idJadwal, tanggalBimbingan);
+        boolean isMahasiswa = idPengguna.charAt(0) == 'M';
 
         List<String> penerima = bimbinganRequest.getPenerima();
         for (String idPenerima :  penerima) {
-            bimbinganRepository.savePesertaBimbinganMahasiswa(idPengguna, idPenerima, idJadwal);
+            if (isMahasiswa) {
+                bimbinganRepository.savePesertaBimbingan(idPengguna, idPenerima, idJadwal);
+            }
+            else {
+                bimbinganRepository.savePesertaBimbingan(idPenerima, idPengguna, idJadwal);
+            }
             notifikasiRepository.saveNotifikasi(idJadwal, idPengguna, idPenerima);
         }
     }

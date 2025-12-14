@@ -51,6 +51,12 @@ public class PenggunaRepositoryImpl implements PenggunaRepository {
         jdbcTemplate.update(sql, newPassword, id);
     }
 
+    @Override
+    public void savePengguna(String id, String nama, String email, String password) {
+        String sql = "INSERT INTO Pengguna VALUES (?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, id, nama, password, email, false);
+    }
+
     private Pengguna mapRowToUser(ResultSet rs, int rowNum) throws SQLException {
         Pengguna p = new Pengguna();
         p.setIdPengguna(rs.getString("idPengguna"));

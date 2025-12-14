@@ -108,7 +108,7 @@ public class BimbinganRepositoryImpl implements BimbinganRepository {
     }
 
     @Override
-    public void savePesertaBimbinganMahasiswa(String idPengguna, String idPenerima, Integer idJadwal) {
+    public void savePesertaBimbingan(String idPengguna, String idPenerima, Integer idJadwal) {
         String sql = "INSERT INTO Melakukan VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, idPenerima, idPengguna, idJadwal);
     }

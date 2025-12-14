@@ -27,11 +27,6 @@
                    placeholder="Masukkan password anda" 
                    class="input_text_outline">
             <span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-            <span>
-                <a th:href="@{/forgot_password}" class="forgot_password">
-                    Lupa password?
-                </a>
-            </span>
         </label>
         <button type="submit"
                class="button_yellow">

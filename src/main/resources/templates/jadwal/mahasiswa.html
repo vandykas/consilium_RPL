@@ -6,7 +6,7 @@
 </head>
 <body>
     <p>
-        Selamat datang <span th:text="${pengguna.nama}">Nama Mahasiswa</span>,
+        Selamat Datang <span th:text="${pengguna.nama}">Nama Mahasiswa</span>,
         <span th:text="${uts}">sebelum</span> masa UTS anda harus menyelesaikan
         <br>
         <span class="bimbingan-reminder" th:classappend="${countBimbingan < 2} ? 'danger-bimbingan' : 'success-bimbingan'">

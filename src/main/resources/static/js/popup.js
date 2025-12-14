@@ -1,5 +1,5 @@
 (() => {
-    const buttPengajuan = document.querySelector('#button-container > button:nth-child(2)');
+    const buttPengajuan = document.querySelector('#button-container > button:last-child');
     if (buttPengajuan) {
         buttPengajuan.addEventListener('click', openPengajuanForm);
     }

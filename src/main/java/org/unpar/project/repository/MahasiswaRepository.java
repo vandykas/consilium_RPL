@@ -20,4 +20,6 @@ public interface MahasiswaRepository {
     Mahasiswa getMahasiswaById(String id);
 
     List<Mahasiswa> getMahasiswaBimbinganByBimbingan(int id);
+
+    void saveMahasiswa(String id, String kodeTopik);
 }

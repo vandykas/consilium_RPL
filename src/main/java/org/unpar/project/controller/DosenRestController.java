@@ -59,24 +59,4 @@ public class DosenRestController {
             return ResponseEntity.internalServerError().build();
         }
     }
-
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadDosenData(
-            @RequestParam("fileDataDosen") MultipartFile fileDataDosen,
-            @RequestParam("fileJadwalDosen") MultipartFile fileJadwalDosen) {
-
-        if (fileDataDosen.isEmpty() || fileJadwalDosen.isEmpty()) {
-            return ResponseEntity.badRequest().body("Kedua file wajib diunggah.");
-        }
-
-        try {
-            dosenService.processDosenUpload(fileDataDosen, fileJadwalDosen);
-            return ResponseEntity.ok("Data dosen berhasil ditambahkan secara jamak.");
-
-        } catch (Exception e) {
-            System.err.println("Error saat proses upload dosen: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Gagal memproses data: " + e.getMessage());
-        }
-    }
 }

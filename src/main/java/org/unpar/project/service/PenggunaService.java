@@ -29,6 +29,7 @@ public class PenggunaService {
     public Optional<Pengguna> login(String email, String password) {
         Optional<Pengguna> penggunaDitemukan = penggunaRepository.findByEmail(email);
         if (penggunaDitemukan.isEmpty()) {
+            System.out.println("Pengguna tidak ditemukan");
             return Optional.empty();
         }
 

@@ -17,5 +17,4 @@ public class Mahasiswa {
     private List<Dosen> dosenPembimbing;
     private int sebelumUts;
     private int setelahUts;
-    private LocalDate bimbinganTerakhir;
 }
