@@ -10,12 +10,12 @@
             <h1>TA 1</h1>
         </div>
         <div class="profile-container">
-            <h1><span th:text="${name}">Nama Mahasiswa</span></h1>
-            <p><span class="label">Topik TA: </span><span th:text="${topikTA}">Topik TA</span></p>
+            <h1><span th:text="${mahasiswa.nama}">Nama Mahasiswa</span></h1>
+            <p><span class="label">Topik TA: </span><span th:text="${mahasiswa.namaTopik}">Topik TA</span></p>
             <div class="row">
                 <span class="label">Dosen Pembimbing:</span>
                 <div class="value">
-                    <p th:each="dosen : ${dosenPembimbing}" th:text="${dosen}">Nama Dosen</p>
+                    <p th:each="dosen : ${mahasiswa.dosenPembimbing}" th:text="${dosen.nama}">Nama Dosen</p>
                 </div>
             </div>
         </div>
@@ -26,16 +26,22 @@
             <h2>Bimbingan Mendatang</h2>
         </div>
         <div id="info-text">
-            <h3>Bimbingan <span th:text="${bimbingan.nomor}">1</span></h3><br>
-            <p><span class="label">Tanggal: </span><span th:text="${#temporals.format(bimbingan.tanggal, 'EEEE, dd MMMM yyyy')}">Tanggal</span></p>
-            <p><span class="label">Ruang: </span><span th:text="${bimbingan.ruang}">Ruangan</span></p>
+            <h3>Bimbingan</h3><br>
+            <p>
+                <span class="label">Tanggal: </span><span th:text="${#temporals.format(bimbinganMendatang.tanggal, 'EEEE, dd MMMM yyyy')}">Tanggal</span>
+            </p>
+            <p>
+                <span class="label">Ruang: </span><span th:text="${bimbinganMendatang.ruang}">Ruangan</span>
+            </p>
             <div class="row">
                 <span class="label">Dosen Pembimbing:</span>
                 <div class="value">
-                    <p th:each="dosen : ${dosenNextBimbingan}" th:text="${dosen}">Nama Dosen</p>
+                    <p th:each="dosen : ${bimbinganMendatang.dosen}" th:text="${dosen.nama}">Nama Dosen</p>
                 </div>
             </div>
-            <p><span class="label">Tugas: </span><span th:text="${bimbingan.tugas}">Deskripsi tugas</span></p>
+            <p>
+                <span class="label">Tugas: </span><span th:text="${bimbinganMendatang.tugas}">Deskripsi tugas</span>
+            </p>
         </div>
     </section>
 
@@ -44,9 +50,9 @@
             <h2>Riwayat Bimbingan</h2>
         </div>
         <div id="history-container">
-            <div class="bimbingan-card" th:each="b : ${riwayat}">
+            <div class="bimbingan-card" th:each="b, iter : ${riwayat}">
                 <div class="riwayat">
-                    <span class="label">Bimbingan <span th:text="${b.nomor}">1</span></span><br>
+                    <span class="label">Bimbingan <span th:text="${iter.size - iter.count + 1}"></span></span><br>
                     <span th:text="${#temporals.format(b.tanggal, 'EEEE, dd MMMM yyyy')}">Tanggal</span>
                 </div>
                 <p class="detail">Cek Detail</p>
@@ -62,14 +68,14 @@
         <div class="circle-wrapper">
             <div>
                 <div th:class="${isMemenuhiSebelumUTS} ? 'progress-circle-yellow' : 'progress-circle-red'">
-                    <span><span th:text="${sebelumUTS}"></span> dari 2</span>
+                    <span><span th:text="${mahasiswa.sebelumUts}"></span> dari 2</span>
                 </div>
                 <br>
                 <p>Sebelum UTS</p>
             </div>
             <div>
                 <div th:class="${isMemenuhiSetelahUTS} ? 'progress-circle-yellow' : 'progress-circle-red'">
-                    <span><span th:text="${setelahUTS}"></span> dari 2</span>
+                    <span><span th:text="${mahasiswa.setelahUts}"></span> dari 2</span>
                 </div>
                 <br>
                 <p>Setelah UTS</p>

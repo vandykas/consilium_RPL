@@ -10,11 +10,11 @@
             <h1>TA 1</h1>
         </div>
         <div class="profile-container">
-            <h2><span th:text="${pengguna.nama}">Nama Dosen</span></h2>
+            <h2><span th:text="${dosen.nama}">Nama Dosen</span></h2>
             <div class="row">
                 <p class="label">Topik TA: </p>
                 <div class="value">
-                    <p th:each="topikTA : ${topikTA}" th:text="${topikTA}">Topik TA</p>
+                    <p th:each="topikTA : ${dosen.topikList}" th:text="${topikTA.judulTopik}">Topik TA</p>
                 </div>
             </div>
         </div>
@@ -25,11 +25,22 @@
             <h2>Bimbingan Mendatang</h2>
         </div>
         <div class="info-text">
-            <h3>Bimbingan 3</h3>
-            <p><span class="label">Tanggal: </span>15 Oktober</p>
-            <p><span class="label">Ruang: </span>R. Kuliah 09.01.0015</p>
-            <p><span class="label">Dosen Pembimbing: </span>Vania Natali, S.Kom., M.T.</p>
-            <p><span class="label">Tugas: </span>Membuat cover 10 halaman</p>
+            <h3>Bimbingan</h3>
+            <p>
+                <span class="label">Tanggal: </span><span th:text="${#temporals.format(bimbinganMendatang.tanggal, 'EEEE, dd MMMM yyyy')}">Tanggal</span>
+            </p>
+            <p>
+                <span class="label">Ruang: </span><span th:text="${bimbinganMendatang.ruang}"></span>
+            </p>
+            <div class="row">
+                <span class="label">Dosen Pembimbing:</span>
+                <div class="value">
+                    <p th:each="mahasiswa : ${bimbinganMendatang.mahasiswa}" th:text="${mahasiswa.nama}"></p>
+                </div>
+            </div>
+            <p>
+                <span class="label">Tugas: </span><span th:text="${bimbinganMendatang.tugas}"></span>
+            </p>
         </div>
     </section>
 
@@ -53,16 +64,12 @@
             <h2>Mahasiswa Bimbingan</h2>
         </div>
         
-        <div class="student-item" th:each="mahasiswa, iterStat : ${mahasiswaList}">
+        <div class="student-item" th:each="mahasiswa, iterStat : ${dosen.mahasiswaList}">
             <div class="student-number" th:text="${iterStat.count}">1</div>
             <div class="student-card">
                 <div class="student-info">
                     <h2 th:text="${mahasiswa.nama}">Nama Mahasiswa</h2>
                     <p>Topik: <span th:text="${mahasiswa.namaTopik}">Topik TA</span></p>
-                    <p>Bimbingan terakhir:
-                        <span th:if="${mahasiswa.bimbinganTerakhir != null}" th:text="${#temporals.format(mahasiswa.bimbinganTerakhir, 'dd MMMM yyyy')}">Tanggal</span>
-                        <span th:if="${mahasiswa.bimbinganTerakhir == null}">Belum bimbingan</span>
-                    </p>
                 </div>
                 <div class="progress-section">
                     <div class="progress-group">

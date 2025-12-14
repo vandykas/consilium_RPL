@@ -41,13 +41,57 @@ public class DosenRepositoryImpl implements DosenRepository {
     @Override
     public List<Mahasiswa> getListMahasiswaBimbingan(String idDosen) {
         String sql = """
-            SELECT p.idPengguna, p.nama
-            FROM DosToStud dts
-            JOIN Pengguna p ON p.idPengguna = dts.idMahasiswa
-            WHERE dts.idDosen = ?
+                SELECT
+                    dst.idMahasiswa,
+                    p.nama,
+                    t.judulTopik,
+                    m.sebelumUTS,
+                    m.setelahUTS
+                FROM dostostud dst
+                JOIN mahasiswa m ON dst.idMahasiswa = m.idMahasiswa
+                JOIN Pengguna p ON p.idPengguna = m.idMahasiswa
+                JOIN Topik t ON m.kodeTopik = t.kodeTopik
+                WHERE dst.idDosen = ?
         """;
-
         return jdbcTemplate.query(sql, this::mapRowToMahasiswa, idDosen);
+    }
+
+    @Override
+    public List<Dosen> getDosenPembimbingByMahasiswa(String id) {
+        String sql = """
+                SELECT
+                    dts.idDosen,
+                    p.nama
+                FROM DosToStud dts
+                JOIN Pengguna p ON p.idPengguna = dts.idDosen
+                WHERE dts.idMahasiswa = ?
+                """;
+        return jdbcTemplate.query(sql, this::mapRowToDosen, id);
+    }
+
+    @Override
+    public List<Dosen> getDosenPembimbingByBimbingan(int id) {
+        String sql = """
+                SELECT
+                    m.idDosen,
+                    p.nama
+                FROM Pengguna p
+                JOIN Melakukan m ON p.idPengguna = m.idDosen
+                WHERE m.idJadwal = ?
+                """;
+        return jdbcTemplate.query(sql, this::mapRowToDosen, id);
+    }
+
+    @Override
+    public Dosen getDosenPembimbingById(String idPengguna) {
+        String sql = """
+                SELECT
+                    p.idPengguna AS idDosen,
+                    p.nama
+                FROM Pengguna p
+                WHERE p.idPengguna = ?
+                """;
+        return jdbcTemplate.query(sql, this::mapRowToDosen, idPengguna).getFirst();
     }
 
     private Dosen mapRowToDosen(ResultSet rs, int rowNum) throws SQLException {
@@ -59,8 +103,11 @@ public class DosenRepositoryImpl implements DosenRepository {
 
     private Mahasiswa mapRowToMahasiswa(ResultSet rs, int rowNum) throws SQLException {
         Mahasiswa m = new Mahasiswa();
-        m.setId(rs.getString("idPengguna"));
+        m.setId(rs.getString("idMahasiswa"));
         m.setNama(rs.getString("nama"));
+        m.setNamaTopik(rs.getString("judulTopik"));
+        m.setSebelumUts(rs.getInt("sebelumUTS"));
+        m.setSetelahUts(rs.getInt("setelahUTS"));
         return m;
     }
 }

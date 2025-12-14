@@ -45,7 +45,6 @@ CREATE TABLE Mahasiswa (
 CREATE TABLE Jadwal (
     idJadwal SERIAL PRIMARY KEY,
     hari VARCHAR(6) NOT NULL,
-    tanggal DATE NOT NULL, --(yyyy-mm-dd)
     jamMulai TIME NOT NULL,--(hh:mm)
     jamSelesai TIME NOT NULL,
 	--menambahkan nomor ruangan ke jadwal 
@@ -62,6 +61,7 @@ CREATE TABLE Kuliah (
 
 CREATE TABLE Bimbingan (
     idJadwal INT PRIMARY KEY,
+	tanggal DATE NOT NULL, --(yyyy-mm-dd)
     tugas VARCHAR(250) ,
     inti VARCHAR(250) ,
     kelompokPerulangan int,
@@ -75,8 +75,8 @@ CREATE TABLE Notifikasi (
     idNotifikasi SERIAL PRIMARY KEY ,
     statusPersetujuan BOOLEAN,
     alasanPenolakan VARCHAR(200),
-    waktuKirim TIME, --hh:mm:ss
-	tanggalKirim DATE, --yyyy:mm:dd
+    waktuKirim TIME DEFAULT CURRENT_TIME, --hh:mm:ss
+	tanggalKirim DATE DEFAULT CURRENT_DATE, --yyyy:mm:dd
 	idJadwal int not null,
 
 	--foreign key 1:1 ke bimbingan
@@ -91,12 +91,12 @@ CREATE TABLE Notifikasi (
 --many to many
 
 CREATE TABLE KuliahMahaDosen (
-    idMaha char(6) NOT NULL,
+    idPengguna char(6) NOT NULL,
     idJadwal INT NOT NULL,
 
-    PRIMARY KEY (idMaha, idJadwal),
+    PRIMARY KEY (idPengguna, idJadwal),
 
-    FOREIGN KEY (idMaha) REFERENCES Pengguna(idPengguna),
+    FOREIGN KEY (idPengguna) REFERENCES Pengguna(idPengguna),
     FOREIGN KEY (idJadwal) REFERENCES Kuliah(idJadwal)
 );
 
@@ -148,10 +148,10 @@ CREATE TABLE KirimDanTerima (
 
 ---Tabel View---
 CREATE OR REPLACE VIEW ViewBimbinganLengkap AS
-SELECT 
+SELECT
 	ROW_NUMBER() OVER (
         PARTITION BY m.idMahasiswa
-        ORDER BY j.tanggal
+        ORDER BY b.tanggal
     ) AS nomorBimbingan,
     m.idDosen,
     m.idMahasiswa,
@@ -164,7 +164,7 @@ SELECT
 
     -- dari Jadwal
     j.hari,
-    j.tanggal,
+    b.tanggal,
     j.jamMulai,
     j.jamSelesai,
 
@@ -236,27 +236,27 @@ INSERT INTO Ruangan VALUES
 (9121,'Kelas 9121',False,false),
 (10111,'Kelas 10111',False,false);
 
-INSERT INTO Jadwal (hari, tanggal, jamMulai, jamSelesai, nomorRuangan) VALUES
-('Senin','2025-09-10','08:00','10:00',9015),--1
-('Senin','2025-09-10','10:00','12:00',9016),--2
-('Senin','2025-09-10','13:00','15:00',9015),--3
-('Senin','2025-09-10','16:00','17:00',9018),--4
-('Selasa','2025-10-11','08:00','10:00',9015),--5 ------
-('Selasa','2025-10-11','10:00','12:00',9017),--6
-('Selasa','2025-10-11','13:00','15:00',9016),--7
-('Selasa','2025-10-11','16:00','17:00',9017),--8
-('Rabu','2025-11-12','08:00','10:00',10111),--9
-('Rabu','2025-11-12','10:00','12:00',9018),--10
-('Rabu','2025-11-12','13:00','15:00',10111),--11
-('Rabu','2025-11-12','16:00','17:00',9018),--12
-('Kamis','2025-12-13','08:00','10:00',9120),--13
-('Kamis','2025-12-13','10:00','12:00',9121),--14
-('Kamis','2025-12-13','13:00','15:00',9018),--15
-('Kamis','2025-12-13','16:00','17:00',9018),--16
-('Jumat','2025-09-14','08:00','10:00',9121),--17
-('Jumat','2025-09-14','10:00','12:00',9018),--18
-('Jumat','2025-09-14','13:00','15:00',9121),--19
-('Jumat','2025-09-14','16:00','17:00',9018);--20
+INSERT INTO Jadwal (hari, jamMulai, jamSelesai, nomorRuangan) VALUES
+('Senin','08:00','10:00',9015),--1
+('Senin','10:00','12:00',9016),--2
+('Senin','13:00','15:00',9015),--3
+('Senin','16:00','17:00',9018),--4
+('Selasa','08:00','10:00',9015),--5 ------
+('Selasa','10:00','12:00',9017),--6
+('Selasa','13:00','15:00',9016),--7
+('Selasa','16:00','17:00',9017),--8
+('Rabu','08:00','10:00',10111),--9
+('Rabu','10:00','12:00',9018),--10
+('Rabu','13:00','15:00',10111),--11
+('Rabu','16:00','17:00',9018),--12
+('Kamis','08:00','10:00',9120),--13
+('Kamis','10:00','12:00',9121),--14
+('Kamis','13:00','15:00',9018),--15
+('Kamis','16:00','17:00',9018),--16
+('Jumat','08:00','10:00',9121),--17
+('Jumat','10:00','12:00',9018),--18
+('Jumat','13:00','15:00',9121),--19
+('Jumat','16:00','17:00',9018);--20
 
 
 INSERT INTO MembukaTopik VALUES
@@ -275,16 +275,16 @@ INSERT INTO Kuliah VALUES
 (1),(3),(4),(7),(9),(11),(14),(17),(19),(20);
 
 INSERT INTO Bimbingan VALUES
-(2,'Membuat database dengan data dummy','Pembuatan database',1),--senin 10-12
-(5,'Memperbaiki algoritma pencarian','Perbaikan algoritma A*',3),--selase 8-10
-(6,'Memperbaiki fitur-fitur','Perbaikan fitur filter berdasarkan nama',null),--selasa 10-12
-(8,'Menghilangkan redundant dalam kode','Menghapus looping dalam kode',4),--selasa 16-18
-(10,'Membuat algoritma pencarian baru','Membuat algoritma BFS',null),-- rabu 10-12
-(12,'Memperbaiki bug','Membuat algoritma BFS',3),-- rabu 16-18
-(13,'Menerapkan cookies','Membuat algoritma BFS',4),-- kamis 8-10
-(15,'Menghilangkan kode redundant','Membuat algoritma BFS',null),-- kamis 13-15
-(16,NULL,NULL,NULL),-- kamis 16-18
-(18,NULL,NULL,5);-- jumat 10-12
+(2,'2025-09-10','Membuat database dengan data dummy','Pembuatan database',1),--senin 10-12
+(5,'2025-10-11','Memperbaiki algoritma pencarian','Perbaikan algoritma A*',3),--selase 8-10
+(6,'2025-10-11','Memperbaiki fitur-fitur','Perbaikan fitur filter berdasarkan nama',null),--selasa 10-12
+(8,'2025-10-11','Menghilangkan redundant dalam kode','Menghapus looping dalam kode',4),--selasa 16-18
+(10,'2025-11-12','Membuat algoritma pencarian baru','Membuat algoritma BFS',null),-- rabu 10-12
+(12,'2025-11-12','Memperbaiki bug','Membuat algoritma BFS',3),-- rabu 16-18
+(13,'2025-12-13','Menerapkan cookies','Membuat algoritma BFS',4),-- kamis 8-10
+(15,'2025-12-13','Menghilangkan kode redundant','Membuat algoritma BFS',null),-- kamis 13-15
+(16,'2025-12-13',NULL,NULL,NULL),-- kamis 16-18
+(18,'2025-09-14',NULL,NULL,5);-- jumat 10-12
 
 INSERT INTO Notifikasi (statusPersetujuan, alasanPenolakan, waktuKirim, tanggalKirim, idJadwal) VALUES
 (false,'Belum lengkap', '09:00','2025-09-10',2), --1
@@ -346,5 +346,19 @@ insert into DosToStud values
 
 --SELECT * FROM notifikasi;
 
+INSERT INTO Ruangan (nomorRuangan, namaRuangan, statusRuangan, jenisRuangan)
+VALUES
+(101, 'Ruang Bimbingan 101', true, false),
+(102, 'Ruang Bimbingan 102', true, false),
+(201, 'Ruang Riset 201', true, true),
+(301, 'Ruang Konsultasi 301', false, false), -- tidak aktif
+(401, 'Ruang Dosen 401', true, true);
 
+INSERT INTO Jadwal (hari, jamMulai, jamSelesai, nomorRuangan)
+VALUES
+('Rabu', '09:00', '11:00', 101),
+('Rabu', '13:00', '15:00', 101),
+('Rabu', '10:00', '12:00', 102),
+('Rabu', '08:00', '10:00', 201),
+('Rabu', '14:00', '16:00', 401);
 

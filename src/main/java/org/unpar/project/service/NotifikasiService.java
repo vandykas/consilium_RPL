@@ -16,7 +16,7 @@ public class NotifikasiService {
         return notifikasiRepository.findAllNotifikasiById(id);
     }
 
-    public void updateStatusNotifikasi(int id, boolean status,String alasanPenolakan) {
-        notifikasiRepository.updateStatusNotifikasi(id, status,alasanPenolakan);
+    public void updateStatusNotifikasi(int id, boolean status, String alasanPenolakan) {
+        notifikasiRepository.updateStatusNotifikasi(id, status, alasanPenolakan);
     }
 }

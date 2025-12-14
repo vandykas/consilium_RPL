@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -18,39 +19,40 @@ public class KuliahRepositoryImpl implements KuliahRepository {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<Kuliah> getKuliahList(String id, LocalDate mingguMulai, LocalDate mingguAkhir) {
+    public List<Kuliah> getKuliahList(String id) {
         String sql = """
                 SELECT
                     j.idJadwal,
-                    j.tanggal,
+                    j.hari,
                     j.jamMulai,
                     j.jamSelesai
                 FROM
                     Jadwal j
                 INNER JOIN KuliahMahaDosen k ON k.idJadwal = j.idJadwal
-                WHERE k.idMaha = ? AND j.tanggal BETWEEN ? AND ?
+                WHERE k.idpengguna = ?
                 """;
-        return jdbcTemplate.query(sql, this::mapRowToKuliah, id, mingguMulai, mingguAkhir);
+        return jdbcTemplate.query(sql, this::mapRowToKuliah, id);
     }
 
     private Kuliah mapRowToKuliah(ResultSet rs, int rowNum) throws SQLException {
         Kuliah kuliah = new Kuliah();
         kuliah.setIdKuliah(rs.getString("idJadwal"));
 
-        LocalDate tanggal = rs.getObject("tanggal", LocalDate.class);
-        kuliah.setIndexHari(calculateDayIndex(tanggal));
+        String hari = rs.getString("hari");
+        kuliah.setIndexHari(calculateDayIndex(hari));
 
         kuliah.setJamMulai(rs.getObject("jamMulai", LocalTime.class).getHour());
         kuliah.setJamSelesai(rs.getObject("jamSelesai", LocalTime.class).getHour());
         return kuliah;
     }
 
-    private int calculateDayIndex(LocalDate date) {
-        if (date == null) {
-            return 0;
-        }
-        DayOfWeek dayOfWeek = date.getDayOfWeek();
-        // Monday = 1, so subtract 1 to get 0-based index
-        return dayOfWeek.getValue();
+    private int calculateDayIndex(String hari) {
+        HashMap<String, Integer> hariToIndex = new HashMap<String, Integer>();
+        hariToIndex.put("senin", 1);
+        hariToIndex.put("selasa", 2);
+        hariToIndex.put("rabu", 3);
+        hariToIndex.put("kamis", 4);
+        hariToIndex.put("jumat", 5);
+        return hariToIndex.get(hari.toLowerCase());
     }
 }

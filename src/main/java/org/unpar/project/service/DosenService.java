@@ -37,4 +37,11 @@ public class DosenService {
     public List<Mahasiswa> getListMahasiswaBimbingan(String idDosen) {
         return dosenRepository.getListMahasiswaBimbingan(idDosen);
     }
+
+    public Dosen getDosenInformation(String idPengguna) {
+        Dosen dosen = dosenRepository.getDosenPembimbingById(idPengguna);
+        dosen.setTopikList(topikRepository.findAllTopikByDosen(idPengguna));
+        dosen.setMahasiswaList(dosenRepository.getListMahasiswaBimbingan(idPengguna));
+        return dosen;
+    }
 }

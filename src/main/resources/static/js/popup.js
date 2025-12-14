@@ -1,4 +1,3 @@
-
 (() => {
     const buttPengajuan = document.querySelector('#button-container > button:nth-child(2)');
     if (buttPengajuan) {

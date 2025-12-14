@@ -9,7 +9,7 @@ body {
 #grid-mahasiswa {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 0.7fr minmax(0, 1fr);
+    grid-template-rows: 300px minmax(0, 500px);
     grid-template-areas:
         "header header header"
         "reminder history progress";

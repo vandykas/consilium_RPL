@@ -5,15 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.unpar.project.dto.BimbinganKalender;
-import org.unpar.project.model.Bimbingan;
+import org.unpar.project.dto.BimbinganRequest;
 import org.unpar.project.model.Pengguna;
 import org.unpar.project.service.BimbinganService;
 import org.unpar.project.service.KuliahService;
 import org.unpar.project.service.MahasiswaService;
-import org.unpar.project.service.PenggunaService;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -41,8 +41,9 @@ public class JadwalBimbinganController {
         addCommonAttributes(model, pengguna, weekOffset);
         addDaysLabel(model, weekOffset);
         addBimbinganToCalendarMahasiswa(model, weekOffset, idPengguna);
-        addBlockedJadwal(model, idPengguna, weekOffset);
+        addBlockedJadwal(model, idPengguna);
         checkBeforeOrAfterUTS(model, LocalDate.now(), idPengguna);
+        model.addAttribute("dosenList", mahasiswaService.getListDosenPembimbing(idPengguna));
         return "jadwal/mahasiswa";
     }
 
@@ -56,8 +57,16 @@ public class JadwalBimbinganController {
         addCommonAttributes(model, pengguna, weekOffset);
         addDaysLabel(model, weekOffset);
         addBimbinganToCalendarDosen(model, weekOffset, idPengguna);
-        addBlockedJadwal(model, idPengguna, weekOffset);
+        addBlockedJadwal(model, idPengguna);
         return "jadwal/dosen";
+    }
+
+    @PostMapping("/ajukan-bimbingan")
+    public String saveBimbingan(BimbinganRequest bimbinganRequest,
+                              HttpSession httpSession) {
+        Pengguna pengguna = (Pengguna) httpSession.getAttribute("pengguna");
+        bimbinganService.makeBimbingan(bimbinganRequest, pengguna.getIdPengguna());
+        return "redirect:/jadwal/mahasiswa";
     }
 
     private void addCommonAttributes(Model model, Pengguna pengguna, int weekOffset) {
@@ -82,8 +91,8 @@ public class JadwalBimbinganController {
         model.addAttribute("bimbinganList", bimbinganList);
     }
 
-    private void addBlockedJadwal(Model model, String idPengguna, int weekOffset) {
-        model.addAttribute("blockedList", kuliahService.getKuliahListMahasiswa(idPengguna, weekOffset));
+    private void addBlockedJadwal(Model model, String idPengguna) {
+        model.addAttribute("blockedList", kuliahService.getKuliahListMahasiswa(idPengguna));
     }
 
     private void checkBeforeOrAfterUTS(Model model, LocalDate now, String id) {

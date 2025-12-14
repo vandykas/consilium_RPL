@@ -1,5 +1,6 @@
 package org.unpar.project.repository;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -8,6 +9,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.unpar.project.model.Notifikasi;
 
@@ -27,7 +30,7 @@ public class NotifikasiRepositoryImpl implements NotifikasiRepository {
                     n.alasanPenolakan,
                     b.inti,
                     r.namaruangan,
-                    j.tanggal,
+                    b.tanggal,
                     j.jammulai,
                     j.jamselesai,
                     p.nama AS pengirim
@@ -50,6 +53,28 @@ public class NotifikasiRepositoryImpl implements NotifikasiRepository {
     public void updateStatusNotifikasi(int id, boolean status,String alasanPenolakan) {
         String sql = "UPDATE notifikasi SET statusPersetujuan = ?,alasanPenolakan=? WHERE idnotifikasi = ?";
         jdbcTemplate.update(sql, status, alasanPenolakan,id);
+    }
+
+    @Override
+    public void saveNotifikasi(Integer idJadwal, String pengirim, String penerima) {
+        String sql = "INSERT INTO Notifikasi (idjadwal) VALUES (?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            String[] keyColumn = {"idnotifikasi"};
+            PreparedStatement ps = connection.prepareStatement(sql, keyColumn);
+            ps.setInt(1, idJadwal);
+            return ps;
+        }, keyHolder);
+
+        Integer idNotifBaru = (keyHolder.getKey() != null) ? keyHolder.getKey().intValue() : null;
+
+        if (idNotifBaru != null) {
+            String sqlKirimTerima = "INSERT INTO KirimDanTerima (idNotifikasi, idPengirim, idPenerima) VALUES (?, ?, ?)";
+            jdbcTemplate.update(sqlKirimTerima, idNotifBaru, pengirim, penerima);
+        } else {
+            throw new RuntimeException("Gagal membuat notifikasi, ID tidak ditemukan.");
+        }
     }
 
     private Notifikasi mapRowToNotifikasi(ResultSet rs, int rowNum) throws SQLException {
