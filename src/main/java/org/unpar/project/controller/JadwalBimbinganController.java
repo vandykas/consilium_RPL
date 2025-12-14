@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.unpar.project.aspect.RequiredRole;
 import org.unpar.project.dto.BimbinganKalender;
 import org.unpar.project.dto.BimbinganRequest;
 import org.unpar.project.model.Pengguna;
@@ -35,6 +36,7 @@ public class JadwalBimbinganController {
     private DosenService dosenService;
 
     @GetMapping("/mahasiswa")
+    @RequiredRole("mahasiswa")
     public String viewJadwalMahasiswa(@RequestParam(defaultValue = "0") int weekOffset,
                                       Model model,
                                       HttpSession session) {
@@ -51,6 +53,7 @@ public class JadwalBimbinganController {
     }
 
     @GetMapping("/dosen")
+    @RequiredRole("dosen")
     public String viewJadwalDosen(@RequestParam(defaultValue = "0") int weekOffset,
                                   Model model,
                                   HttpSession session) {
