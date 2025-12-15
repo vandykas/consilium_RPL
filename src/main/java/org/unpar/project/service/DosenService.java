@@ -1,5 +1,6 @@
 package org.unpar.project.service;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -165,6 +166,16 @@ public class DosenService {
         catch (IOException e) {
             return false;
         }
+        return true;
+    }
+
+    public boolean deleteDosen(String idDosen) {
+        try {
+            dosenRepository.deleteDosen(idDosen);
+        } catch (Exception e) {
+            return false;
+        }
+
         return true;
     }
 }

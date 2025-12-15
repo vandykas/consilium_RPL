@@ -1,73 +1,83 @@
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 
---basic database
+-- ==========================================================
+-- 1. BASIC DATABASE
+-- ==========================================================
+
+-- Tabel Induk Utama
 CREATE TABLE Pengguna (
-	idPengguna char(6) primary key not null,
-	nama varchar (60) not null,
-	password varchar (100) not  null,
-	email varchar (60) not null,
-	pernahLogin boolean
-);
-	
-CREATE TABLE DosenPembimbing (
-	idDosen char(6) primary key not null,
-	foreign key (idDosen) references Pengguna (idPengguna)
+    idPengguna char(6) primary key not null,
+    nama varchar (60) not null,
+    password varchar (100) not null,
+    email varchar (60) not null,
+    pernahLogin boolean
 );
 
-CREATE TABLE Admin (
-	idAdmin char(6) primary key not null,
-	foreign key (idAdmin) references Pengguna (idPengguna)
-);
-
-CREATE TABLE Ruangan (
-	nomorRuangan int primary key not null,
-	namaRuangan varchar(50) not null,
-	statusRuangan boolean not null,
-	jenisRuangan boolean not null
-);
 
 CREATE TABLE Topik (
-	kodeTopik varchar(10) primary key not null,
-	judulTopik varchar (200) not null
+    kodeTopik varchar(10) primary key not null,
+    judulTopik varchar (200) not null
+);
+    
+-- Tabel Anak 1: DosenPembimbing (FK ke Pengguna)
+CREATE TABLE DosenPembimbing (
+    idDosen char(6) primary key not null,
+    foreign key (idDosen) references Pengguna (idPengguna) ON DELETE CASCADE
+    -- Jika Pengguna dihapus, DosenPembimbing terkait ikut terhapus
 );
 
+-- Tabel Anak 2: Admin (FK ke Pengguna)
+CREATE TABLE Admin (
+    idAdmin char(6) primary key not null,
+    foreign key (idAdmin) references Pengguna (idPengguna) ON DELETE CASCADE
+    -- Jika Pengguna dihapus, Admin terkait ikut terhapus
+);
+
+-- Tabel Anak 3: Mahasiswa (FK ke Pengguna)
 CREATE TABLE Mahasiswa (
-	idMahasiswa char(6) primary key not null,
-	foreign key (idMahasiswa) references Pengguna (idPengguna),
-	sebelumUTS int not null,
-	setelahUTS int not null,
-	--menambahkan foreign key kode topik untuk mahasiswa
-	kodeTopik varchar(10) not null,
-	FOREIGN KEY (kodeTopik) REFERENCES Topik(kodeTopik)
+    idMahasiswa char(6) primary key not null,
+    foreign key (idMahasiswa) references Pengguna (idPengguna) ON DELETE CASCADE,
+    -- Jika Pengguna dihapus, Mahasiswa terkait ikut terhapus
+    
+    sebelumUTS int not null,
+    setelahUTS int not null,      
+    
+    kodeTopik varchar(10) not null,
+    FOREIGN KEY (kodeTopik) REFERENCES Topik(kodeTopik)
+);
+
+-- Tabel-tabel tanpa perubahan cascade pada relasi utama
+CREATE TABLE Ruangan (
+    nomorRuangan int primary key not null,
+    namaRuangan varchar(50) not null,
+    statusRuangan boolean not null,
+    jenisRuangan boolean not null
 );
 
 CREATE TABLE Jadwal (
     idJadwal SERIAL PRIMARY KEY,
     hari VARCHAR(6) NOT NULL,
-    jamMulai TIME NOT NULL,--(hh:mm)
+    jamMulai TIME NOT NULL,
     jamSelesai TIME NOT NULL,
-	--menambahkan nomor ruangan ke jadwal 
-	nomorRuangan int not null,
-	FOREIGN KEY (nomorRuangan) REFERENCES Ruangan(nomorRuangan)
+    nomorRuangan int not null,
+    FOREIGN KEY (nomorRuangan) REFERENCES Ruangan(nomorRuangan)
 );
 
 CREATE TABLE Kuliah (
     idJadwal INT PRIMARY KEY,
-    FOREIGN KEY (idJadwal) REFERENCES Jadwal(idJadwal)
-        ON DELETE CASCADE
+    FOREIGN KEY (idJadwal) REFERENCES Jadwal(idJadwal) ON DELETE CASCADE
 );
 
 
 CREATE TABLE Bimbingan (
     idJadwal INT PRIMARY KEY,
-	tanggal DATE NOT NULL, --(yyyy-mm-dd)
+    tanggal DATE NOT NULL,
     tugas VARCHAR(250) ,
     inti VARCHAR(250) ,
     kelompokPerulangan int,
 
-    FOREIGN KEY (idJadwal) REFERENCES Jadwal(idJadwal)
-        ON DELETE CASCADE
+    FOREIGN KEY (idJadwal) REFERENCES Jadwal(idJadwal) ON DELETE CASCADE
 );
 
 
@@ -75,53 +85,57 @@ CREATE TABLE Notifikasi (
     idNotifikasi SERIAL PRIMARY KEY ,
     statusPersetujuan BOOLEAN,
     alasanPenolakan VARCHAR(200),
-    waktuKirim TIME DEFAULT CURRENT_TIME, --hh:mm:ss
-	tanggalKirim DATE DEFAULT CURRENT_DATE, --yyyy:mm:dd
-	idJadwal int not null,
+    waktuKirim TIME DEFAULT CURRENT_TIME,
+    tanggalKirim DATE DEFAULT CURRENT_DATE,
+    idJadwal int not null,
 
-	--foreign key 1:1 ke bimbingan
-	FOREIGN KEY (idJadwal) REFERENCES Bimbingan(idJadwal)
-	
+    FOREIGN KEY (idJadwal) REFERENCES Bimbingan(idJadwal) ON DELETE CASCADE 
+    -- Jika Bimbingan dihapus, Notifikasi terkait ikut terhapus
 );
 
 
---relasi 
+-- ==========================================================
+-- 2. RELASI MANY-TO-MANY & T-ARY (CASCAde Diperlukan)
+-- ==========================================================
 
-
---many to many
-
+-- Relasi Mahasiswa/Dosen/Admin ke Pengguna (Cascade di sini)
 CREATE TABLE KuliahMahaDosen (
     idPengguna char(6) NOT NULL,
     idJadwal INT NOT NULL,
 
     PRIMARY KEY (idPengguna, idJadwal),
 
-    FOREIGN KEY (idPengguna) REFERENCES Pengguna(idPengguna),
-    FOREIGN KEY (idJadwal) REFERENCES Kuliah(idJadwal)
+    FOREIGN KEY (idPengguna) REFERENCES Pengguna(idPengguna) ON DELETE CASCADE,
+    -- Jika Pengguna dihapus, entri di tabel ini ikut terhapus
+    FOREIGN KEY (idJadwal) REFERENCES Kuliah(idJadwal) ON DELETE CASCADE
 );
 
+-- Relasi Dosen ke Topik (Cascade di sini)
 CREATE TABLE MembukaTopik (
     idDosen CHAR(6) NOT NULL,
     kodeTopik VARCHAR(10) NOT NULL,
 
     PRIMARY KEY (idDosen, kodeTopik),
 
-    FOREIGN KEY (idDosen) REFERENCES DosenPembimbing(idDosen),
+    FOREIGN KEY (idDosen) REFERENCES DosenPembimbing(idDosen) ON DELETE CASCADE,
+    -- Jika DosenPembimbing dihapus, entri di tabel ini ikut terhapus
     FOREIGN KEY (kodeTopik) REFERENCES Topik(kodeTopik)
 );
 
+-- Relasi Dosen ke Mahasiswa (Cascade di sini)
 CREATE TABLE DosToStud (
-	idDosen char (6) not null,
-	idMahasiswa char (6) not null,
+    idDosen char (6) not null,
+    idMahasiswa char (6) not null,
 
-	PRIMARY KEY (idDosen, idMahasiswa),
+    PRIMARY KEY (idDosen, idMahasiswa),
 
-    FOREIGN KEY (idDosen) REFERENCES DosenPembimbing(idDosen),
-    FOREIGN KEY (idMahasiswa) REFERENCES Mahasiswa(idMahasiswa)
-	
+    FOREIGN KEY (idDosen) REFERENCES DosenPembimbing(idDosen) ON DELETE CASCADE,
+    -- Jika DosenPembimbing dihapus, relasi bimbingan ikut terhapus
+    FOREIGN KEY (idMahasiswa) REFERENCES Mahasiswa(idMahasiswa) ON DELETE CASCADE
+    -- Jika Mahasiswa dihapus, relasi bimbingan ikut terhapus
 );
 
---3-ary
+-- Relasi 3-Ary Bimbingan (Cascade di sini)
 CREATE TABLE Melakukan (
     idDosen CHAR(6) NOT NULL,
     idMahasiswa CHAR(6) NOT NULL,
@@ -129,11 +143,15 @@ CREATE TABLE Melakukan (
 
     PRIMARY KEY (idDosen, idMahasiswa, idJadwal),
 
-    FOREIGN KEY (idDosen) REFERENCES DosenPembimbing(idDosen),
-    FOREIGN KEY (idMahasiswa) REFERENCES Mahasiswa(idMahasiswa),
-    FOREIGN KEY (idJadwal) REFERENCES Bimbingan(idJadwal)
+    FOREIGN KEY (idDosen) REFERENCES DosenPembimbing(idDosen) ON DELETE CASCADE,
+    -- Jika DosenPembimbing dihapus, entri ini ikut terhapus
+    FOREIGN KEY (idMahasiswa) REFERENCES Mahasiswa(idMahasiswa) ON DELETE CASCADE,
+    -- Jika Mahasiswa dihapus, entri ini ikut terhapus
+    FOREIGN KEY (idJadwal) REFERENCES Bimbingan(idJadwal) ON DELETE CASCADE
+    -- Jika Bimbingan dihapus, entri ini ikut terhapus
 );
 
+-- Relasi Pengirim/Penerima Notifikasi (Cascade di sini)
 CREATE TABLE KirimDanTerima (
     idNotifikasi INT NOT NULL,
     idPengirim CHAR(6) NOT NULL,
@@ -141,15 +159,18 @@ CREATE TABLE KirimDanTerima (
 
     PRIMARY KEY (idPengirim, idPenerima , idNotifikasi),
 
-    FOREIGN KEY (idNotifikasi) REFERENCES Notifikasi(idNotifikasi),
-    FOREIGN KEY (idPengirim) REFERENCES Pengguna(idPengguna),
-    FOREIGN KEY (idPenerima) REFERENCES Pengguna(idPengguna)
+    FOREIGN KEY (idNotifikasi) REFERENCES Notifikasi(idNotifikasi) ON DELETE CASCADE,
+    -- Jika Notifikasi dihapus, entri ini ikut terhapus
+    FOREIGN KEY (idPengirim) REFERENCES Pengguna(idPengguna) ON DELETE CASCADE,
+    -- Jika Pengirim (Pengguna) dihapus, entri ini ikut terhapus
+    FOREIGN KEY (idPenerima) REFERENCES Pengguna(idPengguna) ON DELETE CASCADE
+    -- Jika Penerima (Pengguna) dihapus, entri ini ikut terhapus
 );
 
 ---Tabel View---
 CREATE OR REPLACE VIEW ViewBimbinganLengkap AS
 SELECT
-	ROW_NUMBER() OVER (
+    ROW_NUMBER() OVER (
         PARTITION BY m.idMahasiswa
         ORDER BY b.tanggal
     ) AS nomorBimbingan,
@@ -361,4 +382,3 @@ VALUES
 ('Rabu', '10:00', '12:00', 102),
 ('Rabu', '08:00', '10:00', 201),
 ('Rabu', '14:00', '16:00', 401);
-

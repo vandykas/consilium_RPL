@@ -169,4 +169,14 @@ public class MahasiswaService {
         }
         return true;
     }
+
+    public boolean deleteMahasiswa(String idMahasiswa) {
+        try {
+            mahasiswaRepository.deleteMahasiswa(idMahasiswa);
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
+    }
 }

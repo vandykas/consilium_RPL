@@ -268,3 +268,12 @@ tbody td p {
     border-radius: 5px;
     background-color: #f9f9f9;
 }
+
+.delete-button-dosen {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.error-message {
+    color: var(--danger-color);
+}

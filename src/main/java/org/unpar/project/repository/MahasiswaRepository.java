@@ -22,4 +22,6 @@ public interface MahasiswaRepository {
     List<Mahasiswa> getMahasiswaBimbinganByBimbingan(int id);
 
     void saveMahasiswa(String id, String kodeTopik);
+
+    void deleteMahasiswa(String idMahasiswa);
 }
