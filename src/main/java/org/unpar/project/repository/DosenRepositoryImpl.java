@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.unpar.project.model.Mahasiswa;
-import org.unpar.project.model.Pengguna;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -152,5 +151,11 @@ public class DosenRepositoryImpl implements DosenRepository {
     public void updateDosen(Dosen dosen) {
         String sqlPengguna = "UPDATE Pengguna SET nama = ?, email = ? WHERE idPengguna = ?";
         jdbcTemplate.update(sqlPengguna, dosen.getNama(), dosen.getEmail(), dosen.getId());
+    }
+
+    @Override
+    public void deleteDosen(String idDosen) {
+        String sql = "DELETE FROM Pengguna WHERE idPengguna = ?";
+        jdbcTemplate.update(sql, idDosen);
     }
 }

@@ -20,4 +20,6 @@ public interface DosenRepository {
     Dosen getDosenPembimbingById(String idPengguna);
 
     void saveDosen(String id);
+
+    void deleteDosen(String idDosen);
 }

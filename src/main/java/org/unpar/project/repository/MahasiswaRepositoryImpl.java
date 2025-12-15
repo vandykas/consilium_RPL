@@ -8,12 +8,10 @@ import org.unpar.project.model.Mahasiswa;
 import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.unpar.project.model.Pengguna;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -184,5 +182,11 @@ public class MahasiswaRepositoryImpl implements MahasiswaRepository {
 
         String sqlMahasiswa = "UPDATE Mahasiswa SET kodeTopik = ? WHERE idMahasiswa = ?";
         jdbcTemplate.update(sqlMahasiswa, kodeTopik, idMahasiswa);
+    }
+
+    @Override
+    public void deleteMahasiswa(String idMahasiswa) {
+        String sql = "DELETE FROM Pengguna WHERE idPengguna = ?";
+        jdbcTemplate.update(sql, idMahasiswa);
     }
 }

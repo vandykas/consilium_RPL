@@ -26,6 +26,7 @@
                 <th>Topik Tugas Akhir</th>
                 <th>Jumlah Bimbingan</th>
                 <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -42,6 +43,16 @@
                     <button type="button" class="edit-button" th:attr="data-id=${mahasiswa.id}">
                         Edit Data
                     </button>
+                </td>
+
+                <td class="action-cell">
+                    <form method="post" action="/delete/mahasiswa">
+                        <input type="hidden" name="id" th:value="${mahasiswa.id}">
+
+                        <button type="submit" class="delete-button-dosen">
+                            Remove Data
+                        </button>
+                    </form>
                 </td>
             </tr>
         </tbody>
