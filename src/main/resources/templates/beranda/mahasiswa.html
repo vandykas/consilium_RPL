@@ -53,9 +53,10 @@
             <div class="bimbingan-card" th:each="b, iter : ${riwayat}">
                 <div class="riwayat">
                     <span class="label">Bimbingan <span th:text="${iter.size - iter.count + 1}"></span></span><br>
-                    <span th:text="${#temporals.format(b.tanggal, 'EEEE, dd MMMM yyyy')}">Tanggal</span>
+                    <span th:text="${#temporals.format(b.tanggal, 'EEEE, dd MMMM yyyy')}">Tanggal</span><br>
+                    <span>Inti :<span th:text="${b.inti}"></span></span><br>
+                    <span>Tugas :<span th:text="${b.tugas}"></span></span><br>
                 </div>
-                <p class="detail">Cek Detail</p>
             </div>
         </div>
         

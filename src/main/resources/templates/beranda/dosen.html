@@ -49,12 +49,11 @@
             <h2>Riwayat Bimbingan</h2>
         </div>
         <div class="history-container">
-            <div class="bimbingan-card" th:each="bimbingan : ${riwayat}">
+            <div class="bimbingan-card" th:each="b, iter : ${riwayat}">
                 <div class="riwayat">
-                    <span class="label">Bimbingan </span><span th:text="${bimbingan.nomor}">1</span><br>
-                    <span th:text="${#temporals.format(bimbingan.tanggal, 'dd MMMM yyyy')}">Tanggal</span>
+                    <span class="label">Bimbingan <span th:text="${iter.size - iter.count + 1}"></span></span><br>
+                    <span th:text="${#temporals.format(b.tanggal, 'EEEE, dd MMMM yyyy')}">Tanggal</span><br>
                 </div>
-                <p class="detail">Cek Detail</p>
             </div>
         </div>
     </section>

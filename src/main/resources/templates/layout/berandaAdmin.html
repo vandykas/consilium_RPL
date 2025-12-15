@@ -16,10 +16,6 @@
     <div class="content-container">
         <header th:replace="${header}"></header>
         <div class="content-controls">
-            <div class="search-bar">
-                <input type="text" placeholder="Cari Berdasarkan Mahasiswa/Dosen" class="search-input">
-            </div>
-
             <div class="action-buttons">
                 <th:block th:replace="${actionButtons} ?: ~{/layout/actionButtonsPlaceholder}"></th:block>
             </div>
