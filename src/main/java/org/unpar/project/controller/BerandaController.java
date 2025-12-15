@@ -45,29 +45,7 @@ public class BerandaController {
         addCommonAttributes(model, pengguna);
         addMahasiswaSpecificAttributes(model, idPengguna);
         addUpcomingBimbinganMahasiswa(model, idPengguna);
-        addCompletedBimbingan(model, idPengguna);
-
-
-        // ============================
-        // ✅ DATA DUMMY UNTUK POPUP
-        // TODO:
-        // - hapus map dummy 
-        // - ambil tanggal,jam mulai , jam selesai,namaruangan,nomorruangan,dosen,inti dan tugas dari database
-        // - masukkan ke model dengan nama attribute "detailRiwayat"
-        // ============================
-        Map<String, Object> dummy = new HashMap<>();
-        dummy.put("tanggal", LocalDate.of(2025, 10, 7));
-        dummy.put("jamMulai", LocalTime.of(10, 0));
-        dummy.put("jamSelesai", LocalTime.of(11, 0));
-        dummy.put("namaRuangan", "Lab 4");
-        dummy.put("nomorRuangan", "9015");
-        dummy.put("dosen", "Vania Natali");
-        dummy.put("inti", "Mengerjakan cover");
-        dummy.put("tugas", "Buat latar belakang 20 halaman");
-
-        model.addAttribute("detailRiwayat", dummy);
-        // ============================
-
+        addCompletedBimbinganMahasiswa(model, idPengguna);
         return "beranda/mahasiswa";
     }
 
@@ -81,28 +59,10 @@ public class BerandaController {
         addCommonAttributes(model, pengguna);
         addDosenSpecificAttributes(model, idPengguna);
         addUpcomingBimbinganDosen(model, idPengguna);
-
-        // ============================
-        // ✅ DATA DUMMY UNTUK POPUP
-        // TODO:
-        // - hapus map dummy 
-        // - ambil tanggal,jam mulai , jam selesai,namaruangan,nomorruangan,dosen,inti dan tugas dari database
-        // - masukkan ke model dengan nama attribute "detailRiwayat"
-        // ============================
-        Map<String, Object> dummy = new HashMap<>();
-        dummy.put("tanggal", LocalDate.of(2025, 10, 7));
-        dummy.put("jamMulai", LocalTime.of(10, 0));
-        dummy.put("jamSelesai", LocalTime.of(11, 0));
-        dummy.put("namaRuangan", "Lab 4");
-        dummy.put("nomorRuangan", "9015");
-        dummy.put("dosen", "Vania Natali");
-        dummy.put("inti", "Mengerjakan cover");
-        dummy.put("tugas", "Buat latar belakang 20 halaman");
-
-        model.addAttribute("detailRiwayat", dummy);
-        // ============================
+        addCompletedBimbinganDosen(model, idPengguna);
         return "beranda/dosen";
     }
+
 
     @GetMapping("/admin")
     @RequiredRole("admin")
@@ -141,8 +101,12 @@ public class BerandaController {
         }
     }
 
-    private void addCompletedBimbingan(Model model, String id) {
+    private void addCompletedBimbinganMahasiswa(Model model, String id) {
         model.addAttribute("riwayat", bimbinganService.findCompletedBimbinganByMahasiswa(id));
+    }
+
+    private void addCompletedBimbinganDosen(Model model, String id) {
+        model.addAttribute("riwayat", bimbinganService.findCompletedBimbinganByDosen(id));
     }
 
     private Bimbingan createEmptyBimbingan() {

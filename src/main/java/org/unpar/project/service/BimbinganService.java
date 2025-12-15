@@ -61,6 +61,10 @@ public class BimbinganService {
         return bimbinganRepository.findCompletedBimbinganByMahasiswa(id);
     }
 
+    public List<Bimbingan> findCompletedBimbinganByDosen(String id) {
+        return bimbinganRepository.findCompletedBimbinganByDosen(id);
+    }
+
     public List<LocalDate> getDaysLabel(int weekOffset) {
         LocalDate today = LocalDate.now();
         LocalDate monday = today.with(DayOfWeek.MONDAY).plusWeeks(weekOffset);
@@ -114,4 +118,5 @@ public class BimbinganService {
             notifikasiRepository.saveNotifikasi(idJadwal, idPengguna, idPenerima);
         }
     }
+
 }
