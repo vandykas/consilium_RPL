@@ -17,4 +17,10 @@ public class MahasiswaController {
         boolean isInsertSuccess = mahasiswaService.uploadMahasiswaData(fileDataMahasiswa);
         return "redirect:/admin/mahasiswa";
     }
+
+    @PostMapping("/upload/jadwal/mahasiswa")
+    public String uploadJadwal(@RequestParam MultipartFile fileJadwalMahasiswa) {
+        boolean isInsertSuccess = mahasiswaService.uploadMahasiswaJadwal(fileJadwalMahasiswa);
+        return "redirect:/jadwal/mahasiswa";
+    }
 }
