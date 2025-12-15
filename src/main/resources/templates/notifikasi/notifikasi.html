@@ -119,6 +119,9 @@
                             <p>
                                 Pengirim: <span th:text="${notif.pengirim}"></span>
                             </p>
+                            <p th:if="${notif.status == false}">
+                                Alasan Penolakan: <span th:text="${notif.alasanPenolakan}"></span>
+                            </p>
                         </div>
                         <div class="notification-item-right">
                             <p>
