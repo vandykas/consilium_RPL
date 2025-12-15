@@ -53,7 +53,8 @@
                        id="tanggal-bimbingan"
                        name="tanggal" 
                        required 
-                       class="input_text_outline">
+                       class="input_text_outline"
+                       th:min="${T(java.time.LocalDate).now().toString()}">
             </label>
             
             <label for="jam-mulai">
