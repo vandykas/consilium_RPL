@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +38,12 @@ public class MahasiswaService {
 
     @Autowired
     private DosToStudRepository dosToStudRepository;
+
+    @Autowired
+    private JadwalRepository jadwalRepository;
+
+    @Autowired
+    private KuliahRepository kuliahRepository;
 
     public Mahasiswa getMahasiswaInformation(String id) {
         Mahasiswa mahasiswa = mahasiswaRepository.getMahasiswaById(id);
@@ -122,6 +129,38 @@ public class MahasiswaService {
                 }
                 if (data.length >= 7) {
                     dosToStudRepository.saveMahasiswaAndDosen(data[0], data[6]);
+                }
+            }
+        }
+        catch (IOException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean uploadMahasiswaJadwal(MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new IllegalArgumentException("File yang diunggah kosong.");
+        }
+
+        try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+
+            String line;
+            boolean isHeader = true;
+
+            while ((line = fileReader.readLine()) != null) {
+
+                if (isHeader) {
+                    isHeader = false;
+                    continue;
+                }
+
+                String[] data = line.split(",");
+                if (data.length >= 5) {
+                    // csv:   hari,jamMulai,jamSelesai,nomorRuangan,idDosen
+                    int idJadwal = jadwalRepository.saveJadwal(data[0], LocalTime.parse(data[1]), LocalTime.parse(data[2]), Integer.parseInt(data[3]));
+                    kuliahRepository.saveKuliah(idJadwal);
+                    kuliahRepository.savePerkuliahan(idJadwal, data[4]);
                 }
             }
         }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="uploadJadwalMahasiswa" id="uploadJadwalMahasiswa" class="modal-overlay hidden" >
+    <div class="modal-content">
+        <div class="modal-header-banner yellow-bg">
+            <span class="close-button-banner">&times;</span>
+            <h2 class="modal-title-banner">Upload Jadwal</h2>
+        </div>
+
+        <form method="POST" id="formTambahMahasiswa" class="modal-body-form" enctype="multipart/form-data" th:action="@{/upload/jadwal/mahasiswa}">
+            <p>Format CSV: hari,jamMulai,jamSelesai,nomorRuangan,NPM</p>
+            <p>Penulisan jamMulai dan jamSelesai: HH:MM</p>
+
+            <div class="form-group">
+                <label for="fileJadwalMahasiswa">File Jadwal Mahasiswa</label>
+                <div class="file-input-container">
+                    <input type="file" id="fileJadwalMahasiswa" name="fileJadwalMahasiswa" accept=".csv" required class="file-input-custom">
+                    <label for="fileJadwalMahasiswa" class="file-input-label">Pilih Berkas (.csv)</label>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="button-center-group">
+                <button type="submit" class="action-btn primary-action-btn">Upload Jadwal</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</html>
